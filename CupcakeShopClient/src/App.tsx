@@ -4,7 +4,7 @@ import { HomePage } from "./pages/HomePage";
 import { CatalogPage } from "./pages/CatalogPage";
 import { OrderPage } from "./pages/OrderPage";
 import { ProductPage } from "./pages/ProductPage";
-import { Header } from "./components/Header";
+import { Header } from "./components/Header/Header";
 import { Footer } from "./components/Footer";
 import { Container } from "./components/Container";
 
