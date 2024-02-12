@@ -12,9 +12,6 @@ export const HomePage = () => {
 
 
 
-
-
-
   useEffect(() => {
     dispatch(getBestsellers())
   },
@@ -22,8 +19,18 @@ export const HomePage = () => {
 
   return (
     <>
-      <div>HomePage</div>
+      <div >HomePage</div>
+
+      <div id="bestsellers">
        {bestsellerStore.list.map(b => (<div key={b.id}><h1>{b.name}</h1> <b>{b.typeName}</b></div>))} 
+       </div>
+       <div id="delivery">
+
+       </div>
+
+       <div id="about_us">
+
+       </div>
     </>
   )
 }

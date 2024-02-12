@@ -1,0 +1,55 @@
+@import-normalize;
+
+@font-face {
+    font-family: Montserrat-Light;
+    src: url(./assets/font/Montserrat-Light.ttf);
+}
+
+@font-face {
+    font-family: Montserrat-Black;
+    src: url(./assets/font/Montserrat-Black.ttf);
+}
+
+@font-face {
+    font-family: Montserrat-Bold;
+    src: url(./assets/font/Montserrat-Bold.ttf);
+}
+
+@font-face {
+    font-family: Jeff-Script-Regular;
+    src: url(./assets/font/Jeff\ Script\ Regular.otf);
+}
+
+
+:root {
+    --text-size-small: 16px;
+    --text-size-medium: 18px;
+    --text-size-large: 24px;
+    --text-size-huge-mobil: 80px;
+    --text-size-huge: 100px;
+    --text-size-very-huge-mobil: 120px;
+    --text-size-very-huge: 226.45px;
+
+    --color-bg: #F5F5F5;
+    --color-dark: #705A66;
+    --color-light: #F5F7F8;
+    --color-pale-yellow: #F5EEE0;
+
+    --font-family-light: Montserrat-Light;
+    --font-family-bold: Montserrat-Bold;
+    --font-family-title: Montserrat-Black;
+
+    --shadow: rgba(149, 157, 165, 0.2) 0 0 24px;
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-family-light);
+    background-color: var(--color-bg);
+    color: var(--color-dark);
+
+}
+
+b {
+    font-family: var(--font-family-bold);
+}

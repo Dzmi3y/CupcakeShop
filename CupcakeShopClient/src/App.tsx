@@ -4,17 +4,22 @@ import { HomePage } from "./pages/HomePage";
 import { CatalogPage } from "./pages/CatalogPage";
 import { OrderPage } from "./pages/OrderPage";
 import { ProductPage } from "./pages/ProductPage";
+import { Header } from "./components/Header";
+import { Footer } from "./components/Footer";
+import { Container } from "./components/Container";
 
 function App() {
   return (
     <>
-      <Routes>
-        <Route path="/" Component={HomePage} />
-        <Route path="/catalog" Component={CatalogPage} />
-        <Route path="/order" Component={OrderPage} />
-        <Route path="/product" Component={ProductPage} />
-        <Route Component={NotFoundPage} />
-      </Routes>
+      <Header />
+        <Routes>
+          <Route path="/" Component={HomePage} />
+          <Route path="/catalog" Component={CatalogPage} />
+          <Route path="/order" Component={OrderPage} />
+          <Route path="/product" Component={ProductPage} />
+          <Route Component={NotFoundPage} />
+        </Routes>
+      <Footer />
     </>
   );
 }
