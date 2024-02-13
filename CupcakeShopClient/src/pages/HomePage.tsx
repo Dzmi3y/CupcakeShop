@@ -29,7 +29,7 @@ export const HomePage = () => {
        </div>
 
        <div id="about_us">
-
+          
        </div>
     </>
   )

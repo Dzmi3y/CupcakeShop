@@ -3,6 +3,8 @@ import Popup from 'reactjs-popup';
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as CloseImg } from "../../assets/images/close.svg";
 import styled from 'styled-components';
+import Cupcake from '../../assets/images/cupcake.png';
+import { HashLink } from 'react-router-hash-link';
 
 
 interface MyModalProps {
@@ -16,7 +18,7 @@ const popupStyle: React.CSSProperties = {
     backgroundColor: "var(--color-dark)",
     display: "block",
     padding: "3rem",
-    
+
 }
 
 const Close = styled(CloseImg)`
@@ -29,20 +31,29 @@ const Close = styled(CloseImg)`
 `;
 
 
-const HeaderMobilItems = styled.span`
-        display: block;
-        font-family: var(--font-family-light);
-        color: var(--color-light);
-        font-size: var(--text-size-medium);
-        text-decoration: none; 
-        text-transform: uppercase; 
-        margin-top: 2rem;
-        cursor: pointer;
-        @media (min-width: 590px) {
-            font-size: var(--text-size-large);
-            margin: 3rem;
-        }
+const ImgContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    margin-top: 5rem;
+
 `;
+
+
+const HeaderMobilLink = styled(HashLink)`
+    display: block;
+    font-family: var(--font-family-light);
+    color: var(--color-light);
+    font-size: var(--text-size-medium);
+    text-decoration: none; 
+    text-transform: uppercase; 
+    margin-top: 2rem;
+    cursor: pointer;
+    @media (min-width: 590px) {
+        font-size: var(--text-size-large);
+        margin: 3rem;
+    }
+`;
+
 
 const MobilMenu: React.FC<MyModalProps> = ({ isOpen, onClose }) => {
     const navigate = useNavigate();
@@ -52,12 +63,13 @@ const MobilMenu: React.FC<MyModalProps> = ({ isOpen, onClose }) => {
 
             <Close onClick={onClose} />
 
-            <HeaderMobilItems onClick={() => { onClose(); navigate('/#bestsellers'); }} >bestsellers</HeaderMobilItems>
-            <HeaderMobilItems onClick={() => { onClose(); navigate('/catalog'); }} >catalog</HeaderMobilItems>
-            <HeaderMobilItems onClick={() => { onClose(); navigate('/#delivery'); }} >delivery</HeaderMobilItems>
-            <HeaderMobilItems onClick={() => { onClose(); navigate('/#about_us'); }} >about us</HeaderMobilItems>
-
-
+            <HeaderMobilLink onClick={() => { onClose(); }} to={'/#bestsellers'} >bestsellers</HeaderMobilLink>
+            <HeaderMobilLink onClick={() => { onClose(); }} to={'/catalog'} >catalog</HeaderMobilLink>
+            <HeaderMobilLink onClick={() => { onClose(); }} to={'/#delivery'} >delivery</HeaderMobilLink>
+            <HeaderMobilLink onClick={() => { onClose(); }} to={'/#about_us'} >about us</HeaderMobilLink>
+            <ImgContainer>
+                <img src={Cupcake} />
+            </ImgContainer>
         </Popup>
     );
 };
