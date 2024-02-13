@@ -38,10 +38,10 @@ const Title = styled.div`
 const StyledImg = styled.img`
   width:80% ;
   margin-left: 10%;
-@media (min-width: 1332px) {
-  width:auto ;
-}
-
+  @media (min-width: 1332px) {
+    width:auto ;
+    margin-left: 0px;
+  }
 `;
 const ContainerItem = styled.div`
   justify-self: center;
