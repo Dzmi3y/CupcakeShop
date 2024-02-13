@@ -6,21 +6,34 @@ import { OrderPage } from "./pages/OrderPage";
 import { ProductPage } from "./pages/ProductPage";
 import { Header } from "./components/Header/Header";
 import { Footer } from "./components/Footer";
-import { Container } from "./components/Container";
+import styled from "styled-components";
+
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+`;
+
+const FooterWrapper = styled.div`
+   margin-top: auto;
+`;
 
 function App() {
   return (
-    <>
+    <Container>
       <Header />
-        <Routes>
-          <Route path="/" Component={HomePage} />
-          <Route path="/catalog" Component={CatalogPage} />
-          <Route path="/order" Component={OrderPage} />
-          <Route path="/product" Component={ProductPage} />
-          <Route Component={NotFoundPage} />
-        </Routes>
-      <Footer />
-    </>
+      <Routes>
+        <Route path="/" Component={HomePage} />
+        <Route path="/catalog" Component={CatalogPage} />
+        <Route path="/order" Component={OrderPage} />
+        <Route path="/product" Component={ProductPage} />
+        <Route Component={NotFoundPage} />
+      </Routes>
+      <FooterWrapper>
+        <Footer />
+      </FooterWrapper>
+    </Container>
   );
 }
 

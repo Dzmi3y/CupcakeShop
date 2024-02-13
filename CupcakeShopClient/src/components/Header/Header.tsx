@@ -12,28 +12,28 @@ const Wrapper = styled.div`
     padding: 0 1rem;
     box-shadow: var(--shadow);
     margin: 0;
-    grid-template-columns:  10fr 1fr 2fr;
+    grid-template-columns:  3fr 7fr 1fr 2fr;
 
     @media (min-width: 589px) {
-        grid-template-columns:  10fr 1fr 1fr;
-        padding: 1rem 2rem;
+        grid-template-columns:  2fr 8fr 1fr 1fr;
+        padding: 0 2rem;
     }
     @media (min-width: 767px) {
-        grid-template-columns:  1fr 1fr 1fr 1fr 1fr 1fr;
-        padding: 1rem 5rem;
+        grid-template-columns:  1fr 2fr 1fr 1fr 1fr 1fr;
+        padding: 1rem 2rem;
     }
 
     @media (min-width: 958px) {
-        grid-template-columns:  2fr 2fr 2fr 2fr 2fr 1fr;
+        grid-template-columns:  2fr 3fr 2fr 2fr 2fr 1fr;
         padding: 1rem 10rem;
     }
 
     @media (min-width: 1024px) {
-        grid-template-columns:  2fr 2fr 5fr 2fr 2fr 1fr;
+        grid-template-columns:  2fr 3fr 5fr 2fr 2fr 1fr;
     }
 
     @media (min-width: 1243px) {
-        grid-template-columns:  2fr 2fr 10fr 2fr 2fr 1fr;
+        grid-template-columns:  2fr 3fr 10fr 2fr 2fr 1fr;
     }
 `;
 
@@ -50,9 +50,19 @@ const HeaderDesktopLink = styled(HashLink)`
     }
 `;
 
+
+const LogoWrapper = styled.div`
+    grid-column-start: 2;
+    text-align: center;
+    @media (min-width: 767px) {
+        grid-column-start: 3;  
+    }
+`;
+
 const ImgLink = styled(HashLink)`
     text-transform: uppercase;
     place-self: center;
+
 `;
 
 const HeaderMobilDiv = styled.div`
@@ -65,8 +75,10 @@ const HeaderMobilDiv = styled.div`
 
 const Logo = styled(LogoImg)`
     transform: scale(0.8);
+    
     @media (min-width: 767px) {
         transform: scale(1);
+        margin: 0 0 0 45px;
     };
 `;
 
@@ -88,9 +100,11 @@ export const Header = () => {
             <Wrapper>
                 <HeaderDesktopLink to='/#bestsellers' >bestsellers</HeaderDesktopLink>
                 <HeaderDesktopLink to='/catalog' >catalog</HeaderDesktopLink>
-                <ImgLink to='/' >
-                    <Logo />
-                </ImgLink>
+                <LogoWrapper>
+                    <ImgLink className='logo' to='/' >
+                        <Logo />
+                    </ImgLink>
+                </LogoWrapper>
                 <HeaderDesktopLink to='/#delivery' >delivery</HeaderDesktopLink>
                 <HeaderDesktopLink to='/#about_us' >about us</HeaderDesktopLink>
                 <HeaderMobilDiv>
