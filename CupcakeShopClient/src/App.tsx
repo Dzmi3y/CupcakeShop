@@ -1,11 +1,11 @@
 import { Route, Routes } from "react-router-dom";
-import { NotFoundPage } from "./pages/NotFoundPage";
-import { HomePage } from "./pages/HomePage";
-import { CatalogPage } from "./pages/CatalogPage";
-import { OrderPage } from "./pages/OrderPage";
-import { ProductPage } from "./pages/ProductPage";
-import { Header } from "./components/Header/Header";
-import { Footer } from "./components/Footer";
+import { NotFoundPage } from "./components/pages/NotFoundPage";
+import { HomePage } from "./components/pages/HomePage/HomePage";
+import { CatalogPage } from "./components/pages/CatalogPage";
+import { OrderPage } from "./components/pages/OrderPage";
+import { ProductPage } from "./components/pages/ProductPage";
+import { Header } from "./components/common/Header/Header";
+import { Footer } from "./components/common/Footer";
 import styled from "styled-components";
 
 

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../hooks"
-import { Bestseller } from "../store/types";
-import { getBestsellers } from "../store/reducers/bestsellerReducer";
+import { useAppDispatch, useAppSelector } from "../../../hooks"
+import { Bestseller } from "../../../store/types";
+import { getBestsellers } from "../../../store/reducers/bestsellerReducer";
+import { Banner } from "./Banner";
 
 
 export const HomePage = () => {
@@ -19,7 +20,7 @@ export const HomePage = () => {
 
   return (
     <>
-      <div >HomePage</div>
+      <Banner/>
 
       <div id="bestsellers">
        {bestsellerStore.list.map(b => (<div key={b.id}><h1>{b.name}</h1> <b>{b.typeName}</b></div>))} 

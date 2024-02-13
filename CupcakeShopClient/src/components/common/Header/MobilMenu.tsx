@@ -1,9 +1,9 @@
 import React from 'react';
 import Popup from 'reactjs-popup';
 import { useNavigate } from "react-router-dom";
-import { ReactComponent as CloseImg } from "../../assets/images/close.svg";
+import { ReactComponent as CloseImg } from "../../../assets/images/close.svg";
 import styled from 'styled-components';
-import Cupcake from '../../assets/images/cupcake.png';
+import Cupcake from '../../../assets/images/cupcake.png';
 import { HashLink } from 'react-router-hash-link';
 
 

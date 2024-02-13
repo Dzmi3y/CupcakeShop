@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import { ReactComponent as InstagramImg } from "../assets/images/_Instagram.svg";
-import { ReactComponent as WhatsappImg } from "../assets/images/whatsapp.svg";
-import { ReactComponent as TelegramImg } from "../assets/images/telegram.svg";
-import LogoImg from "../assets/images/logoGrannFooter.png"
+import { ReactComponent as InstagramImg } from "../../assets/images/_Instagram.svg";
+import { ReactComponent as WhatsappImg } from "../../assets/images/whatsapp.svg";
+import { ReactComponent as TelegramImg } from "../../assets/images/telegram.svg";
+import LogoImg from "../../assets/images/logoGrannFooter.png"
 
 const Wrapper = styled.div`
   width: 100%;

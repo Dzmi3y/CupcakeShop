@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import { HashLink } from 'react-router-hash-link';
 import React, { useState } from 'react';
-import { ReactComponent as LogoImg } from "../../assets/images/logo.svg";
-import { ReactComponent as CartImg } from "../../assets/images/cart.svg";
-import { ReactComponent as BurgerImg } from "../../assets/images/burger.svg";
+import { ReactComponent as LogoImg } from "../../../assets/images/logo.svg";
+import { ReactComponent as CartImg } from "../../../assets/images/cart.svg";
+import { ReactComponent as BurgerImg } from "../../../assets/images/burger.svg";
 import MobilMenu from './MobilMenu';
 
 const Wrapper = styled.div`
@@ -25,7 +25,7 @@ const Wrapper = styled.div`
 
     @media (min-width: 958px) {
         grid-template-columns:  2fr 3fr 2fr 2fr 2fr 1fr;
-        padding: 1rem 10rem;
+        padding: 1rem 4rem;
     }
 
     @media (min-width: 1024px) {
