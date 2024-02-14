@@ -9,6 +9,7 @@ import BackgroundWaveImg from "../../../assets/images/backgroundWave.png"
 import { WhyWe } from "./WhyWe";
 import { DeliveryInfo } from "./DeliveryInfo";
 import { AboutUs } from "./AboutUs";
+import { Questions } from "./Questions";
 
 
 export const HomePage = () => {
@@ -67,6 +68,9 @@ export const HomePage = () => {
       
       <Title id="about_us">About us</Title>
       <AboutUs/>
+
+      <Title id="questions">Popular questions</Title>
+      <Questions/>
     </>
   )
 }
