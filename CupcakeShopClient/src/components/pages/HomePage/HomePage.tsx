@@ -8,6 +8,7 @@ import styled from "styled-components";
 import BackgroundWaveImg from "../../../assets/images/backgroundWave.png"
 import { WhyWe } from "./WhyWe";
 import { DeliveryInfo } from "./DeliveryInfo";
+import { AboutUs } from "./AboutUs";
 
 
 export const HomePage = () => {
@@ -63,9 +64,9 @@ export const HomePage = () => {
         <Title id="delivery">Delivery and payment</Title>
         <DeliveryInfo/>
       </BackgroundWaveContainer>
-
+      
       <Title id="about_us">About us</Title>
-
+      <AboutUs/>
     </>
   )
 }
