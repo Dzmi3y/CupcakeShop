@@ -7,6 +7,7 @@ import { ShortCatalog } from "./ShortCatalog";
 import styled from "styled-components";
 import BackgroundWaveImg from "../../../assets/images/backgroundWave.png"
 import { WhyWe } from "./WhyWe";
+import { DeliveryInfo } from "./DeliveryInfo";
 
 
 export const HomePage = () => {
@@ -35,11 +36,10 @@ export const HomePage = () => {
     background-repeat: no-repeat;
     background-size: cover;
     background-position-x: center;
-    height: 1900px;
     margin-top: 3rem;
 
     @media (min-width: 958px) {
-      background-size:contain;  
+      background-size: 100% 100%;
     }
   `;
 
@@ -61,7 +61,7 @@ export const HomePage = () => {
         <WhyWe/>
 
         <Title id="delivery">Delivery and payment</Title>
-
+        <DeliveryInfo/>
       </BackgroundWaveContainer>
 
       <Title id="about_us">About us</Title>
