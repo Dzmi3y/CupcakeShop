@@ -3,15 +3,11 @@ import ArrowImg from "../../../assets/images/ArrowForAccardion.png";
 import React, { useEffect, useRef, useState } from "react";
 
 
-
-
-
 type QuestionInfo = {
     id: number,
     question: string,
     answer: string,
 }
-
 
 const questionList: QuestionInfo[] =
     [
@@ -23,28 +19,32 @@ const questionList: QuestionInfo[] =
 
 const Container = styled.div`
     margin: 5rem auto 7rem auto;
-    width: 40%;
+    width: 80%;
+    @media (min-width: 1200px) {
+        width: 40%;
+    }
+    
 `;
-
 
 const showAnswerAnimation = keyframes`
-    from{ margin-top: -100%; margin-bottom:100%; }
-    to { margin-top: 0%; margin-bottom:0%; }
+    from{ margin-top: -100%;  }
+    to { margin-top: 0%;  }
 `;
 const hideAnswerAnimation = keyframes`
-    from{ margin-top: 0%; margin-bottom:0%; }
-    to { margin-top: -100%; margin-bottom:100%; }
+    from{ margin-top: 0%; }
+    to { margin-top: -100%;}
 `;
 
 const AnswerWrapper = styled.div`
      overflow: hidden;
     .selected{
-        animation: ${showAnswerAnimation} 0.1s ;
-       height: 100%;
+        animation: ${showAnswerAnimation} 0.5s ;
+        margin-top: 0px;
     }
     .unSelected{
-        animation: ${hideAnswerAnimation} 0.1s ;
-        /*fix it*/
+        animation: ${hideAnswerAnimation} 0.5s ;
+        margin-top: -100%;
+        height: 0;
     }
 `;
 const AccordionItemContainer = styled.div``;
@@ -52,6 +52,7 @@ const QuestionContainer = styled.div`
     display: flex;
     border-bottom: 2px solid var(--color-dark);
     padding-bottom: 1rem;
+    margin-top: 2rem;
     cursor: pointer;
     .selected{
         transform: rotate(180deg);
@@ -63,9 +64,9 @@ const Question = styled.div`
 `;
 const Answer = styled.div`
     font-size: var(--text-size-medium);
-    margin: 2rem 0 2rem 0;
+    margin: 2rem 0 0 0;
     overflow: hidden;
-    height: 0;/*fix it*/
+    padding-top: 2rem;
 `;
 const StyledImg = styled.img`
     margin-left: auto;
@@ -80,7 +81,6 @@ type AccItemProps = {
 }
 
 
-
 const AccordionItem: React.FC<AccItemProps> = ({ questionInfo, idOfSelectedQuestion, handleToggle }) => {
     const { id, question, answer } = questionInfo;
     const [isSelected, setIsSelected] = useState(false);
@@ -89,9 +89,6 @@ const AccordionItem: React.FC<AccItemProps> = ({ questionInfo, idOfSelectedQuest
         setIsSelected(id === idOfSelectedQuestion);
 
     }, [idOfSelectedQuestion]);
-
-    const height = useRef<HTMLDivElement>(null);
-    console.log(height.current?.clientHeight);
 
     return (
         <AccordionItemContainer>
@@ -103,7 +100,7 @@ const AccordionItem: React.FC<AccItemProps> = ({ questionInfo, idOfSelectedQuest
                     alt="Arrow" />
             </QuestionContainer>
             <AnswerWrapper>
-                <Answer className={isSelected ? "selected" : "unSelected"}><div ref={height}>{answer}</div></Answer>
+                <Answer className={isSelected ? "selected" : "unSelected"}>{answer}</Answer>
             </AnswerWrapper>
         </AccordionItemContainer>
     )
