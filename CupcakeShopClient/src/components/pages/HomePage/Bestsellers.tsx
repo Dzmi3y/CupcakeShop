@@ -45,6 +45,19 @@ const DesktopNavigation = styled.div`
     }
     
 `;
+
+const MobilNavigation = styled.div`
+    display: flex;
+    justify-content: space-between;
+    .blocked{
+        cursor: default;
+        background-color: var(--color-light);
+    }
+    @media (min-width: 958px) {
+        display: none;
+    }
+    
+`;
 const SlideNavigationElement = styled.div`
     cursor: pointer;
     border: 2px solid var(--color-dark);
@@ -64,8 +77,23 @@ const RightArrow = styled.img`
 const LeftArrow = styled.img`
     margin-top: 11px;
 `;
+const DotsContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    .selected{
+            background-color: var(--color-dark);
+    }
+`;
 
+const Dot = styled.div`
+    height: 11px;
+    width: 11px;
+    border-radius: 50%;
+    background-color: var(--color-pale-yellow);
 
+    
+`;
 
 const PairWrapper = styled.div`
     display: flex;
@@ -85,19 +113,42 @@ export const Bestsellers = () => {
     const [isLastItem, setIsLastItem] = useState<boolean>(false);
     const [isFirstItem, setIsFirstItem] = useState<boolean>(false);
 
+    const [totalItems, setTotalItems] = useState<number>();
+    const [currentItem, setCurrentItem] = useState<number>();
+
+    const sliderRef = useRef<HTMLDivElement>(null);
+
     const scrollToNextItem = () => {
         if (nextItemId) {
-            sliderRef.current?.querySelector('[id="' + nextItemId + '"]')?.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" })
+            const parentDiv: HTMLElement | null | undefined = sliderRef.current;
+            const targetElement: HTMLElement | null | undefined = sliderRef.current?.querySelector('[id="' + nextItemId + '"]');
+            if (parentDiv && targetElement) {
+                const scrollTop = document.documentElement.scrollTop;
+                const frozenScrolling = Object.assign({ scrollTop });
+
+                targetElement.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" })
+                document.documentElement.scrollTop = frozenScrolling.scrollTop as number;
+            }
         }
     }
+
 
     const scrollToPreviousItem = () => {
         if (previousItemId) {
-            sliderRef.current?.querySelector('[id="' + previousItemId + '"]')?.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" })
+            const parentDiv: HTMLElement | null | undefined = sliderRef.current;
+            const targetElement: HTMLElement | null | undefined = sliderRef.current?.querySelector('[id="' + previousItemId + '"]');
+            if (parentDiv && targetElement) {
+                const scrollTop = document.documentElement.scrollTop;
+                const frozenScrolling = Object.assign({ scrollTop });
+
+                targetElement.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" })
+                document.documentElement.scrollTop = frozenScrolling.scrollTop as number;
+            }
         }
     }
 
-    const sliderRef = useRef<HTMLDivElement>(null);
+
+
 
 
     const addToCart = (id: number) => {
@@ -110,12 +161,12 @@ export const Bestsellers = () => {
         console.log(`go to ${id} detail`);
     }
 
-    const handleScroll = () => {
+
+    const getSlideNavArraysForDesktop = (sliderWidth: number) => {
+        const nextElements: Element[] = [];
+        const previousElements: Element[] = [];
+
         if (sliderRef.current) {
-            let sliderWidth = sliderRef.current.clientWidth;
-
-            const nextElements: Element[] = [];
-
             Array.from(sliderRef.current.children).forEach((el) => {
                 Array.from(el.children).forEach((childEl) => {
                     if (childEl.getBoundingClientRect().left >= sliderWidth) {
@@ -124,9 +175,6 @@ export const Bestsellers = () => {
                 });
             });
 
-
-            const previousElements: Element[] = [];
-
             Array.from(sliderRef.current.children).forEach((el) => {
                 Array.from(el.children).forEach((childEl) => {
                     if (childEl.getBoundingClientRect().left < 0) {
@@ -134,7 +182,49 @@ export const Bestsellers = () => {
                     }
                 });
             });
+        }
+        return { nextElements, previousElements };
+    }
 
+    const getSlideNavArraysForMobil = (sliderWidth: number) => {
+        const nextElements: Element[] = [];
+        const previousElements: Element[] = [];
+
+        if (sliderRef.current) {
+            Array.from(sliderRef.current.children).forEach((el) => {
+                if (el.getBoundingClientRect().left >= sliderWidth) {
+                    nextElements.push(el);
+                }
+            });
+
+            Array.from(sliderRef.current.children).forEach((el) => {
+                if (el.getBoundingClientRect().left < 0) {
+                    previousElements.push(el);
+                }
+            });
+        }
+        return { nextElements, previousElements };
+    }
+
+
+    const handleScroll = () => {
+        if (sliderRef.current) {
+            let sliderWidth = sliderRef.current.clientWidth;
+
+            const { nextElements, previousElements }: { nextElements: Element[]; previousElements: Element[]; } =
+                (window.screen.width >= 958)
+                    ? getSlideNavArraysForDesktop(sliderWidth)
+                    : getSlideNavArraysForMobil(sliderWidth);
+
+            const total = nextElements.length + previousElements.length + 1;
+
+            if (totalItems !== total) {
+                setTotalItems(total);
+            }
+
+            if (currentItem !== previousElements.length) {
+                setCurrentItem(previousElements.length);
+            }
 
             if (nextElements.length === 0) {
                 setIsLastItem(true);
@@ -159,6 +249,8 @@ export const Bestsellers = () => {
             if (previousElements[previousElements.length - 1]?.id !== nextItemId) {
                 setPreviousItemId(previousElements[previousElements.length - 1]?.id);
             }
+
+
         }
     };
 
@@ -171,9 +263,17 @@ export const Bestsellers = () => {
         [dispatch]);
 
     useEffect(() => {
-        handleScroll();
+        const handleLoad = () => {
+            handleScroll();
+        };
+
+        window.addEventListener("load", handleLoad);
+
+        return () => {
+            window.removeEventListener("load", handleLoad);
+        };
     },
-        [bestsellerStore]);
+        []);
 
 
     return (
@@ -186,7 +286,6 @@ export const Bestsellers = () => {
                 <SlideNavigationElement onClick={scrollToNextItem} className={isLastItem ? "blocked" : ""}>
                     <RightArrow src={ArrowImg} alt="Right arrow" />
                 </SlideNavigationElement>
-
             </DesktopNavigation>
             <Slider ref={sliderRef} onScroll={handleScroll}>
                 {bestsellerStore.list.map((b, index, elements) => {
@@ -196,14 +295,29 @@ export const Bestsellers = () => {
                     }
 
                     return (
-                        <PairWrapper key={index}>
-                            <SliderSection  product={b} addToCart={addToCart} goToDetail={goToDetail}/>
+                        <PairWrapper key={index} id={"pair_" + index}>
+                            <SliderSection product={b} addToCart={addToCart} goToDetail={goToDetail} />
                             {elements[index + 1] && (
-                                <SliderSection product={elements[index + 1]} addToCart={addToCart} goToDetail={goToDetail}/>
+                                <SliderSection product={elements[index + 1]} addToCart={addToCart} goToDetail={goToDetail} />
                             )}
                         </PairWrapper>)
                 })}
             </Slider>
+            <MobilNavigation>
+                <SlideNavigationElement onClick={scrollToPreviousItem} className={isFirstItem ? "blocked" : ""}>
+                    <LeftArrow src={ArrowImg} alt="Left arrow" />
+                </SlideNavigationElement>
+                <DotsContainer>
+                    {(new Array(totalItems)).map((v,i)=>{
+                        return(<Dot className={(i===currentItem)?"selected":""} />);
+                    })}
+                    
+                    
+                </DotsContainer>
+                <SlideNavigationElement onClick={scrollToNextItem} className={isLastItem ? "blocked" : ""}>
+                    <RightArrow src={ArrowImg} alt="Right arrow" />
+                </SlideNavigationElement>
+            </MobilNavigation>
         </Container>
 
     )
