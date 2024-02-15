@@ -1,7 +1,3 @@
-import { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../../hooks"
-import { Bestseller } from "../../../store/types";
-import { getBestsellers } from "../../../store/reducers/bestsellerReducer";
 import { Banner } from "./Banner";
 import { ShortCatalog } from "./ShortCatalog";
 import styled from "styled-components";
@@ -10,15 +6,10 @@ import { WhyWe } from "./WhyWe";
 import { DeliveryInfo } from "./DeliveryInfo";
 import { AboutUs } from "./AboutUs";
 import { Questions } from "./Questions";
+import { Bestsellers } from "./Bestsellers";
 
 
 export const HomePage = () => {
-
-  const bestsellerStore = useAppSelector(state => state.bestsellerStore);
-
-  const dispatch = useAppDispatch();
-
-
   const Title = styled.div`
     font-family: var(--font-family-bold);
     font-size: var(--text-size-large);
@@ -45,19 +36,12 @@ export const HomePage = () => {
     }
   `;
 
-  useEffect(() => {
-    dispatch(getBestsellers())
-  },
-    [dispatch]);
-
   return (
     <>
       <Banner />
       <ShortCatalog />
       <Title id="bestsellers">Bestsellers</Title>
-      <div>
-        {bestsellerStore.list.map(b => (<div key={b.id}><h1>{b.name}</h1> <b>{b.typeName}</b></div>))}
-      </div>
+      <Bestsellers/>
       <BackgroundWaveContainer>
         <Title style={{marginTop:"-3rem"}} id="whyWe">Why we?</Title>
         <WhyWe/>

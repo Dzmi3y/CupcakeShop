@@ -1,38 +1,49 @@
 import axios from "axios";
 import { BestsellerApi } from "../configs";
 import MockAdapter from "axios-mock-adapter";
+import productsList from "../configs/data.json"
+import { Product } from "../store/types/product"
 
+
+const randomize = (array: Product[]) => {
+  let currentIndex = array.length;
+  let randomIndex;
+
+  while (currentIndex > 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    console.log(randomIndex);
+    currentIndex--;
+
+    [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+  }
+}
 
 const api = axios.create({
-  baseURL: "https://example.com/api", 
-  timeout: 10000, 
+  baseURL: "https://example.com/api",
+  timeout: 10000,
   headers: {
-    "Content-Type": "application/json", 
+    "Content-Type": "application/json",
   },
 });
 
-const mock = new MockAdapter(api);
-mock.onGet(BestsellerApi).reply(200,  [
-        {
-            id: 1,
-            name: "Cupcake1",
-            typeId: 1,
-            typeName: "Type1",
-            weight: 100,
-            price: 10,
-            imgUrl: "img1",
-        },
-        {
-            id: 2,
-            name: "Cupcake2",
-            typeId: 2,
-            typeName: "Type2",
-            weight: 200,
-            price: 20,
-            imgUrl: "img2",
-        }
-    ]
+
+let bestsellersList: Product[] = [];
+
+
+(productsList as Product[]).map(p => {
+  let typeId = Math.floor(bestsellersList.length / 4) + 1;
+  if (p.typeId === typeId)
+    bestsellersList.push(p);
+}
 );
+
+randomize(bestsellersList);
+
+console.log(bestsellersList);
+console.log(bestsellersList.sort(() => Math.random() - 0.5))
+
+const mock = new MockAdapter(api);
+mock.onGet(BestsellerApi).reply(200, bestsellersList);
 
 
 export default api;

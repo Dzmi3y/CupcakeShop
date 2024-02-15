@@ -1,7 +1,7 @@
-import { Bestseller } from "./bestseller";
+import { Product } from "./product";
 
 export type BestsellerState={
-    list: Bestseller[];
+    list: Product[];
     loading: boolean;
     error: string | null;
 }
