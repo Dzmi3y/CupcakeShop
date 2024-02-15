@@ -11,7 +11,6 @@ const randomize = (array: Product[]) => {
 
   while (currentIndex > 0) {
     randomIndex = Math.floor(Math.random() * currentIndex);
-    console.log(randomIndex);
     currentIndex--;
 
     [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
@@ -38,9 +37,6 @@ let bestsellersList: Product[] = [];
 );
 
 randomize(bestsellersList);
-
-console.log(bestsellersList);
-console.log(bestsellersList.sort(() => Math.random() - 0.5))
 
 const mock = new MockAdapter(api);
 mock.onGet(BestsellerApi).reply(200, bestsellersList);

@@ -38,11 +38,11 @@ const hideAnswerAnimation = keyframes`
 const AnswerWrapper = styled.div`
      overflow: hidden;
     .selected{
-        animation: ${showAnswerAnimation} 0.5s ;
+        animation: ${showAnswerAnimation} 0.1s ;
         margin-top: 0px;
     }
     .unSelected{
-        animation: ${hideAnswerAnimation} 0.5s ;
+        animation: ${hideAnswerAnimation} 0.2s ;
         margin-top: -100%;
         height: 0;
     }

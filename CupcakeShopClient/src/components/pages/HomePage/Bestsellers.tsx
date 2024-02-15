@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../hooks"
 import { Product } from "../../../store/types";
 import { getBestsellers } from "../../../store/reducers/bestsellerReducer";
 import styled from "styled-components";
-import { ReactComponent as CartImg } from "../../../assets/images/cart.svg";
 import ArrowImg from "../../../assets/images/SliderArrow.png";
+import { SliderSection } from "./SliderSection";
 
 
 
@@ -16,49 +16,32 @@ const Container = styled.div`
 `;
 
 const Slider = styled.div`
+
     font-family: sans-serif;
 	scroll-snap-type: x mandatory;	
-	display: flex;
 	-webkit-overflow-scrolling: touch;
 	overflow-x: scroll;
-`;
-
-const Section = styled.section`
-	padding: 1rem;
-    width: 100px;
-	min-width: 393px;
-	scroll-snap-align: end;
-	position: relative;
-`;
-
-
-const StyledImg = styled.img`
-    width: 393px;
-    height: 393px;
-`;
-const Cart = styled(CartImg)`
-    cursor: pointer;
-`;
-
-const TitleContainer = styled.div`
-    margin-top: 1rem;
     display: flex;
-    justify-content: space-between;
+    width: 100%;
+    
+    @media (min-width: 958px) {
+        display: flex;
+    }
 `;
-const Title = styled.div`
-    font-size: var(--font-size-large);
-`;
-const Description = styled.div`
-    font-size: var(--font-size-medium);`;
 
-const SlideNavigationContainer = styled.div`
-    display: flex;
+
+
+const DesktopNavigation = styled.div`
+    display: none;
     justify-content: end;
     gap: 2rem;
     margin: 0 8% 1rem 0;
     .blocked{
         cursor: default;
         background-color: var(--color-light);
+    }
+    @media (min-width: 958px) {
+        display: flex;
     }
     
 `;
@@ -72,6 +55,7 @@ const SlideNavigationElement = styled.div`
     text-align: center;
 
 
+
 `;
 const RightArrow = styled.img`
     transform: rotate(180deg);
@@ -82,8 +66,102 @@ const LeftArrow = styled.img`
 `;
 
 
+
+const PairWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+
+    @media (min-width: 958px) {
+        flex-direction: row;        
+    }
+
+`;
+
+
 export const Bestsellers = () => {
     const bestsellerStore = useAppSelector(state => state.bestsellerStore);
+    const [nextItemId, setNextItemId] = useState<string | undefined>(undefined);
+    const [previousItemId, setPreviousItemId] = useState<string | undefined>(undefined);
+    const [isLastItem, setIsLastItem] = useState<boolean>(false);
+    const [isFirstItem, setIsFirstItem] = useState<boolean>(false);
+
+    const scrollToNextItem = () => {
+        if (nextItemId) {
+            sliderRef.current?.querySelector('[id="' + nextItemId + '"]')?.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" })
+        }
+    }
+
+    const scrollToPreviousItem = () => {
+        if (previousItemId) {
+            sliderRef.current?.querySelector('[id="' + previousItemId + '"]')?.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" })
+        }
+    }
+
+    const sliderRef = useRef<HTMLDivElement>(null);
+
+
+    const addToCart = (id: number) => {
+        /*to do*/
+        console.log(`add ${id} to cart`);
+    }
+
+    const goToDetail = (id: number) => {
+        /*to do*/
+        console.log(`go to ${id} detail`);
+    }
+
+    const handleScroll = () => {
+        if (sliderRef.current) {
+            let sliderWidth = sliderRef.current.clientWidth;
+
+            const nextElements: Element[] = [];
+
+            Array.from(sliderRef.current.children).forEach((el) => {
+                Array.from(el.children).forEach((childEl) => {
+                    if (childEl.getBoundingClientRect().left >= sliderWidth) {
+                        nextElements.push(childEl);
+                    }
+                });
+            });
+
+
+            const previousElements: Element[] = [];
+
+            Array.from(sliderRef.current.children).forEach((el) => {
+                Array.from(el.children).forEach((childEl) => {
+                    if (childEl.getBoundingClientRect().left < 0) {
+                        previousElements.push(childEl);
+                    }
+                });
+            });
+
+
+            if (nextElements.length === 0) {
+                setIsLastItem(true);
+            }
+
+            if ((nextElements.length > 0) && isLastItem) {
+                setIsLastItem(false);
+            }
+
+            if (previousElements.length === 0) {
+                setIsFirstItem(true);
+            }
+
+            if ((previousElements.length > 0) && isFirstItem) {
+                setIsFirstItem(false);
+            }
+
+            if (nextElements[0]?.id !== nextItemId) {
+                setNextItemId(nextElements[0]?.id);
+            }
+
+            if (previousElements[previousElements.length - 1]?.id !== nextItemId) {
+                setPreviousItemId(previousElements[previousElements.length - 1]?.id);
+            }
+        }
+    };
+
 
     const dispatch = useAppDispatch();
 
@@ -92,29 +170,39 @@ export const Bestsellers = () => {
     },
         [dispatch]);
 
+    useEffect(() => {
+        handleScroll();
+    },
+        [bestsellerStore]);
+
 
     return (
 
         <Container>
-            <SlideNavigationContainer>
-                <SlideNavigationElement className="blocked">
+            <DesktopNavigation>
+                <SlideNavigationElement onClick={scrollToPreviousItem} className={isFirstItem ? "blocked" : ""}>
                     <LeftArrow src={ArrowImg} alt="Left arrow" />
                 </SlideNavigationElement>
-                <SlideNavigationElement>
+                <SlideNavigationElement onClick={scrollToNextItem} className={isLastItem ? "blocked" : ""}>
                     <RightArrow src={ArrowImg} alt="Right arrow" />
                 </SlideNavigationElement>
 
-            </SlideNavigationContainer>
-            <Slider>
-                {bestsellerStore.list.map(b => (
-                    <Section key={b.id}>
-                        <StyledImg src={b.imgUrl} alt={b.name} />
-                        <TitleContainer>
-                            <Title>{b.name}</Title>
-                            <Cart />
-                        </TitleContainer>
-                        <Description>{b.price}$ / {b.weight}{b.unitOfMeasurement}</Description>
-                    </Section>))}
+            </DesktopNavigation>
+            <Slider ref={sliderRef} onScroll={handleScroll}>
+                {bestsellerStore.list.map((b, index, elements) => {
+
+                    if (index % 2 !== 0) {
+                        return null;
+                    }
+
+                    return (
+                        <PairWrapper key={index}>
+                            <SliderSection  product={b} addToCart={addToCart} goToDetail={goToDetail}/>
+                            {elements[index + 1] && (
+                                <SliderSection product={elements[index + 1]} addToCart={addToCart} goToDetail={goToDetail}/>
+                            )}
+                        </PairWrapper>)
+                })}
             </Slider>
         </Container>
 
