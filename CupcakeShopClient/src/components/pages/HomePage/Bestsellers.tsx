@@ -7,7 +7,6 @@ import ArrowImg from "../../../assets/images/SliderArrow.png";
 import { SliderSection } from "./SliderSection";
 
 
-
 const Container = styled.div`
 	box-sizing: border-box;
 	margin: 2rem 0 0 0; 
@@ -20,13 +19,19 @@ const Slider = styled.div`
     font-family: sans-serif;
 	scroll-snap-type: x mandatory;	
 	-webkit-overflow-scrolling: touch;
-	overflow-x: scroll;
+	overflow-x: scroll; 
+
     display: flex;
     width: 100%;
+
+    &::-webkit-scrollbar {           
+         width: 0 !important;
+    }
     
     @media (min-width: 958px) {
         display: flex;
     }
+    
 `;
 
 
@@ -48,7 +53,8 @@ const DesktopNavigation = styled.div`
 
 const MobilNavigation = styled.div`
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    margin: auto;
     .blocked{
         cursor: default;
         background-color: var(--color-light);
@@ -81,6 +87,8 @@ const DotsContainer = styled.div`
     display: flex;
     justify-content: center;
     gap: 5px;
+    min-width: 210px;
+    margin: auto 1rem auto 1rem;
     .selected{
             background-color: var(--color-dark);
     }
@@ -113,37 +121,39 @@ export const Bestsellers = () => {
     const [isLastItem, setIsLastItem] = useState<boolean>(false);
     const [isFirstItem, setIsFirstItem] = useState<boolean>(false);
 
-    const [totalItems, setTotalItems] = useState<number>();
-    const [currentItem, setCurrentItem] = useState<number>();
+    const [totalItems, setTotalItems] = useState<number>(0);
+    const [currentItem, setCurrentItem] = useState<number>(0);
+
+    const [dotsArray, setDotsArray] = useState<JSX.Element[]>([]);
 
     const sliderRef = useRef<HTMLDivElement>(null);
 
     const scrollToNextItem = () => {
         if (nextItemId) {
-            const parentDiv: HTMLElement | null | undefined = sliderRef.current;
-            const targetElement: HTMLElement | null | undefined = sliderRef.current?.querySelector('[id="' + nextItemId + '"]');
+            let parentDiv: HTMLElement | null | undefined = sliderRef.current;
+            let targetElement: HTMLElement | null | undefined = sliderRef.current?.querySelector('[id="' + nextItemId + '"]');
             if (parentDiv && targetElement) {
-                const scrollTop = document.documentElement.scrollTop;
-                const frozenScrolling = Object.assign({ scrollTop });
-
-                targetElement.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" })
-                document.documentElement.scrollTop = frozenScrolling.scrollTop as number;
+                parentDiv.scroll({ left: targetElement.offsetLeft, behavior: 'smooth' })
             }
         }
     }
 
 
     const scrollToPreviousItem = () => {
+        console.log("prev el");
+        console.log(previousItemId);
         if (previousItemId) {
-            const parentDiv: HTMLElement | null | undefined = sliderRef.current;
-            const targetElement: HTMLElement | null | undefined = sliderRef.current?.querySelector('[id="' + previousItemId + '"]');
+            let parentDiv: HTMLElement | null | undefined = sliderRef.current;
+            let targetElement: HTMLElement | null | undefined = sliderRef.current?.querySelector('[id="' + previousItemId + '"]');
             if (parentDiv && targetElement) {
-                const scrollTop = document.documentElement.scrollTop;
-                const frozenScrolling = Object.assign({ scrollTop });
-
-                targetElement.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" })
-                document.documentElement.scrollTop = frozenScrolling.scrollTop as number;
+                parentDiv.scroll({ left: targetElement.offsetLeft, behavior: 'smooth' })
             }
+            console.log("/-------\]");
+            console.log(parentDiv?.offsetWidth);
+            console.log(parentDiv?.offsetLeft);
+            console.log(targetElement?.offsetWidth);
+            console.log(targetElement?.offsetLeft);
+            console.log("\-------/");
         }
     }
 
@@ -207,6 +217,7 @@ export const Bestsellers = () => {
     }
 
 
+
     const handleScroll = () => {
         if (sliderRef.current) {
             let sliderWidth = sliderRef.current.clientWidth;
@@ -216,7 +227,8 @@ export const Bestsellers = () => {
                     ? getSlideNavArraysForDesktop(sliderWidth)
                     : getSlideNavArraysForMobil(sliderWidth);
 
-            const total = nextElements.length + previousElements.length + 1;
+            const total: number = nextElements.length + previousElements.length + 1;
+
 
             if (totalItems !== total) {
                 setTotalItems(total);
@@ -225,6 +237,14 @@ export const Bestsellers = () => {
             if (currentItem !== previousElements.length) {
                 setCurrentItem(previousElements.length);
             }
+
+
+            let dots = Array.from({ length: total }, (_, i) => (
+                <Dot key={i} className={i === previousElements.length ? "selected" : ""} />
+            ));
+
+
+            setDotsArray(dots);
 
             if (nextElements.length === 0) {
                 setIsLastItem(true);
@@ -246,13 +266,16 @@ export const Bestsellers = () => {
                 setNextItemId(nextElements[0]?.id);
             }
 
-            if (previousElements[previousElements.length - 1]?.id !== nextItemId) {
+            if (previousElements[previousElements.length - 1]?.id !== previousItemId) {
                 setPreviousItemId(previousElements[previousElements.length - 1]?.id);
             }
 
 
         }
     };
+
+
+
 
 
     const dispatch = useAppDispatch();
@@ -308,11 +331,8 @@ export const Bestsellers = () => {
                     <LeftArrow src={ArrowImg} alt="Left arrow" />
                 </SlideNavigationElement>
                 <DotsContainer>
-                    {(new Array(totalItems)).map((v,i)=>{
-                        return(<Dot className={(i===currentItem)?"selected":""} />);
-                    })}
-                    
-                    
+                    {dotsArray}
+
                 </DotsContainer>
                 <SlideNavigationElement onClick={scrollToNextItem} className={isLastItem ? "blocked" : ""}>
                     <RightArrow src={ArrowImg} alt="Right arrow" />

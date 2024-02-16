@@ -60,6 +60,7 @@ const ContainerItem = styled.div`
 `;
 const StyledLink = styled(Link)`
   text-decoration: none; 
+  color: var(--color-dark);
 `;
 
 
