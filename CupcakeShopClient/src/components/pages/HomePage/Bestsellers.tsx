@@ -1,11 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../hooks"
-import { Product } from "../../../store/types";
 import { getBestsellers } from "../../../store/reducers/bestsellerReducer";
 import styled from "styled-components";
 import ArrowImg from "../../../assets/images/SliderArrow.png";
 import { SliderSection } from "./SliderSection";
-
 
 const Container = styled.div`
 	box-sizing: border-box;
@@ -34,8 +32,6 @@ const Slider = styled.div`
     
 `;
 
-
-
 const DesktopNavigation = styled.div`
     display: none;
     justify-content: end;
@@ -54,7 +50,7 @@ const DesktopNavigation = styled.div`
 const MobilNavigation = styled.div`
     display: flex;
     justify-content: center;
-    margin: auto;
+    margin: 2rem auto 3rem auto;
     .blocked{
         cursor: default;
         background-color: var(--color-light);
@@ -120,7 +116,6 @@ export const Bestsellers = () => {
     const [previousItemId, setPreviousItemId] = useState<string | undefined>(undefined);
     const [isLastItem, setIsLastItem] = useState<boolean>(false);
     const [isFirstItem, setIsFirstItem] = useState<boolean>(false);
-
     const [totalItems, setTotalItems] = useState<number>(0);
     const [currentItem, setCurrentItem] = useState<number>(0);
 
@@ -140,25 +135,14 @@ export const Bestsellers = () => {
 
 
     const scrollToPreviousItem = () => {
-        console.log("prev el");
-        console.log(previousItemId);
         if (previousItemId) {
             let parentDiv: HTMLElement | null | undefined = sliderRef.current;
             let targetElement: HTMLElement | null | undefined = sliderRef.current?.querySelector('[id="' + previousItemId + '"]');
             if (parentDiv && targetElement) {
-                parentDiv.scroll({ left: targetElement.offsetLeft, behavior: 'smooth' })
+                parentDiv.scroll({ left: targetElement.offsetLeft-parentDiv.offsetWidth+targetElement.offsetWidth, behavior: 'smooth' });
             }
-            console.log("/-------\]");
-            console.log(parentDiv?.offsetWidth);
-            console.log(parentDiv?.offsetLeft);
-            console.log(targetElement?.offsetWidth);
-            console.log(targetElement?.offsetLeft);
-            console.log("\-------/");
         }
     }
-
-
-
 
 
     const addToCart = (id: number) => {
@@ -179,7 +163,7 @@ export const Bestsellers = () => {
         if (sliderRef.current) {
             Array.from(sliderRef.current.children).forEach((el) => {
                 Array.from(el.children).forEach((childEl) => {
-                    if (childEl.getBoundingClientRect().left >= sliderWidth) {
+                    if (Math.round(childEl.getBoundingClientRect().left) >= sliderWidth) {
                         nextElements.push(childEl);
                     }
                 });
@@ -187,7 +171,7 @@ export const Bestsellers = () => {
 
             Array.from(sliderRef.current.children).forEach((el) => {
                 Array.from(el.children).forEach((childEl) => {
-                    if (childEl.getBoundingClientRect().left < 0) {
+                    if (Math.round(childEl.getBoundingClientRect().left) < 0) {
                         previousElements.push(childEl);
                     }
                 });
@@ -202,21 +186,19 @@ export const Bestsellers = () => {
 
         if (sliderRef.current) {
             Array.from(sliderRef.current.children).forEach((el) => {
-                if (el.getBoundingClientRect().left >= sliderWidth) {
+                if (Math.round(el.getBoundingClientRect().left) >= sliderWidth) {
                     nextElements.push(el);
                 }
             });
 
             Array.from(sliderRef.current.children).forEach((el) => {
-                if (el.getBoundingClientRect().left < 0) {
+                if (Math.round(el.getBoundingClientRect().left) < 0) {
                     previousElements.push(el);
                 }
             });
         }
         return { nextElements, previousElements };
     }
-
-
 
     const handleScroll = () => {
         if (sliderRef.current) {
@@ -243,7 +225,6 @@ export const Bestsellers = () => {
                 <Dot key={i} className={i === previousElements.length ? "selected" : ""} />
             ));
 
-
             setDotsArray(dots);
 
             if (nextElements.length === 0) {
@@ -269,12 +250,8 @@ export const Bestsellers = () => {
             if (previousElements[previousElements.length - 1]?.id !== previousItemId) {
                 setPreviousItemId(previousElements[previousElements.length - 1]?.id);
             }
-
-
         }
     };
-
-
 
 
 
