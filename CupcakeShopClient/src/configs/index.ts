@@ -1,1 +1,5 @@
-export const BestsellerApi: string = "/bestsellers";
+export const BestsellerEndpoint: string = "/bestsellers";
+export const CatalogEndpoint: string = "/catalog"
+
+
+

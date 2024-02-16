@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction, createAsyncThunk, AnyAction } from '@reduxjs/toolkit';
-import { Product, BestsellerState } from '../types';
-import { BestsellerApi } from '../../configs';
-import api from '../../utils/api';
+import { Product, BestsellerState } from '../types'; 
+import Api, { ProductTypesEnum } from '../../utils/api';
 
 
 const initialState: BestsellerState = {
@@ -14,8 +13,7 @@ const initialState: BestsellerState = {
 export const getBestsellers = createAsyncThunk<Product[], undefined, { rejectValue: string }>(
     'bestsellers/getBestsellers',
     async function (_, { rejectWithValue }) {
-
-        const response = await api<Product[]>(BestsellerApi);
+        const response = await Api.getBestsellersAsync();
 
         if (!response.data) {
             return rejectWithValue('Server Error!');

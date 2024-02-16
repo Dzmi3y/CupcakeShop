@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import { NotFoundPage } from "./components/pages/NotFoundPage";
 import { HomePage } from "./components/pages/HomePage/HomePage";
-import { CatalogPage } from "./components/pages/CatalogPage";
+import { CatalogPage } from "./components/pages/Catalog/CatalogPage";
 import { OrderPage } from "./components/pages/OrderPage";
 import { ProductPage } from "./components/pages/ProductPage";
 import { Header } from "./components/common/Header/Header";

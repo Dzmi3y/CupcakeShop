@@ -1,8 +1,16 @@
 import axios from "axios";
-import { BestsellerApi } from "../configs";
+import { BestsellerEndpoint, CatalogEndpoint } from "../configs";
 import MockAdapter from "axios-mock-adapter";
 import productsList from "../configs/data.json"
 import { Product } from "../store/types/product"
+
+
+export enum ProductTypesEnum {
+  cake = 1,
+  cookie,
+  choux,
+  pizza
+}
 
 
 const randomize = (array: Product[]) => {
@@ -17,7 +25,7 @@ const randomize = (array: Product[]) => {
   }
 }
 
-const api = axios.create({
+const baseApi = axios.create({
   baseURL: "https://example.com/api",
   timeout: 10000,
   headers: {
@@ -38,11 +46,67 @@ let bestsellersList: Product[] = [];
 
 randomize(bestsellersList);
 
-const mock = new MockAdapter(api);
-mock.onGet(BestsellerApi).reply(200, bestsellersList);
+
+const getFilteredData = (pageN?: number, typeId?: number) => {
+  pageN ??= 1;
+  let groupBy = 15;
+  let end = groupBy * pageN
+  let start = end - groupBy;
+
+  return productsList
+    .filter((p) => (!typeId) || (p.typeId == typeId))
+    .slice(start, end);
+}
+
+const mock = new MockAdapter(baseApi);
+mock.onGet(BestsellerEndpoint).reply(200, bestsellersList);
 
 
-export default api;
+function parseQueryString(url: string) {
+  const queryString = url.replace(/.*\?/, "");
+
+  if (queryString === url || !queryString) {
+    return null;
+  }
+
+  const urlParams = new URLSearchParams(queryString);
+  const result: any = {};
+
+  urlParams.forEach((val, key) => {
+    if (result.hasOwnProperty(key)) {
+      result[key] = [result[key], val];
+    } else {
+      result[key] = val;
+    }
+  });
+
+  return result;
+}
+
+mock.onGet(/\/catalog\/?(.*)/).reply((config) => {
+  let params = parseQueryString(config.url as string)
+
+  let page: number | undefined = params.page as number;
+  let filter: number | undefined = params.filter as number;
+
+  return [200, getFilteredData(page, filter)];
+});
 
 
+const Api = {
+  getBestsellersAsync: async () => {
+    return await baseApi<Product[]>(BestsellerEndpoint);
+  },
+
+  getCatalogAsync: async (page?: number, productType?: ProductTypesEnum) => {
+    let _page = page || 1;
+    let url = (productType)
+      ? `${CatalogEndpoint}?page=${_page}&filter=${productType}`
+      : `${CatalogEndpoint}?page=${_page}`;
+    return await baseApi<Product[]>(url);
+  }
+}
+
+
+export default Api;
 

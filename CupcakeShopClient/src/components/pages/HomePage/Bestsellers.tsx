@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../../hooks"
 import { getBestsellers } from "../../../store/reducers/bestsellerReducer";
 import styled from "styled-components";
 import ArrowImg from "../../../assets/images/SliderArrow.png";
-import { SliderSection } from "./SliderSection";
+import { ProductCard } from "../../common/ProductCard";
 
 const Container = styled.div`
 	box-sizing: border-box;
@@ -296,9 +296,9 @@ export const Bestsellers = () => {
 
                     return (
                         <PairWrapper key={index} id={"pair_" + index}>
-                            <SliderSection product={b} addToCart={addToCart} goToDetail={goToDetail} />
+                            <ProductCard product={b} addToCart={addToCart} goToDetail={goToDetail} />
                             {elements[index + 1] && (
-                                <SliderSection product={elements[index + 1]} addToCart={addToCart} goToDetail={goToDetail} />
+                                <ProductCard product={elements[index + 1]} addToCart={addToCart} goToDetail={goToDetail} />
                             )}
                         </PairWrapper>)
                 })}

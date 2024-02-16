@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components';
-import { ReactComponent as CartImg } from "../../../assets/images/cart.svg";
-import { Product } from '../../../store/types';
+import { ReactComponent as CartImg } from "../../assets/images/cart.svg";
+import { Product } from '../../store/types';
 
-const Section = styled.section`
+const Container = styled.section`
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -80,16 +80,16 @@ const Details = styled.div`
    
 `;
 
-type SliderSectionProps={ 
+type ProductCaedProps={ 
     product: Product, 
     addToCart: (id: number) => void, 
     goToDetail: (id: number) => void 
 };
 
 
-export const SliderSection: React.FC<SliderSectionProps> = ({product,addToCart,goToDetail}) => {
+export const ProductCard: React.FC<ProductCaedProps> = ({product,addToCart,goToDetail}) => {
     return (
-        <Section id={product.id + ""}>
+        <Container id={product.id + ""}>
             <ImgContainer onClick={() => { goToDetail(product.id) }}>
                 <StyledImg src={product.imgUrl} alt={product.name} />
                 <OverlayElement className="overlay" >
@@ -101,6 +101,6 @@ export const SliderSection: React.FC<SliderSectionProps> = ({product,addToCart,g
                 <Cart onClick={() => { addToCart(product.id) }} />
             </TitleContainer>
             <Description>{product.price}$ / {product.weight}{product.unitOfMeasurement}</Description>
-        </Section>
+        </Container>
     )
 }
