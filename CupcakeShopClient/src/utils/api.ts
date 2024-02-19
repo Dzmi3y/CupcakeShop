@@ -25,7 +25,7 @@ const Api = {
 
   getCatalogAsync: async (page: number = 1, typeid?: ProductTypesEnum, groupBy: number = 15) => {
     let url = (typeid)
-      ? `${CatalogEndpoint}?page=${page}&groupBy=${groupBy}&groupBy=${typeid}`
+      ? `${CatalogEndpoint}?page=${page}&groupBy=${groupBy}&typeid=${typeid}`
       : `${CatalogEndpoint}?page=${page}&groupBy=${groupBy}`;
     return await baseApi<CatalogApiResult>(url);
   }

@@ -6,6 +6,7 @@ import { ProductTypesEnum } from "../../../store/enums/productTypesEnum";
 import styled from "styled-components";
 import { ProductCard } from "../../common/ProductCard";
 import { Filter } from "./Filter";
+import ArowImage from '../../../assets/images/ProductNavigationArrow.png';
 
 
 const Container = styled.main`
@@ -45,7 +46,34 @@ const Title = styled.div`
 
 `;
 
+const ProductPageNavigationContainer = styled.nav`
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
+  gap: 10px;
+`;
+const ProductPageNavigationNumber = styled.div`
+  cursor: pointer;
+  font-size: var(--text-size-large);
 
+`;
+const ProductPageNavigationElement = styled.div`
+  cursor: pointer;
+  margin: 0 1rem;
+  background-color: var(--color-dark);
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+`;
+const LeftArrow = styled.img`
+  padding-left: 6px;
+  padding-top: 12px;
+`;
+const RightArrow = styled.img`
+  transform: rotate(180deg);
+  padding-right: 6px;
+  padding-bottom: 12px;
+`;
 
 
 export const CatalogPage = () => {
@@ -61,7 +89,12 @@ export const CatalogPage = () => {
   const [pageInfo, setPageInfo] = useState<PageInfo>(pageInfoInitial);
 
 
+  const filterOnChangeHandler = (productType?: ProductTypesEnum) => {
 
+
+    dispatch(getProductList({ ...pageInfo, typeId: productType }))
+
+  }
 
 
 
@@ -94,11 +127,23 @@ export const CatalogPage = () => {
   return (
     <Container>
       <Title>Catalog</Title>
-      <Filter/>
+      <Filter filterOnChange={filterOnChangeHandler} />
       <List>
         {catalogStore.list.map(p => (<ProductCard key={p.id} product={p} addToCart={addToCart} goToDetail={goToDetail} />))}
       </List>
+      <ProductPageNavigationContainer>
+                    <ProductPageNavigationElement>
+                        <LeftArrow src={ArowImage} alt='lefr arrow'/>
+                    </ProductPageNavigationElement>
+                    <ProductPageNavigationNumber>1,</ProductPageNavigationNumber>
+                    <ProductPageNavigationNumber>2,</ProductPageNavigationNumber>
+                    <ProductPageNavigationNumber>3</ProductPageNavigationNumber>
 
+                    <ProductPageNavigationElement>
+                        <RightArrow src={ArowImage} alt='right arrow'/>
+                    </ProductPageNavigationElement>
+
+                </ProductPageNavigationContainer>
 
     </Container>
   )
