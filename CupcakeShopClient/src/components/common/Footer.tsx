@@ -5,7 +5,7 @@ import { ReactComponent as WhatsappImg } from "../../assets/images/whatsapp.svg"
 import { ReactComponent as TelegramImg } from "../../assets/images/telegram.svg";
 import LogoImg from "../../assets/images/logoGrannFooter.png"
 
-const Wrapper = styled.div`
+const Wrapper = styled.footer`
   width: 100%;
   margin: 0;
   padding: 1.5rem 0 2rem;

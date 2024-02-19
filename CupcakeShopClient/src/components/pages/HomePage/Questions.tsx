@@ -17,7 +17,7 @@ const questionList: QuestionInfo[] =
         { id: 4, question: "Question 4", answer: "Answer 4. Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus consequatur ratione a sapiente accusantium voluptas ipsa dolorum vitae placeat laudantium" },
     ]
 
-const Container = styled.div`
+const Container = styled.section`
     margin: 5rem auto 7rem auto;
     width: 80%;
     @media (min-width: 1200px) {

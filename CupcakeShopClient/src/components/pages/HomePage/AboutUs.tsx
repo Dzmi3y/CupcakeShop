@@ -2,7 +2,7 @@ import styled from "styled-components";
 import GirlImg from "../../../assets/images/cookingGirl.png";
 
 
-const Container = styled.div`
+const Container = styled.section`
     padding: 0 5rem;
     display:flex;
     flex-direction: column;

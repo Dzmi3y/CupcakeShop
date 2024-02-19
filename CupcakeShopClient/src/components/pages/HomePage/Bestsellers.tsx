@@ -5,7 +5,7 @@ import styled from "styled-components";
 import ArrowImg from "../../../assets/images/SliderArrow.png";
 import { ProductCard } from "../../common/ProductCard";
 
-const Container = styled.div`
+const Container = styled.section`
 	box-sizing: border-box;
 	margin: 2rem 0 0 0; 
 	padding: 0;
@@ -29,7 +29,6 @@ const Slider = styled.div`
     @media (min-width: 958px) {
         display: flex;
     }
-    
 `;
 
 const DesktopNavigation = styled.div`
@@ -94,14 +93,20 @@ const Dot = styled.div`
     height: 11px;
     width: 11px;
     border-radius: 50%;
-    background-color: var(--color-pale-yellow);
-
-    
+    background-color: var(--color-pale-yellow);   
 `;
+
+
 
 const PairWrapper = styled.div`
     display: flex;
     flex-direction: column;
+    .productCard{
+    min-width: 100vw;
+    @media (min-width: 958px) {
+        min-width: 393px;
+    }
+    }
 
     @media (min-width: 958px) {
         flex-direction: row;        
@@ -139,7 +144,7 @@ export const Bestsellers = () => {
             let parentDiv: HTMLElement | null | undefined = sliderRef.current;
             let targetElement: HTMLElement | null | undefined = sliderRef.current?.querySelector('[id="' + previousItemId + '"]');
             if (parentDiv && targetElement) {
-                parentDiv.scroll({ left: targetElement.offsetLeft-parentDiv.offsetWidth+targetElement.offsetWidth, behavior: 'smooth' });
+                parentDiv.scroll({ left: targetElement.offsetLeft - parentDiv.offsetWidth + targetElement.offsetWidth, behavior: 'smooth' });
             }
         }
     }

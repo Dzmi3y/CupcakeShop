@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction, createAsyncThunk, AnyAction } from '@reduxjs/toolkit';
 import { Product, BestsellerState } from '../types'; 
-import Api, { ProductTypesEnum } from '../../utils/api';
+import Api from '../../utils/api';
 
 
 const initialState: BestsellerState = {
     list: [],
     loading: false,
-    error: null,
+    error: null
 }
 
 

@@ -37,7 +37,7 @@ export const HomePage = () => {
   `;
 
   return (
-    <>
+    <main>
       <Banner />
       <ShortCatalog />
       <Title id="bestsellers">Bestsellers</Title>
@@ -55,6 +55,6 @@ export const HomePage = () => {
 
       <Title id="questions">Popular questions</Title>
       <Questions/>
-    </>
+    </main>
   )
 }

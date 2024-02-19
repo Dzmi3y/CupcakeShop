@@ -3,7 +3,7 @@ import DeliveryImg from "../../../assets/images/bikeDelivery.png";
 import CashImg from "../../../assets/images/cashOnDelivery.png";
 import BoxImg from "../../../assets/images/packageBox.png";
 
-const Container = styled.div`
+const Container = styled.section`
     display: flex;
     justify-content: center;
     margin-top: 5rem;

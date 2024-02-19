@@ -66,7 +66,7 @@ const StyledLink = styled(Link)`
 
 export const ShortCatalog = () => {
   return (
-    <>
+    <section>
       <div style={{marginBottom:"2rem"}}>
         <StyledLink to="/catalog">
           <Title className='text'>to the catalog</Title>
@@ -98,6 +98,6 @@ export const ShortCatalog = () => {
           </StyledLink>
         </ContainerItem>
       </Container>
-    </>
+    </section>
   )
 }

@@ -1,7 +1,7 @@
 import styled from "styled-components"
 import CupcakeImg from "../../../assets/images/bigCupcake.png"
 
-const Container = styled.div`
+const Container = styled.section`
     margin: 0 5rem;
     display: flex;
     flex-direction: column;

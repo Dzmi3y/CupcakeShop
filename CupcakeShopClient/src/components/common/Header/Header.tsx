@@ -6,7 +6,7 @@ import { ReactComponent as CartImg } from "../../../assets/images/cart.svg";
 import { ReactComponent as BurgerImg } from "../../../assets/images/burger.svg";
 import MobilMenu from './MobilMenu';
 
-const Wrapper = styled.div`
+const Wrapper = styled.nav`
     display: grid;
     align-items: center;   
     padding: 0 1rem;
@@ -96,7 +96,7 @@ export const Header = () => {
         setModalOpen(false);
     };
     return (
-        <>
+        <header>
             <Wrapper>
                 <HeaderDesktopLink to='/#bestsellers' >bestsellers</HeaderDesktopLink>
                 <HeaderDesktopLink to='/catalog' >catalog</HeaderDesktopLink>
@@ -116,6 +116,6 @@ export const Header = () => {
             </Wrapper>
             <MobilMenu isOpen={modalOpen} onClose={closeModal} />
 
-        </>
+        </header>
     )
 }

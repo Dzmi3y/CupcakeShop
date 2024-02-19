@@ -50,7 +50,7 @@ const IconImg = styled.img`
     cursor: pointer
 `;
 
-const BannerContainer = styled.div`
+const BannerContainer = styled.section`
     display: flex;
 `;
 
