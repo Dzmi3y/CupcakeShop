@@ -49,13 +49,23 @@ const Title = styled.div`
 const ProductPageNavigationContainer = styled.nav`
   display: flex;
   justify-content: center;
-  margin: 1rem 0;
+  margin: 3rem 0;
   gap: 10px;
+
+  .selected{
+    cursor: none;
+    color: var(--color-dark);
+  }
+
+  @media (min-width: 767px) {
+    margin-left: 65px;
+  }
+
 `;
 const ProductPageNavigationNumber = styled.div`
   cursor: pointer;
   font-size: var(--text-size-large);
-
+  color: var(--color-unselected-page);
 `;
 const ProductPageNavigationElement = styled.div`
   cursor: pointer;
@@ -78,7 +88,10 @@ const RightArrow = styled.img`
 
 export const CatalogPage = () => {
   const catalogStore = useAppSelector(state => state.catalogStore);
+
+  const [totalPagesArray, setTotalPagesArray] = useState<number[]>([]);
   const dispatch = useAppDispatch();
+
 
 
   const pageInfoInitial: PageInfo = {
@@ -90,13 +103,21 @@ export const CatalogPage = () => {
 
 
   const filterOnChangeHandler = (productType?: ProductTypesEnum) => {
+    const updatedPageInfo = { ...pageInfo, typeId: productType, page: 1 };
 
-
-    dispatch(getProductList({ ...pageInfo, typeId: productType }))
+    dispatch(getProductList(updatedPageInfo))
+    setPageInfo(updatedPageInfo);
 
   }
 
+  const navToPageByNumber = (pageN: number) => {
+    if (pageN > 0 && pageN <= totalPagesArray.length) {
+      const updatedPageInfo = { ...pageInfo, page: pageN };
 
+      dispatch(getProductList(updatedPageInfo))
+      setPageInfo(updatedPageInfo);
+    }
+  }
 
   const addToCart = (id: number) => {
     /*to do*/
@@ -117,11 +138,13 @@ export const CatalogPage = () => {
 
 
   useEffect(() => {
-    console.log("list");
-    console.log(catalogStore.list);
-    console.log("total pages");
-    console.log(catalogStore.totalPagesNumber);
-  });
+    if (catalogStore.totalPagesNumber) {
+      const totalPagesArray: number[] = Array.from({ length: catalogStore.totalPagesNumber }, (_, i) => i + 1);
+      setTotalPagesArray(totalPagesArray);
+
+    }
+
+  }, [catalogStore]);
 
 
   return (
@@ -132,18 +155,20 @@ export const CatalogPage = () => {
         {catalogStore.list.map(p => (<ProductCard key={p.id} product={p} addToCart={addToCart} goToDetail={goToDetail} />))}
       </List>
       <ProductPageNavigationContainer>
-                    <ProductPageNavigationElement>
-                        <LeftArrow src={ArowImage} alt='lefr arrow'/>
-                    </ProductPageNavigationElement>
-                    <ProductPageNavigationNumber>1,</ProductPageNavigationNumber>
-                    <ProductPageNavigationNumber>2,</ProductPageNavigationNumber>
-                    <ProductPageNavigationNumber>3</ProductPageNavigationNumber>
+        <ProductPageNavigationElement onClick={() => { navToPageByNumber(pageInfo.page - 1) }}>
+          <LeftArrow src={ArowImage} alt='lefr arrow' />
+        </ProductPageNavigationElement>
 
-                    <ProductPageNavigationElement>
-                        <RightArrow src={ArowImage} alt='right arrow'/>
-                    </ProductPageNavigationElement>
+        {totalPagesArray.map(n => (
+          <ProductPageNavigationNumber key={n} className={pageInfo.page === n ? "selected" : ""} onClick={() => { navToPageByNumber(n) }}>
+            {totalPagesArray.length === n ? n : n + ","}
+          </ProductPageNavigationNumber>))}
 
-                </ProductPageNavigationContainer>
+        <ProductPageNavigationElement onClick={() => { navToPageByNumber(pageInfo.page + 1) }}>
+          <RightArrow src={ArowImage} alt='right arrow' />
+        </ProductPageNavigationElement>
+
+      </ProductPageNavigationContainer>
 
     </Container>
   )
