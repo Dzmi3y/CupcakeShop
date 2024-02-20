@@ -268,6 +268,10 @@ export const Bestsellers = () => {
         [dispatch]);
 
     useEffect(() => {
+        if (bestsellerStore.list.length > 0) {
+            handleScroll();
+        }
+
         const handleLoad = () => {
             handleScroll();
         };

@@ -7,6 +7,7 @@ import styled from "styled-components";
 import { ProductCard } from "../../common/ProductCard";
 import { Filter } from "./Filter";
 import ArowImage from '../../../assets/images/ProductNavigationArrow.png';
+import { BreadCrumbs, BreadCrumbsItem } from "../../common/BreadCrumbs";
 
 
 const Container = styled.main`
@@ -85,6 +86,13 @@ const RightArrow = styled.img`
   padding-bottom: 12px;
 `;
 
+const BreadCrumbsContainer = styled.div`
+  margin: 2rem 0 0 2%;
+  @media (min-width: 958px) {
+        margin: 2rem 0 0 8%;
+  }
+`;
+
 
 export const CatalogPage = () => {
   const catalogStore = useAppSelector(state => state.catalogStore);
@@ -129,6 +137,15 @@ export const CatalogPage = () => {
     console.log(`go to ${id} detail`);
   }
 
+
+
+  const breadCrumbsList: BreadCrumbsItem[] = [
+    { title: "Home", link: "/" },
+    { title: "Catalog", link: null }
+  ];
+
+
+
   useEffect(() => {
 
 
@@ -149,6 +166,9 @@ export const CatalogPage = () => {
 
   return (
     <Container>
+      <BreadCrumbsContainer>
+        <BreadCrumbs breadCrumbsList={breadCrumbsList} />
+      </BreadCrumbsContainer>
       <Title>Catalog</Title>
       <Filter filterOnChange={filterOnChangeHandler} />
       <List>

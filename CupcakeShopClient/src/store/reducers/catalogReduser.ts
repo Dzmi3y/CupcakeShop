@@ -25,7 +25,7 @@ export const getProductList = createAsyncThunk<CatalogApiResult, PageInfo, { rej
         }
 
         const data = await response.data;
-        return { ...data, currentPage: pageInfo.page };
+        return data;
 
     }
 );
