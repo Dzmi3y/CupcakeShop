@@ -1,9 +1,9 @@
-import axios  from "axios";
-import { BestsellerEndpoint, CatalogEndpoint } from "../configs";
+import axios from "axios";
+import { AdditionalParamsEndpoint, BestsellerEndpoint, CatalogEndpoint, ProductDetailsInfoEndpoint, RecommendedProductsEndpoint } from "../configs";
 import { Product } from "../store/types/product"
 import mockApi from "./MockEndpoints";
 import { ProductTypesEnum } from "../store/enums/productTypesEnum";
-import { CatalogApiResult } from "../store/types";
+import { AdditionalProdParams, CatalogApiResult, DetailProductInfo } from "../store/types";
 
 
 const baseApi = axios.create({
@@ -28,6 +28,21 @@ const Api = {
       ? `${CatalogEndpoint}?page=${page}&groupBy=${groupBy}&typeid=${typeid}`
       : `${CatalogEndpoint}?page=${page}&groupBy=${groupBy}`;
     return await baseApi<CatalogApiResult>(url);
+  },
+
+  getProductDetailInfoAsync: async (id: number) => {
+    let url = `${ProductDetailsInfoEndpoint}?id=${id}`
+    return await baseApi<DetailProductInfo>(url);
+  },
+
+  getRecommendedProductsAsync: async (id: number, count: number) => {
+    let url = `${RecommendedProductsEndpoint}?id=${id}&count=${count}`
+    return await baseApi<Product[]>(url);
+  },
+
+  getAdditionalParamsAsync: async (id: number) => {
+    let url = `${AdditionalParamsEndpoint}?id=${id}`
+    return await baseApi<AdditionalProdParams>(url);
   }
 }
 

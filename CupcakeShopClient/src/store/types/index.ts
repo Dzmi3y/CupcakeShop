@@ -3,3 +3,8 @@ export * from "./bestsellerState";
 export * from "./catalogState";
 export * from "./pageInfo";
 export * from "./catalogApiResult";
+export * from "./detailProductInfo";
+export * from "./detailProductInfoState"
+export * from "./additionWeight"
+export * from "./additionalProductParameter"
+export * from "./additionalProdParams"

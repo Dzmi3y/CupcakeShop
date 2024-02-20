@@ -3,7 +3,7 @@ import { NotFoundPage } from "./components/pages/NotFoundPage";
 import { HomePage } from "./components/pages/HomePage/HomePage";
 import { CatalogPage } from "./components/pages/Catalog/CatalogPage";
 import { OrderPage } from "./components/pages/OrderPage";
-import { ProductPage } from "./components/pages/ProductPage";
+import { ProductPage } from "./components/pages/Product/ProductPage";
 import { Header } from "./components/common/Header/Header";
 import { Footer } from "./components/common/Footer";
 import styled from "styled-components";
@@ -27,7 +27,7 @@ function App() {
         <Route path="/" Component={HomePage} />
         <Route path="/catalog" Component={CatalogPage} />
         <Route path="/order" Component={OrderPage} />
-        <Route path="/product" Component={ProductPage} />
+        <Route path="/catalog/product" Component={ProductPage} />
         <Route Component={NotFoundPage} />
       </Routes>
       <FooterWrapper>

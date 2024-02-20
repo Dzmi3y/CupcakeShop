@@ -1,7 +1,7 @@
 import productsList from "../../configs/data.json";
 import MockAdapter from "axios-mock-adapter";
 
-const mockCatalogEndpoint = (mock: MockAdapter) => {
+const mockCatalogEndpoint = (mock: MockAdapter, parseQueryString:(url: string) =>any) => {
 
     const getFilteredData = (pageN: number = 1, typeId?: number, groupBy: number = 15) => {
         let end = groupBy * pageN;
@@ -15,27 +15,6 @@ const mockCatalogEndpoint = (mock: MockAdapter) => {
 
         return { list, totalPagesNumber }
     };
-
-    function parseQueryString(url: string) {
-        const queryString = url.replace(/.*\?/, "");
-
-        if (queryString === url || !queryString) {
-            return null;
-        }
-
-        const urlParams = new URLSearchParams(queryString);
-        const result: any = {};
-
-        urlParams.forEach((val, key) => {
-            if (result.hasOwnProperty(key)) {
-                result[key] = [result[key], val];
-            } else {
-                result[key] = val;
-            }
-        });
-
-        return result;
-    }
 
     mock.onGet(/\/catalog\/?(.*)/).reply((config) => {
         let params = parseQueryString(config.url as string);

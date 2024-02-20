@@ -1,0 +1,9 @@
+[
+    {"id":0,"weight":0,"unitOfMeasurement":"g","price":0},
+    {"id":1,"weight":100,"unitOfMeasurement":"g","price":1},
+    {"id":2,"weight":300,"unitOfMeasurement":"g","price":2},
+    {"id":3,"weight":500,"unitOfMeasurement":"g","price":3},
+    {"id":4,"weight":1,"unitOfMeasurement":"kg","price":4},
+    {"id":5,"weight":1.5,"unitOfMeasurement":"kg","price":5},
+    {"id":6,"weight":2,"unitOfMeasurement":"kg","price":6}
+]

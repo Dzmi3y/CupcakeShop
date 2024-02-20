@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from "../../../hooks";
 import { getProductList } from "../../../store/reducers/catalogReduser";
 import { PageInfo } from "../../../store/types";
@@ -96,7 +97,7 @@ const BreadCrumbsContainer = styled.div`
 
 export const CatalogPage = () => {
   const catalogStore = useAppSelector(state => state.catalogStore);
-
+  const navigate = useNavigate();
   const [totalPagesArray, setTotalPagesArray] = useState<number[]>([]);
   const dispatch = useAppDispatch();
 
@@ -133,8 +134,8 @@ export const CatalogPage = () => {
   }
 
   const goToDetail = (id: number) => {
-    /*to do*/
-    console.log(`go to ${id} detail`);
+    navigate(`/catalog/product?id=${id}`);
+
   }
 
 

@@ -4,6 +4,7 @@ import { getBestsellers } from "../../../store/reducers/bestsellerReducer";
 import styled from "styled-components";
 import ArrowImg from "../../../assets/images/SliderArrow.png";
 import { ProductCard } from "../../common/ProductCard";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.section`
 	box-sizing: border-box;
@@ -67,9 +68,6 @@ const SlideNavigationElement = styled.div`
     width: 76px;
     height: 27px;
     text-align: center;
-
-
-
 `;
 const RightArrow = styled.img`
     transform: rotate(180deg);
@@ -123,6 +121,7 @@ export const Bestsellers = () => {
     const [isFirstItem, setIsFirstItem] = useState<boolean>(false);
     const [totalItems, setTotalItems] = useState<number>(0);
     const [currentItem, setCurrentItem] = useState<number>(0);
+    const navigate = useNavigate();
 
     const [dotsArray, setDotsArray] = useState<JSX.Element[]>([]);
 
@@ -156,8 +155,7 @@ export const Bestsellers = () => {
     }
 
     const goToDetail = (id: number) => {
-        /*to do*/
-        console.log(`go to ${id} detail`);
+        navigate(`/catalog/product?id=${id}`);
     }
 
 
