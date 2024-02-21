@@ -25,10 +25,11 @@
     --text-size-small: 16px;
     --text-size-medium: 18px;
     --text-size-large: 24px;
+    --text-size-extra-large: 42px;
     --text-size-huge-mobil: 80px;
     --text-size-huge: 100px;
-    --text-size-very-huge-mobil: 120px;
-    --text-size-very-huge: 226.45px;
+    --text-size-extra-huge-mobil-mobil: 120px;
+    --text-size-extra-huge-mobil: 226.45px;
 
     --color-bg: #F5F5F5;
     --color-dark: #705A66;
