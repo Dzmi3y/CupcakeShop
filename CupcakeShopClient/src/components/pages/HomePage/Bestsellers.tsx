@@ -100,10 +100,10 @@ const PairWrapper = styled.div`
     display: flex;
     flex-direction: column;
     .productCard{
-    min-width: 100vw;
-    @media (min-width: 958px) {
-        min-width: 393px;
-    }
+        min-width: 100vw;
+        @media (min-width: 958px) {
+            min-width: 393px;
+        }
     }
 
     @media (min-width: 958px) {

@@ -17,7 +17,7 @@ const HeadContainer = styled.div`
 `;
 
 const ImgSliderContainer = styled.div`
-
+  width: 300px;
 `;
 
 const MainContentContainer = styled.div`
@@ -119,7 +119,7 @@ export const ProductPage = () => {
       <HeadContainer>
         <ImgSliderContainer>
 
-          <ProductImgSlider />
+          <ProductImgSlider urls={detailProductStore.productInfo?.allImgUrls} />
 
         </ImgSliderContainer>
         <MainContentContainer>
