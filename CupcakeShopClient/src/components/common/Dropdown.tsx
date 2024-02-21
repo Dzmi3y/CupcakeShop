@@ -92,6 +92,7 @@ export const Dropdown: React.FC<{ list: DropdownItem[], onSelected: (id: number)
     const selected = (item: DropdownItem) => {
         setSelectedItem(item)
         onSelected(item.id)
+        setListIsVisible(false);
     }
 
     useEffect(() => {

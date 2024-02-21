@@ -24,9 +24,6 @@ const Slider = styled.div`
   scroll-snap-type: x mandatory;	
 	-webkit-overflow-scrolling: touch;
 	overflow-x: scroll; 
-  &::-webkit-scrollbar {           
-       width: 0 !important;
-  }
 `;
 
 const ItemImg = styled.img`

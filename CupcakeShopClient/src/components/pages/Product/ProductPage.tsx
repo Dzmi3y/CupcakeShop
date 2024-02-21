@@ -7,6 +7,8 @@ import { BreadCrumbs, BreadCrumbsItem } from "../../common/BreadCrumbs";
 import { ProductImgSlider } from "./ProductImgSlider";
 import { Dropdown, DropdownItem } from "../../common/Dropdown";
 import { ProductDetailDescription } from "./ProductDetailDescription";
+import { ProductCard } from "../../common/ProductCard";
+import { Product } from "../../../store/types";
 
 const Container = styled.main`
   margin: 0 2%;
@@ -24,9 +26,19 @@ const MainContentContainer = styled.div`
 
 `;
 
+const RecommendationsContainer = styled.div`
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 2rem;
+@media (min-width: 767px) {
+grid-template-columns: 1fr 1fr 1fr;
+}
+
+`;
+
 const BreadCrumbsContainer = styled.div`
   margin: 2rem 0 0 2%;
-  @media (min-width: 958px) {
+  @media (min-width: 767px) {
         margin: 2rem 0 0 8%;
   }
 `;
@@ -75,6 +87,11 @@ export const ProductPage = () => {
   const detailProductStore = useAppSelector(state => state.detailProductStore);
   const dispatch = useAppDispatch();
 
+  const delivery: string = detailProductStore.productInfo?.delivery ?? "";
+  const description: string = detailProductStore.productInfo?.description ?? "";
+  const storageConditions: string = detailProductStore.productInfo?.storageConditions ?? "";
+  const recommendedProducts: Product[] = detailProductStore.recommendedProducts ?? [];
+
   const testList: DropdownItem[] = [
     { id: 1, text: "test 1" },
     { id: 2, text: "test 2" },
@@ -82,12 +99,15 @@ export const ProductPage = () => {
     { id: 4, text: "test 4" }
   ]
 
-
-  
   useEffect(() => {
+    const isMobil = window.screen.width < 767;
+    console.log(isMobil);
     dispatch(getDetailProductInfo(Number(id)));
     dispatch(getAdditionalParams(Number(id)));
-    dispatch(getRecommendedProducts({ id: Number(id), count: 4 }));
+    dispatch(getRecommendedProducts({
+      id: Number(id),
+      count: isMobil ? 4 : 3
+    }));
   }, [dispatch]);
 
   let breadCrumbsList: BreadCrumbsItem[] = [];
@@ -99,12 +119,21 @@ export const ProductPage = () => {
     ];
   }
 
+  const addRecomendationProductToCart = (id: number) => {
+    /*to do*/
+    console.log(`add ${id} to cart`);
+  }
+
+  const goToRecomendationProductDetail = (id: number) => {
+    navigate(`/catalog/product?id=${id}`);
+  }
+
   const OrderButtonClickHandler = () => {
     /*To Do*/
     console.log("order button clicked")
   }
 
-  const dropdown1Selected=(id:number)=>{
+  const dropdown1Selected = (id: number) => {
     console.log("selected");
     console.log(id);
   }
@@ -118,9 +147,7 @@ export const ProductPage = () => {
       </BreadCrumbsContainer>
       <HeadContainer>
         <ImgSliderContainer>
-
           <ProductImgSlider urls={detailProductStore.productInfo?.allImgUrls} />
-
         </ImgSliderContainer>
         <MainContentContainer>
 
@@ -145,8 +172,11 @@ export const ProductPage = () => {
         </MainContentContainer>
       </HeadContainer>
 
-      <ProductDetailDescription />
+      <ProductDetailDescription delivery={delivery} description={description} storageConditions={storageConditions} />
 
+      <RecommendationsContainer>
+        {recommendedProducts.map(p => (<ProductCard key={p.id} product={p} addToCart={addRecomendationProductToCart} goToDetail={goToRecomendationProductDetail} />))}
+      </RecommendationsContainer>
 
     </Container>
   )

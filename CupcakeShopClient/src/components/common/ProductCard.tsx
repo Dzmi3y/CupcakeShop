@@ -14,13 +14,10 @@ const Container = styled.section`
 	position: relative;
     text-align: center;
 
-
     @media (min-width: 958px) {
         padding: 1rem;
-        min-width: 393px;
     }
 `;
-
 
 const StyledImg = styled.img`
     width: 100%;
