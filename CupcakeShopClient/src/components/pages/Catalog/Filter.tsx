@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { ProductTypesEnum } from '../../../store/enums/productTypesEnum';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const Container = styled.div`
     display:flex;
@@ -45,7 +45,7 @@ const FilterItem = styled.div`
 `;
 
 
-export const Filter: React.FC<{ filterOnChange: (ProductType?: ProductTypesEnum) => void }> = ({ filterOnChange }) => {
+export const Filter: React.FC<{ filterOnChange: (ProductType?: ProductTypesEnum) => void, defaultProductType?: ProductTypesEnum }> = ({ filterOnChange, defaultProductType }) => {
 
     const [selectedType, setSelectedType] = useState<ProductTypesEnum | undefined>(undefined);
 
@@ -56,12 +56,21 @@ export const Filter: React.FC<{ filterOnChange: (ProductType?: ProductTypesEnum)
     }
 
 
+
     const categories = [
         { id: 1, value: ProductTypesEnum.cake },
         { id: 2, value: ProductTypesEnum.cookie },
         { id: 3, value: ProductTypesEnum.choux },
         { id: 4, value: ProductTypesEnum.pizza }
     ]
+
+    useEffect(() => {
+        if (defaultProductType) {
+            filterClickHandler(defaultProductType);
+        }
+
+
+    }, [])
 
     return (
         <Container>
@@ -70,7 +79,7 @@ export const Filter: React.FC<{ filterOnChange: (ProductType?: ProductTypesEnum)
                 key={productType.id}
                 className={selectedType === (productType.value) ? "selected" : ""}
                 onClick={() => filterClickHandler(productType.value)}>{ProductTypesEnum[productType.id]}</FilterItem>))}
-               
+
 
         </Container>
     )

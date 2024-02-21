@@ -4,6 +4,7 @@ import PizzaImg from '../../../assets/images/pizzaFilter.png'
 import CookiesImg from '../../../assets/images/cookiesFilter.png'
 import ChouxImg from '../../../assets/images/chouxFilter.png';
 import CakeImg from '../../../assets/images/cakeFilter.png';
+import { ProductTypesEnum } from '../../../store/enums/productTypesEnum';
 
 
 
@@ -67,32 +68,32 @@ const StyledLink = styled(Link)`
 export const ShortCatalog = () => {
   return (
     <section>
-      <div style={{marginBottom:"2rem"}}>
+      <div style={{ marginBottom: "2rem" }}>
         <StyledLink to="/catalog">
           <Title className='text'>to the catalog</Title>
         </StyledLink>
       </div>
       <Container>
         <ContainerItem>
-          <StyledLink to="/catalog">
+          <StyledLink to="/catalog" state={{ productType: ProductTypesEnum.cake }}>
             <StyledImg src={CakeImg} alt='Cake' />
             <Title className='text'>cake</Title>
           </StyledLink>
         </ContainerItem>
         <ContainerItem>
-          <StyledLink to="/catalog">
+          <StyledLink to="/catalog" state={{ productType: ProductTypesEnum.choux }}>
             <StyledImg src={ChouxImg} alt='Choux' />
             <Title className='text'>choux</Title>
           </StyledLink>
         </ContainerItem>
         <ContainerItem>
-          <StyledLink to="/catalog">
+          <StyledLink to="/catalog" state={{ productType: ProductTypesEnum.cookie }}>
             <StyledImg src={CookiesImg} alt='Cookies' />
             <Title className='text'>cookies</Title>
           </StyledLink>
         </ContainerItem>
         <ContainerItem>
-          <StyledLink to="/catalog">
+          <StyledLink to="/catalog" state={{ productType: ProductTypesEnum.pizza }}>
             <StyledImg src={PizzaImg} alt='Pizza' />
             <Title className='text'>pizza</Title>
           </StyledLink>

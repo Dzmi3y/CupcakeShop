@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from "../../../hooks";
 import { getProductList } from "../../../store/reducers/catalogReduser";
 import { PageInfo } from "../../../store/types";
@@ -100,8 +100,9 @@ export const CatalogPage = () => {
   const navigate = useNavigate();
   const [totalPagesArray, setTotalPagesArray] = useState<number[]>([]);
   const dispatch = useAppDispatch();
+  const location = useLocation();
 
-
+  const [defaultFilterValue] = useState(location.state);
 
   const pageInfoInitial: PageInfo = {
     groupBy: window.screen.width >= 1200 ? 15 : 10,
@@ -125,6 +126,7 @@ export const CatalogPage = () => {
 
       dispatch(getProductList(updatedPageInfo))
       setPageInfo(updatedPageInfo);
+      window.scrollTo(0, 0);
     }
   }
 
@@ -135,10 +137,7 @@ export const CatalogPage = () => {
 
   const goToDetail = (id: number) => {
     navigate(`/catalog/product?id=${id}`);
-
   }
-
-
 
   const breadCrumbsList: BreadCrumbsItem[] = [
     { title: "Home", link: "/" },
@@ -146,10 +145,8 @@ export const CatalogPage = () => {
   ];
 
 
-
   useEffect(() => {
-
-
+    window.scrollTo(0, 0);
     dispatch(getProductList(pageInfo))
   },
     [dispatch]);
@@ -159,10 +156,20 @@ export const CatalogPage = () => {
     if (catalogStore.totalPagesNumber) {
       const totalPagesArray: number[] = Array.from({ length: catalogStore.totalPagesNumber }, (_, i) => i + 1);
       setTotalPagesArray(totalPagesArray);
-
     }
 
   }, [catalogStore]);
+
+
+  useEffect(() => {
+    navigate(".", { replace: true });
+    if (defaultFilterValue) {
+      const { productType } = defaultFilterValue;
+      filterOnChangeHandler(productType)
+    }
+  }, [navigate]);
+
+
 
 
   return (
@@ -171,7 +178,7 @@ export const CatalogPage = () => {
         <BreadCrumbs breadCrumbsList={breadCrumbsList} />
       </BreadCrumbsContainer>
       <Title>Catalog</Title>
-      <Filter filterOnChange={filterOnChangeHandler} />
+      <Filter filterOnChange={filterOnChangeHandler} defaultProductType={defaultFilterValue?.productType} />
       <List>
         {catalogStore.list.map(p => (<ProductCard key={p.id} product={p} addToCart={addToCart} goToDetail={goToDetail} />))}
       </List>
