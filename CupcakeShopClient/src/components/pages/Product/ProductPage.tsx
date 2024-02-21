@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import styled from "styled-components";
 import { BreadCrumbs, BreadCrumbsItem } from "../../common/BreadCrumbs";
 import { ProductImgSlider } from "./ProductImgSlider";
-import { Dropdown } from "../../common/Dropdown";
+import { Dropdown, DropdownItem } from "../../common/Dropdown";
 import { ProductDetailDescription } from "./ProductDetailDescription";
 
 const Container = styled.main`
@@ -64,6 +64,9 @@ const ShotrDescriptionItem = styled.li`
   font-family: var(--font-family-light);
 `;
 
+const DropdownContainer = styled.div`
+  width: 287px;
+`;
 
 export const ProductPage = () => {
   const navigate = useNavigate();
@@ -72,6 +75,15 @@ export const ProductPage = () => {
   const detailProductStore = useAppSelector(state => state.detailProductStore);
   const dispatch = useAppDispatch();
 
+  const testList: DropdownItem[] = [
+    { id: 1, text: "test 1" },
+    { id: 2, text: "test 2" },
+    { id: 3, text: "test 3" },
+    { id: 4, text: "test 4" }
+  ]
+
+
+  
   useEffect(() => {
     dispatch(getDetailProductInfo(Number(id)));
     dispatch(getAdditionalParams(Number(id)));
@@ -92,45 +104,50 @@ export const ProductPage = () => {
     console.log("order button clicked")
   }
 
+  const dropdown1Selected=(id:number)=>{
+    console.log("selected");
+    console.log(id);
+  }
 
 
   return (
 
     <Container>
+      <BreadCrumbsContainer>
+        <BreadCrumbs breadCrumbsList={breadCrumbsList} />
+      </BreadCrumbsContainer>
       <HeadContainer>
         <ImgSliderContainer>
 
-          <ProductImgSlider/>
+          <ProductImgSlider />
 
         </ImgSliderContainer>
         <MainContentContainer>
 
-            <Title></Title>
+          <Title></Title>
 
-            <ShortDescriptionList>
-              <ShotrDescriptionItem> </ShotrDescriptionItem>
-            </ShortDescriptionList>
+          <ShortDescriptionList>
+            <ShotrDescriptionItem> </ShotrDescriptionItem>
+          </ShortDescriptionList>
 
+          <DropdownContainer>
+            <Dropdown list={testList} onSelected={dropdown1Selected} />
+          </DropdownContainer>
 
-                <Dropdown/>
+          <br />
+          <br />
+          <br />
 
-                <Dropdown/>
+          <Price />
 
-                <Dropdown/>
-
-
-                <Price/>
-
-                <OrderButton>To order</OrderButton>
+          <OrderButton>To order</OrderButton>
 
         </MainContentContainer>
       </HeadContainer>
 
-      <ProductDetailDescription/>
+      <ProductDetailDescription />
 
-      <BreadCrumbsContainer>
-        <BreadCrumbs breadCrumbsList={breadCrumbsList} />
-      </BreadCrumbsContainer>
+
     </Container>
   )
 }
