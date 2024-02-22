@@ -8,7 +8,8 @@ import { ProductImgSlider } from "./ProductImgSlider";
 import { Dropdown, DropdownItem } from "../../common/Dropdown";
 import { ProductDetailDescription } from "./ProductDetailDescription";
 import { ProductCard } from "../../common/ProductCard";
-import { AdditionWeight, AdditionalProductParameter, Product } from "../../../store/types";
+import { AdditionWeight, AdditionalProductParameter, CartItem, Product } from "../../../store/types";
+import cartReducer, { addProductToCart } from "../../../store/reducers/cartReducer";
 
 const Container = styled.main`
   margin: 0 5%;
@@ -41,13 +42,13 @@ const MainContentContainer = styled.div`
 `;
 
 const RecommendationsContainer = styled.div`
-display: grid;
-grid-template-columns: 1fr 1fr;
-gap: 2rem;
-margin-bottom:2rem;
-@media (min-width: 767px) {
-  grid-template-columns: 1fr 1fr 1fr;
-}
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom:2rem;
+  @media (min-width: 767px) {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
 `;
 
 const BreadCrumbsContainer = styled.div`
@@ -145,9 +146,9 @@ export const ProductPage = () => {
     ];
   }
 
-  const addRecomendationProductToCart = (id: number) => {
-    /*to do*/
-    console.log(`add ${id} to cart`);
+  const addRecomendationProductToCart = (product: Product) => {
+    const cartIten: CartItem = { product: product }
+    dispatch(addProductToCart(cartIten));
   }
 
   const goToRecomendationProductDetail = (id: number) => {
@@ -155,8 +156,16 @@ export const ProductPage = () => {
   }
 
   const orderButtonClickHandler = () => {
-    /*To Do*/
-    console.log("order button clicked")
+    const product: Product | null = detailProductStore?.productInfo;
+    if (product) {
+      const cartIten: CartItem = {
+        product,
+        additionDecoration: currentDecoration.id !== 0 ? currentDecoration : undefined,
+        additionSubspecies: currentSubspecies.id !== 0 ? currentSubspecies : undefined,
+        additionWeight: currentAdditionalWeight.id !== 0 ? currentAdditionalWeight : undefined,
+      };
+      dispatch(addProductToCart(cartIten));
+    }
   }
 
   const dropdownDecorationsSelected = (id: number) => {

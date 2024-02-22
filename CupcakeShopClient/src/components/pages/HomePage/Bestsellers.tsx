@@ -5,6 +5,8 @@ import styled from "styled-components";
 import ArrowImg from "../../../assets/images/SliderArrow.png";
 import { ProductCard } from "../../common/ProductCard";
 import { useNavigate } from "react-router-dom";
+import { CartItem, Product } from "../../../store/types";
+import { addProductToCart } from "../../../store/reducers/cartReducer";
 
 const Container = styled.section`
 	box-sizing: border-box;
@@ -149,9 +151,9 @@ export const Bestsellers = () => {
     }
 
 
-    const addToCart = (id: number) => {
-        /*to do*/
-        console.log(`add ${id} to cart`);
+    const addToCart = (product: Product) => {
+        const cartIten: CartItem = { product: product }
+        dispatch(addProductToCart(cartIten));
     }
 
     const goToDetail = (id: number) => {

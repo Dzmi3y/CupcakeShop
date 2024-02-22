@@ -1,14 +1,9 @@
-export type DetailProductInfo = {
-    id: number,
-    name: string,
-    price: number,
+import { Product } from "./product";
+
+export interface DetailProductInfo extends  Product {
     allImgUrls: string[],
     listOfshortDetails: string[],
     description: string,
     storageConditions: string,
     delivery: string,
-    typeId: number,
-    typeName: string,
-    weight: number,
-    unitOfMeasurement:string,
-}
+} 

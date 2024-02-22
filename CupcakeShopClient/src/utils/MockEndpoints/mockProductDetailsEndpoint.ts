@@ -18,14 +18,8 @@ export const mockProductDetailsEndpoint = (mock: MockAdapter, parseQueryString: 
         if (product) {
 
             detailProductInfo = {
-                id: product.id,
-                name: product.name,
+                ...product,
                 allImgUrls: [product.imgUrl, "/images/test1.png", "/images/test2.png", "/images/test3.png", "/images/test4.png"],
-                price: product.price,
-                typeId: product.typeId,
-                typeName: product.typeName,
-                weight: product.weight,
-                unitOfMeasurement: product.unitOfMeasurement,
                 listOfshortDetails: ["Lorem ipsum dolor sit amet", "consectetaur adipisicing elit", "sed do eiusmod tempor incididunt", "ut labore et dolore magna aliqua"],
                 delivery: " Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est quos quasi in dolorem reiciendis,",
                 description: "quibusdam praesentium nemo commodi! Provident dicta pariatur ",

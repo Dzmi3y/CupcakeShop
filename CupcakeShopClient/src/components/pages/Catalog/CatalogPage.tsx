@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from "../../../hooks";
 import { getProductList } from "../../../store/reducers/catalogReduser";
-import { PageInfo } from "../../../store/types";
+import { CartItem, PageInfo, Product } from "../../../store/types";
 import { ProductTypesEnum } from "../../../store/enums/productTypesEnum";
 import styled from "styled-components";
 import { ProductCard } from "../../common/ProductCard";
 import { Filter } from "./Filter";
 import ArowImage from '../../../assets/images/ProductNavigationArrow.png';
 import { BreadCrumbs, BreadCrumbsItem } from "../../common/BreadCrumbs";
+import { addProductToCart } from "../../../store/reducers/cartReducer";
 
 
 const Container = styled.main`
@@ -127,9 +128,9 @@ export const CatalogPage = () => {
     }
   }
 
-  const addToCart = (id: number) => {
-    /*to do*/
-    console.log(`add ${id} to cart`);
+  const addToCart = (product: Product) => {
+    const cartIten: CartItem = { product: product }
+    dispatch(addProductToCart(cartIten));
   }
 
   const goToDetail = (id: number) => {

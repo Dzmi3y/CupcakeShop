@@ -82,14 +82,14 @@ const Details = styled.div`
    
 `;
 
-type ProductCaedProps={ 
+type ProductCardProps={ 
     product: Product, 
-    addToCart: (id: number) => void, 
+    addToCart: (product: Product) => void, 
     goToDetail: (id: number) => void 
 };
 
 
-export const ProductCard: React.FC<ProductCaedProps> = ({product,addToCart,goToDetail}) => {
+export const ProductCard: React.FC<ProductCardProps> = ({product,addToCart,goToDetail}) => {
     return (
         <Container className='productCard' id={product.id + ""}>
             <ImgContainer onClick={() => { goToDetail(product.id) }}>
@@ -100,7 +100,7 @@ export const ProductCard: React.FC<ProductCaedProps> = ({product,addToCart,goToD
             </ImgContainer>
             <TitleContainer>
                 <Title>{product.name}</Title>
-                <Cart onClick={() => { addToCart(product.id) }} />
+                <Cart onClick={() => { addToCart(product) }} />
             </TitleContainer>
             <Description>{product.price}$ / {product.weight}{product.unitOfMeasurement}</Description>
         </Container>
