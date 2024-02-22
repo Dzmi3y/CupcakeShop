@@ -1,10 +1,17 @@
 import styled from 'styled-components';
 import { HashLink } from 'react-router-hash-link';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ReactComponent as LogoImg } from "../../../assets/images/logo.svg";
 import { ReactComponent as CartImg } from "../../../assets/images/cart.svg";
 import { ReactComponent as BurgerImg } from "../../../assets/images/burger.svg";
 import MobilMenu from './MobilMenu';
+import { Cart } from '../Cart';
+
+const Container = styled.header`
+    .showCartModal{
+        display: flex;
+    }
+`;
 
 const Wrapper = styled.nav`
     display: grid;
@@ -35,6 +42,25 @@ const Wrapper = styled.nav`
     @media (min-width: 1243px) {
         grid-template-columns:  2fr 3fr 10fr 2fr 2fr 1fr;
     }
+    
+`;
+
+const CartModal = styled.div`
+  max-width: 1236px;
+  /* min-height: 500px; */
+  max-height: 70%;
+  width: 80%;
+  background-color: var(--color-light);
+  box-shadow: 1px 2px 5px 1px gray;
+  position: fixed;
+  z-index: 2;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -40%);
+  display: none;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;	
+  -webkit-overflow-scrolling: touch;
 `;
 
 const HeaderDesktopLink = styled(HashLink)`
@@ -65,6 +91,10 @@ const ImgLink = styled(HashLink)`
 
 `;
 
+const CartImgWrapper = styled.div`
+    place-self: center;
+`;
+
 const HeaderMobilDiv = styled.div`
    
    @media (min-width: 767px) {
@@ -89,14 +119,35 @@ const Burger = styled(BurgerImg)`
 
 export const Header = () => {
     const [modalOpen, setModalOpen] = useState(false);
+    const [cartModalIsOpen, setCartModalIsOpen] = useState(false);
+    const cartModalRef = useRef<HTMLDivElement>(null);
     const toggleModal = () => {
         setModalOpen(!modalOpen);
     };
     const closeModal = () => {
         setModalOpen(false);
     };
+    const cartClickHandler = () => {
+        setCartModalIsOpen(!cartModalIsOpen);
+        console.log("click");
+    }
+
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (cartModalRef.current && !cartModalRef.current.contains(event.target as Node)) {
+                setCartModalIsOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
     return (
-        <header>
+        <Container>
             <Wrapper>
                 <HeaderDesktopLink to='/#bestsellers' >bestsellers</HeaderDesktopLink>
                 <HeaderDesktopLink to='/catalog' >catalog</HeaderDesktopLink>
@@ -110,12 +161,14 @@ export const Header = () => {
                 <HeaderMobilDiv>
                     <Burger onClick={toggleModal} />
                 </HeaderMobilDiv>
-                <ImgLink to='/order' >
-                    <CartImg />
-                </ImgLink>
+                <CartImgWrapper >
+                    <CartImg onClick={cartClickHandler} />
+                </CartImgWrapper>
             </Wrapper>
             <MobilMenu isOpen={modalOpen} onClose={closeModal} />
-
-        </header>
+            <CartModal className={cartModalIsOpen ? "showCartModal" : ""} ref={cartModalRef}>
+                <Cart onClose={() => setCartModalIsOpen(false)} />
+            </CartModal>
+        </Container>
     )
 }

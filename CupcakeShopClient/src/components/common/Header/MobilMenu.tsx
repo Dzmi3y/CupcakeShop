@@ -6,12 +6,6 @@ import styled from 'styled-components';
 import Cupcake from '../../../assets/images/cupcake.png';
 import { HashLink } from 'react-router-hash-link';
 
-
-interface MyModalProps {
-    isOpen: boolean;
-    onClose: () => void;
-}
-
 const popupStyle: React.CSSProperties = {
     width: "100%",
     height: "100%",
@@ -55,7 +49,12 @@ const HeaderMobilLink = styled(HashLink)`
 `;
 
 
-const MobilMenu: React.FC<MyModalProps> = ({ isOpen, onClose }) => {
+interface MobilHeaderProps {
+    isOpen: boolean;
+    onClose: () => void;
+}
+
+const MobilMenu: React.FC<MobilHeaderProps> = ({ isOpen, onClose }) => {
     const navigate = useNavigate();
 
     return (

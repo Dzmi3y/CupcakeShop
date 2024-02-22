@@ -242,7 +242,7 @@ export const ProductPage = () => {
 
           <Price>{getTotalprice()}$</Price>
 
-          <OrderButton onClick={orderButtonClickHandler}>To order</OrderButton>
+          <OrderButton onClick={orderButtonClickHandler}>Add to cart</OrderButton>
 
         </MainContentContainer>
       </HeadContainer>

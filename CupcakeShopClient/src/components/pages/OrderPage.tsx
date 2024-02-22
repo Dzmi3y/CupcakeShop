@@ -1,7 +1,12 @@
+import styled from "styled-components"
+
+
 
 
 export const OrderPage = () => {
   return (
-    <div>OrderPage</div>
+    <div>
+
+    </div>
   )
 }
