@@ -52,6 +52,7 @@ const ValuesBox = styled.div`
     display: none; 
     flex-direction: column;
     position: absolute;
+    z-index: 1;
     left: 0;
     right: 0;
 `;
@@ -69,7 +70,7 @@ export const Dropdown: React.FC<{ list: DropdownItem[], onSelected: (id: number)
     const [selectedItem, setSelectedItem] = useState<DropdownItem>();
     const containerElementRef = useRef<HTMLDivElement>(null);
 
-    const resultList = list.filter((item)=>item.id!==selectedItem?.id);
+    const resultList = list.filter((item) => item.id !== selectedItem?.id);
 
     const toggleListVisibility = () => {
         setListIsVisible(!listIsVisible);
@@ -90,14 +91,18 @@ export const Dropdown: React.FC<{ list: DropdownItem[], onSelected: (id: number)
     }, []);
 
     const selected = (item: DropdownItem) => {
-        setSelectedItem(item)
-        onSelected(item.id)
-        setListIsVisible(false);
+        if (item) {
+            setSelectedItem(item)
+            onSelected(item.id)
+            setListIsVisible(false);
+        }
     }
 
     useEffect(() => {
-        selected(list[0]);
-    }, []);
+        if (!selectedItem) {
+            selected(list[0]);
+        }
+    }, [list]);
 
 
     return (
@@ -109,7 +114,7 @@ export const Dropdown: React.FC<{ list: DropdownItem[], onSelected: (id: number)
             <ValuesBox className={listIsVisible ? 'visible' : ''}>
                 {resultList.map((item) => (
                     <Item key={item.id}
-                        onClick={()=>selected(item)}>
+                        onClick={() => selected(item)}>
                         {item.text}
                     </Item>))}
             </ValuesBox>

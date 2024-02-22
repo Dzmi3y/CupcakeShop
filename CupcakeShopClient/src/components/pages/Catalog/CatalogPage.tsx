@@ -12,7 +12,7 @@ import { BreadCrumbs, BreadCrumbsItem } from "../../common/BreadCrumbs";
 
 
 const Container = styled.main`
-  margin: 0 2%;
+  margin: 0 5%;
 `;
 
 
@@ -88,10 +88,7 @@ const RightArrow = styled.img`
 `;
 
 const BreadCrumbsContainer = styled.div`
-  margin: 2rem 0 0 2%;
-  @media (min-width: 958px) {
-        margin: 2rem 0 0 8%;
-  }
+    margin: 2rem 0;
 `;
 
 

@@ -1,56 +1,76 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../hooks";
 import { getAdditionalParams, getDetailProductInfo, getRecommendedProducts } from "../../../store/reducers/detailProductReducer";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { BreadCrumbs, BreadCrumbsItem } from "../../common/BreadCrumbs";
 import { ProductImgSlider } from "./ProductImgSlider";
 import { Dropdown, DropdownItem } from "../../common/Dropdown";
 import { ProductDetailDescription } from "./ProductDetailDescription";
 import { ProductCard } from "../../common/ProductCard";
-import { Product } from "../../../store/types";
+import { AdditionWeight, AdditionalProductParameter, Product } from "../../../store/types";
 
 const Container = styled.main`
-  margin: 0 2%;
+  margin: 0 5%;
 `;
 
 const HeadContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+  @media (min-width: 1332px) {
+    flex-direction: row;
+  }
 
 `;
 
 const ImgSliderContainer = styled.div`
-  width: 300px;
+ max-width: 500px;
 `;
 
 const MainContentContainer = styled.div`
-
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  @media (min-width: 1332px) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
 `;
 
 const RecommendationsContainer = styled.div`
 display: grid;
 grid-template-columns: 1fr 1fr;
 gap: 2rem;
+margin-bottom:2rem;
 @media (min-width: 767px) {
-grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
 }
-
 `;
 
 const BreadCrumbsContainer = styled.div`
-  margin: 2rem 0 0 2%;
-  @media (min-width: 767px) {
-        margin: 2rem 0 0 8%;
-  }
+        margin: 2rem 0 ;
 `;
 
 const Title = styled.div`
   font-size: var(--text-size-extra-large);
   font-family: var(--font-family-light);
+  grid-column-start: 1;
+  grid-column-end: 3;
+`;
+
+const RecommendationsTitle = styled.div`
+  font-size: var(--text-size-extra-large);
+  font-family: var(--font-family-light);
+  margin-bottom: 2rem;
 `;
 
 const Price = styled.div`
   font-size: var(--text-size-large);
   font-family: var(--font-family-light);
+  grid-column-start: 1;
 `;
 
 const OrderButton = styled.button`
@@ -64,6 +84,9 @@ const OrderButton = styled.button`
 `;
 
 const ShortDescriptionList = styled.ul`
+  padding-left: 18px;
+  grid-column-start: 1;
+  grid-column-end: 3;
   &::marker{
         color: var(--color-dark);
         font-size: 2rem;
@@ -80,6 +103,16 @@ const DropdownContainer = styled.div`
   width: 287px;
 `;
 
+const ProductDetailDescriptionContainer = styled.div`
+  
+  height: 300px;
+  padding-top: 2rem;
+  
+  @media (min-width: 1332px) {
+    max-width: 605px;
+  }
+`;
+
 export const ProductPage = () => {
   const navigate = useNavigate();
   const [queryParameters] = useSearchParams();
@@ -87,28 +120,21 @@ export const ProductPage = () => {
   const detailProductStore = useAppSelector(state => state.detailProductStore);
   const dispatch = useAppDispatch();
 
-  const delivery: string = detailProductStore.productInfo?.delivery ?? "";
-  const description: string = detailProductStore.productInfo?.description ?? "";
-  const storageConditions: string = detailProductStore.productInfo?.storageConditions ?? "";
-  const recommendedProducts: Product[] = detailProductStore.recommendedProducts ?? [];
+  const { delivery = "", description = "", storageConditions = "" } = detailProductStore.productInfo || {};
+  const { decorations = [], subspecies = [], weights = [] } = detailProductStore.additionalProdParams || {};
+  const recommendedProducts: Product[] = detailProductStore.recommendedProducts || [];
+  const defaultPrice: number = detailProductStore.productInfo?.price || 0
 
-  const testList: DropdownItem[] = [
-    { id: 1, text: "test 1" },
-    { id: 2, text: "test 2" },
-    { id: 3, text: "test 3" },
-    { id: 4, text: "test 4" }
-  ]
+  const [currentDecoration, setCurrentDecoration] = useState<AdditionalProductParameter>(decorations[0]);
+  const [currentSubspecies, setCurrentSubspecies] = useState<AdditionalProductParameter>(subspecies[0]);
+  const [currentAdditionalWeight, setCurrentAdditionalWeight] = useState<AdditionWeight>(weights[0]);
 
-  useEffect(() => {
-    const isMobil = window.screen.width < 767;
-    console.log(isMobil);
-    dispatch(getDetailProductInfo(Number(id)));
-    dispatch(getAdditionalParams(Number(id)));
-    dispatch(getRecommendedProducts({
-      id: Number(id),
-      count: isMobil ? 4 : 3
-    }));
-  }, [dispatch]);
+  const decorationsDropdownList: DropdownItem[] =
+    decorations.map<DropdownItem>((d) => ({ id: d.id, text: d.name }));
+  const subspeciesDropdownList: DropdownItem[] =
+    subspecies.map<DropdownItem>((d) => ({ id: d.id, text: d.name }));
+  const weightsDropdownList: DropdownItem[] =
+    weights.map<DropdownItem>((d) => ({ id: d.id, text: (d.weight === 0) ? "Default weight" : "+ " + d.weight.toString() + d.unitOfMeasurement }));
 
   let breadCrumbsList: BreadCrumbsItem[] = [];
   if (detailProductStore.productInfo) {
@@ -128,15 +154,49 @@ export const ProductPage = () => {
     navigate(`/catalog/product?id=${id}`);
   }
 
-  const OrderButtonClickHandler = () => {
+  const orderButtonClickHandler = () => {
     /*To Do*/
     console.log("order button clicked")
   }
 
-  const dropdown1Selected = (id: number) => {
-    console.log("selected");
-    console.log(id);
+  const dropdownDecorationsSelected = (id: number) => {
+    const decoration = decorations.find(d => d.id === id);
+    if (decoration) {
+      setCurrentDecoration(decoration);
+    }
   }
+
+  const dropdownSubspeciesSelected = (id: number) => {
+    const selectedSubspecies = subspecies.find(s => s.id === id);
+    if (selectedSubspecies) {
+      setCurrentSubspecies(selectedSubspecies);
+    }
+  }
+
+  const dropdownWeightsSelected = (id: number) => {
+    const weight = weights.find(d => d.id === id);
+    if (weight) {
+      setCurrentAdditionalWeight(weight);
+    }
+  }
+
+  const getTotalprice = () => {
+    return defaultPrice
+      + (currentDecoration?.price ?? 0)
+      + (currentSubspecies?.price ?? 0)
+      + (currentAdditionalWeight?.price ?? 0);
+  }
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    const isMobil = window.screen.width < 767;
+    dispatch(getDetailProductInfo(Number(id)));
+    dispatch(getAdditionalParams(Number(id)));
+    dispatch(getRecommendedProducts({
+      id: Number(id),
+      count: isMobil ? 4 : 3
+    }));
+  }, [dispatch]);
 
 
   return (
@@ -151,29 +211,36 @@ export const ProductPage = () => {
         </ImgSliderContainer>
         <MainContentContainer>
 
-          <Title></Title>
+          <Title>{detailProductStore.productInfo?.name}</Title>
 
           <ShortDescriptionList>
-            <ShotrDescriptionItem> </ShotrDescriptionItem>
+            {detailProductStore.productInfo?.listOfshortDetails.map((d, i) => (
+              <ShotrDescriptionItem key={i}>{d}</ShotrDescriptionItem>
+            ))}
+
           </ShortDescriptionList>
 
           <DropdownContainer>
-            <Dropdown list={testList} onSelected={dropdown1Selected} />
+            <Dropdown list={decorationsDropdownList} onSelected={dropdownDecorationsSelected} />
+          </DropdownContainer>
+          <DropdownContainer>
+            <Dropdown list={subspeciesDropdownList} onSelected={dropdownSubspeciesSelected} />
+          </DropdownContainer>
+          <DropdownContainer>
+            <Dropdown list={weightsDropdownList} onSelected={dropdownWeightsSelected} />
           </DropdownContainer>
 
-          <br />
-          <br />
-          <br />
 
-          <Price />
+          <Price>{getTotalprice()}$</Price>
 
-          <OrderButton>To order</OrderButton>
+          <OrderButton onClick={orderButtonClickHandler}>To order</OrderButton>
 
         </MainContentContainer>
       </HeadContainer>
-
-      <ProductDetailDescription delivery={delivery} description={description} storageConditions={storageConditions} />
-
+      <ProductDetailDescriptionContainer>
+        <ProductDetailDescription delivery={delivery} description={description} storageConditions={storageConditions} />
+      </ProductDetailDescriptionContainer>
+      <RecommendationsTitle>Recommendations</RecommendationsTitle>
       <RecommendationsContainer>
         {recommendedProducts.map(p => (<ProductCard key={p.id} product={p} addToCart={addRecomendationProductToCart} goToDetail={goToRecomendationProductDetail} />))}
       </RecommendationsContainer>
