@@ -20,18 +20,22 @@ const CartModal = styled.div`
   max-width: 1236px;
   /* min-height: 500px; */
   max-height: 70%;
-  width: 80%;
   background-color: var(--color-light);
   box-shadow: 1px 2px 5px 1px gray;
   position: fixed;
   z-index: 2;
-  left: 50%;
+  left: 48%;
   top: 40%;
   transform: translate(-50%, -40%);
   display: none;
   overflow-y: scroll;
   scroll-snap-type: y mandatory;	
   -webkit-overflow-scrolling: touch;
+  width: 90%;
+  @media (min-width: 767px) {
+    width: 80%;
+    left: 50%;
+  }
 `;
 
 const OrderButton = styled.button`

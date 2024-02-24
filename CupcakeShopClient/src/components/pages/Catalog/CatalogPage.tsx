@@ -167,9 +167,6 @@ export const CatalogPage = () => {
     }
   }, [navigate]);
 
-
-
-
   return (
     <Container>
       <BreadCrumbsContainer>

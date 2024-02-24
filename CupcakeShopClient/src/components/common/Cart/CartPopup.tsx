@@ -12,16 +12,24 @@ const Container = styled.div`
 const ContentContainer = styled.div`
     display: flex;
     justify-content: space-between;
+
+    align-items: center;
+    flex-direction: column;
+    @media (min-width: 1410px) {
+        flex-direction: row;
+    }
 `;
 const ControlPanel = styled.div`
     display: flex;
     flex-direction: column;
     background-color: var(--color-pale-yellow);
     border-radius: 10px;
-    width: 320px;
+    max-width: 320px;
+    width: 100%;
     height: 150px;
     padding: 1rem 1rem;
     align-items: center;
+    margin-bottom: 2rem;
 `;
 const ControlText = styled.div`
     font-family: var(--font-family-bold);
@@ -37,7 +45,8 @@ const OrderButton = styled.button`
     color: var(--color-light);
     background-color: var(--color-dark);
     text-transform: uppercase;
-    width: 287px;
+    max-width: 287px;
+    width: 100%;
     height: 67px;
     border-radius: 10px;
 `;
@@ -67,7 +76,12 @@ const RemoveImg = styled.img`
 `;
 const ProductContainer = styled.div`
     display: flex;
-    gap: 4rem
+    gap: 4rem;
+    align-items: center;
+    flex-direction: column;
+    @media (min-width: 958px) {
+        flex-direction: row;
+    }
 `;
 const ProductImg = styled.img`
     max-width: 286px;
@@ -116,17 +130,17 @@ export const CartPopup: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         }
     }
 
-    const getWeight:(cartItem: CartItem)=>string = (cartItem: CartItem) => {
+    const getWeight: (cartItem: CartItem) => string = (cartItem: CartItem) => {
         if (cartItem.additionWeight?.unitOfMeasurement === cartItem.product.unitOfMeasurement) {
-          return  cartItem.product.weight + (cartItem.additionWeight?.weight || 0) + cartItem.product.unitOfMeasurement
+            return cartItem.product.weight + (cartItem.additionWeight?.weight || 0) + cartItem.product.unitOfMeasurement
         }
 
-        if ( cartItem.product.unitOfMeasurement === "kg") {
-          return  cartItem.product.weight + (cartItem.additionWeight?.weight || 0)/1000 + cartItem.product.unitOfMeasurement
+        if (cartItem.product.unitOfMeasurement === "kg") {
+            return cartItem.product.weight + (cartItem.additionWeight?.weight || 0) / 1000 + cartItem.product.unitOfMeasurement
         }
 
-        if ( cartItem.product.unitOfMeasurement === "g") {
-          return  cartItem.product.weight + ((cartItem.additionWeight?.weight || 0)*1000) + cartItem.product.unitOfMeasurement
+        if (cartItem.product.unitOfMeasurement === "g") {
+            return cartItem.product.weight + ((cartItem.additionWeight?.weight || 0) * 1000) + cartItem.product.unitOfMeasurement
         }
 
         return "";
