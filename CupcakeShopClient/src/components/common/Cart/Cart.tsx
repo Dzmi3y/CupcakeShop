@@ -18,7 +18,6 @@ const CartIcon = styled(CartImg)`
 
 const CartModal = styled.div`
   max-width: 1236px;
-  /* min-height: 500px; */
   max-height: 70%;
   background-color: var(--color-light);
   box-shadow: 1px 2px 5px 1px gray;

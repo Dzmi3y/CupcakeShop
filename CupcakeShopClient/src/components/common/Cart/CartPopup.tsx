@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../../hooks';
 import CloseCartImg from '../../../assets/images/CloseCatr.png';
 import { removeProductFromCart } from '../../../store/reducers/cartReducer';
 import { CartItem } from '../../../store/types';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
     width: 100%;
@@ -113,6 +114,7 @@ const CartIsEmptyText = styled.div`
 export const CartPopup: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     const cartReducer = useAppSelector(state => state.cartReducer);
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     let totalPrice = 0;
 
     const cartIsEmpty = cartReducer.cart.length === 0;
@@ -144,6 +146,10 @@ export const CartPopup: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         }
 
         return "";
+    }
+
+    const goToOrderPage = ()=>{
+        navigate("/order");
     }
 
 
@@ -187,7 +193,7 @@ export const CartPopup: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                     <ControlText>
                         <span>Total price:</span>
                         <span>{totalPrice}$</span></ControlText>
-                    <OrderButton>Place an order</OrderButton>
+                    <OrderButton onClick={goToOrderPage}>Place an order</OrderButton>
                 </ControlPanel>
             </ContentContainer>)}
         </Container>
