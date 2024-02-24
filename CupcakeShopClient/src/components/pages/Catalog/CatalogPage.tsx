@@ -178,7 +178,7 @@ export const CatalogPage = () => {
       <Title>Catalog</Title>
       <Filter filterOnChange={filterOnChangeHandler} defaultProductType={defaultFilterValue?.productType} />
       <List>
-        {catalogStore.list.map(p => (<ProductCard key={p.id} product={p} addToCart={addToCart} goToDetail={goToDetail} />))}
+        {catalogStore.list.map(p => (<ProductCard key={p.id} product={p} goToDetail={goToDetail} />))}
       </List>
       <ProductPageNavigationContainer>
         <ProductPageNavigationElement onClick={() => { navToPageByNumber(pageInfo.page - 1) }}>

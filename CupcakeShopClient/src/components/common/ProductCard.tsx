@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components';
 import { ReactComponent as CartImg } from "../../assets/images/cart.svg";
 import { Product } from '../../store/types';
+import { Cart } from './Cart/Cart';
 
 const Container = styled.section`
     display: flex;
@@ -25,9 +26,7 @@ const StyledImg = styled.img`
     max-width: 393px;
     max-height: 393px;
 `;
-const Cart = styled(CartImg)`
-    cursor: pointer;
-`;
+
 
 
 const TitleContainer = styled.div`
@@ -84,12 +83,11 @@ const Details = styled.div`
 
 type ProductCardProps={ 
     product: Product, 
-    addToCart: (product: Product) => void, 
     goToDetail: (id: number) => void 
 };
 
 
-export const ProductCard: React.FC<ProductCardProps> = ({product,addToCart,goToDetail}) => {
+export const ProductCard: React.FC<ProductCardProps> = ({product,goToDetail}) => {
     return (
         <Container className='productCard' id={product.id + ""}>
             <ImgContainer onClick={() => { goToDetail(product.id) }}>
@@ -100,7 +98,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({product,addToCart,goToD
             </ImgContainer>
             <TitleContainer>
                 <Title>{product.name}</Title>
-                <Cart onClick={() => { addToCart(product) }} />
+                <Cart product={product} />
             </TitleContainer>
             <Description>{product.price}$ / {product.weight}{product.unitOfMeasurement}</Description>
         </Container>

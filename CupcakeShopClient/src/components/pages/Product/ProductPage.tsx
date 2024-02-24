@@ -10,6 +10,7 @@ import { ProductDetailDescription } from "./ProductDetailDescription";
 import { ProductCard } from "../../common/ProductCard";
 import { AdditionWeight, AdditionalProductParameter, CartItem, Product } from "../../../store/types";
 import cartReducer, { addProductToCart } from "../../../store/reducers/cartReducer";
+import { Cart } from "../../common/Cart/Cart";
 
 const Container = styled.main`
   margin: 0 5%;
@@ -74,15 +75,7 @@ const Price = styled.div`
   grid-column-start: 1;
 `;
 
-const OrderButton = styled.button`
-  background-color: var(--color-dark);
-  color: var(--color-light);
-  font-size: var(--text-size-large);
-  font-family: var(--font-family-light);
-  width: 287px;
-  height: 68px;
-  border-radius: 10px;
-`;
+
 
 const ShortDescriptionList = styled.ul`
   padding-left: 18px;
@@ -146,26 +139,8 @@ export const ProductPage = () => {
     ];
   }
 
-  const addRecomendationProductToCart = (product: Product) => {
-    const cartIten: CartItem = { product: product }
-    dispatch(addProductToCart(cartIten));
-  }
-
   const goToRecomendationProductDetail = (id: number) => {
     navigate(`/catalog/product?id=${id}`);
-  }
-
-  const orderButtonClickHandler = () => {
-    const product: Product | null = detailProductStore?.productInfo;
-    if (product) {
-      const cartIten: CartItem = {
-        product,
-        additionDecoration: currentDecoration.id !== 0 ? currentDecoration : undefined,
-        additionSubspecies: currentSubspecies.id !== 0 ? currentSubspecies : undefined,
-        additionWeight: currentAdditionalWeight.id !== 0 ? currentAdditionalWeight : undefined,
-      };
-      dispatch(addProductToCart(cartIten));
-    }
   }
 
   const dropdownDecorationsSelected = (id: number) => {
@@ -242,7 +217,13 @@ export const ProductPage = () => {
 
           <Price>{getTotalprice()}$</Price>
 
-          <OrderButton onClick={orderButtonClickHandler}>Add to cart</OrderButton>
+          <Cart isOrderButton={true}
+            product={detailProductStore?.productInfo}
+            additionalParams={{
+              currentDecoration: currentDecoration,
+              currentSubspecies: currentSubspecies,
+              currentAdditionalWeight: currentAdditionalWeight
+            }} />
 
         </MainContentContainer>
       </HeadContainer>
@@ -251,7 +232,7 @@ export const ProductPage = () => {
       </ProductDetailDescriptionContainer>
       <RecommendationsTitle>Recommendations</RecommendationsTitle>
       <RecommendationsContainer>
-        {recommendedProducts.map(p => (<ProductCard key={p.id} product={p} addToCart={addRecomendationProductToCart} goToDetail={goToRecomendationProductDetail} />))}
+        {recommendedProducts.map(p => (<ProductCard key={p.id} product={p} goToDetail={goToRecomendationProductDetail} />))}
       </RecommendationsContainer>
 
     </Container>

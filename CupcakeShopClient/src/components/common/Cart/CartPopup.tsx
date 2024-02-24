@@ -1,8 +1,9 @@
 import React from 'react'
 import styled from 'styled-components';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import CloseCartImg from '../../assets/images/CloseCatr.png';
-import { removeProductFromCart } from '../../store/reducers/cartReducer';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
+import CloseCartImg from '../../../assets/images/CloseCatr.png';
+import { removeProductFromCart } from '../../../store/reducers/cartReducer';
+import { CartItem } from '../../../store/types';
 
 const Container = styled.div`
     width: 100%;
@@ -86,15 +87,16 @@ const DescriptionText = styled.div`
     display: grid;
     grid-template-columns: 130px 1fr;
     margin-bottom: 1rem;
+    text-align: left;
 `;
 
-const CartIsEmptyText= styled.div`
+const CartIsEmptyText = styled.div`
     font-size: var(--text-size-large);
     text-align: center;
     margin: 6rem 0;
 `;
 
-export const Cart: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+export const CartPopup: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     const cartReducer = useAppSelector(state => state.cartReducer);
     const dispatch = useAppDispatch();
     let totalPrice = 0;
@@ -114,6 +116,22 @@ export const Cart: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         }
     }
 
+    const getWeight:(cartItem: CartItem)=>string = (cartItem: CartItem) => {
+        if (cartItem.additionWeight?.unitOfMeasurement === cartItem.product.unitOfMeasurement) {
+          return  cartItem.product.weight + (cartItem.additionWeight?.weight || 0) + cartItem.product.unitOfMeasurement
+        }
+
+        if ( cartItem.product.unitOfMeasurement === "kg") {
+          return  cartItem.product.weight + (cartItem.additionWeight?.weight || 0)/1000 + cartItem.product.unitOfMeasurement
+        }
+
+        if ( cartItem.product.unitOfMeasurement === "g") {
+          return  cartItem.product.weight + ((cartItem.additionWeight?.weight || 0)*1000) + cartItem.product.unitOfMeasurement
+        }
+
+        return "";
+    }
+
 
     return (
         <Container>
@@ -122,10 +140,10 @@ export const Cart: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                 <CloseImg src={CloseCartImg} alt='close' onClick={onClose} />
             </TitleContainer>
             {cartIsEmpty && (<CartIsEmptyText>The cart is still empty</CartIsEmptyText>)}
-            {!cartIsEmpty && ( <ContentContainer>
+            {!cartIsEmpty && (<ContentContainer>
                 <ProductList>
-                    {cartReducer.cart.map((p) => (
-                        <ProductContainer key={p.product.id}>
+                    {cartReducer.cart.map((p, i) => (
+                        <ProductContainer key={i}>
                             <ProductImg src={p.product.imgUrl} alt={p.product.name} />
 
                             <DescriptionContainer>
@@ -144,7 +162,7 @@ export const Cart: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                                 <DescriptionText>
                                     <span>Weight:</span>
                                     <span>
-                                        {p.product.weight + (p.additionWeight?.weight || 0)}
+                                        {getWeight(p)}
                                     </span>
                                 </DescriptionText>
                             </DescriptionContainer>

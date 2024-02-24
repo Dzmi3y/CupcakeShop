@@ -150,16 +150,9 @@ export const Bestsellers = () => {
         }
     }
 
-
-    const addToCart = (product: Product) => {
-        const cartIten: CartItem = { product: product }
-        dispatch(addProductToCart(cartIten));
-    }
-
     const goToDetail = (id: number) => {
         navigate(`/catalog/product?id=${id}`);
     }
-
 
     const getSlideNavArraysForDesktop = (sliderWidth: number) => {
         const nextElements: Element[] = [];
@@ -305,9 +298,9 @@ export const Bestsellers = () => {
 
                     return (
                         <PairWrapper key={index} id={"pair_" + index}>
-                            <ProductCard product={b} addToCart={addToCart} goToDetail={goToDetail} />
+                            <ProductCard product={b} goToDetail={goToDetail} />
                             {elements[index + 1] && (
-                                <ProductCard product={elements[index + 1]} addToCart={addToCart} goToDetail={goToDetail} />
+                                <ProductCard product={elements[index + 1]} goToDetail={goToDetail} />
                             )}
                         </PairWrapper>)
                 })}
