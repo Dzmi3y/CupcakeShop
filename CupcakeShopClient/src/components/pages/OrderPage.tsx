@@ -1,7 +1,11 @@
 import styled from "styled-components";
-import CalendarImg from "../../assets/images/calendar.png";
-import RemoveOrderItemImg from "../../assets/images/removeOrderItem.png"
-import { useEffect } from "react";
+import RemoveOrderItemImg from "../../assets/images/removeOrderItem.png";
+import { useEffect, useState } from "react";
+import CakeImg from "../../assets/images/cupcake.png";
+import { useNavigate } from "react-router-dom";
+import { Order } from "../../store/types";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { removeProductFromCart } from "../../store/reducers/cartReducer";
 
 const Container = styled.main`
   margin: 0 5%;
@@ -9,6 +13,10 @@ const Container = styled.main`
   
   @media (min-width: 1200px) {
     padding-right: 0;
+  }
+
+  .showThanksPopup{
+    display: block;
   }
 
   .mainContent{
@@ -60,10 +68,13 @@ const ControlPanelTitle = styled.div`
 `;
 
 const Title = styled.div`
-  font-size: var(--text-size-huge-mobil);
+  font-size: var(--text-size-extra-large);
   font-family: var(--font-family-black);
   text-align: center;
-  margin: 2rem 0;
+  margin: 2rem 0 2rem 2rem;
+  @media (min-width: 767px) {
+    font-size: var(--text-size-huge-mobil);
+  }
   @media (min-width: 1200px) {
     font-size: var(--text-size-huge);
   }
@@ -131,7 +142,6 @@ const RemoveItemImg = styled.img`
   cursor: pointer;
   margin: auto 0;
 `;
-const DateImg = styled.img``;
 const StyledTextarea = styled.textarea`
   background-color: var(--color-pale-yellow);
   color: var(--color-dark);
@@ -147,14 +157,18 @@ const StyledTextarea = styled.textarea`
 const ProductItemContainer = styled.div`
   display: grid;
   width: 100%;
-  grid-template-columns: 1fr 60px 20px;
+  grid-template-columns: 1fr 90px 30px 20px;
+  .price{
+    text-align: right;
+    padding-right: 7px;
+  }
 `;
 const StyledLabel = styled.label`
     display: flex;
     align-items: center;
 `;
 const AddresContainer = styled.div`
-  display: grid;
+  display: none;
   grid-template-columns: 1fr 1fr;
   gap: 3rem;
   max-width: 500px;
@@ -170,9 +184,12 @@ const StyledDiv = styled.div`
   gap: 1rem;
   max-width: 500px;
   width: 100%;
+  .showAddres{
+    display: grid;
+  }
   
 `;
-const OrderButton = styled.div`
+const Button = styled.div`
     font-family: var(--font-family-light);
     font-size: var(--text-size-large);
     color: var(--color-dark);
@@ -200,71 +217,167 @@ const OrderButton = styled.div`
 `;
 
 
+const ThanksPopup = styled.div`
+  max-width: 600px;
+  max-height: 70%;
+  background-color: var(--color-light);
+  box-shadow: 1px 2px 5px 1px gray;
+  position: fixed;
+  z-index: 2;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -40%);
+  display: none; 
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;	
+  -webkit-overflow-scrolling: touch;
+  width: 90%;
+  @media (min-width: 767px) {
+    width: 80%;
+    left: 50%;
+  }
+`;
+const ThanksContainer = styled.div`
+  text-align: center;
+  .popupBtn{
+    width: 200px;
+    margin: 2rem auto 2rem auto;
+  };
+  .popupTitle{
+    font-size: var(--text-size-extra-large);
+    margin-bottom: 0;
+  }
+`;
+const CakeImgElement = styled.img`
+  margin-top: -2rem;
+  margin-left: 2rem;
+`;
+
 
 export const OrderPage = () => {
+  const [thanksPopupIsShowed, setThanksPopupIsShowed] = useState<boolean>(false);
+  const [order, setOrder] = useState<Order>({ deliveryMethod: "pickup", paymentMethod: "method1" });
+  const cartReducer = useAppSelector(state => state.cartReducer);
+  const dispatch = useAppDispatch();
 
+  const navigate = useNavigate();
+  const redirectToHome = () => {
+    window.scrollTo(0, 0);
+    navigate("/");
+  }
+
+  const orderButtonClick = () => {
+    setThanksPopupIsShowed(true);
+  }
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
+  const changeHandler = (element: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
+
+    const name: string = element.currentTarget.name;
+    const value: string = element.currentTarget.value;
+    setOrder({ ...order, [name]: value })
+  }
+
+  const removeCartItem = (id?: number) => {
+    if (id) {
+      dispatch(removeProductFromCart(id));
+    }
+  }
+
+  const getTotalPrice:() => string = () => {
+    let totalPrice:number =0;
+    cartReducer.cart.map(c=>
+      totalPrice+=c.product.price  
+      +(c.additionDecoration?.price || 0)
+      +(c.additionSubspecies?.price||0)
+      +(c.additionWeight?.price||0)) 
+      return totalPrice+" $"
+  }
+
+
   return (
     <Container>
-      <Title>Making an order</Title>
-      <ContentContainer>
-        <StyledDiv className="mainContent">
-          <SubTitle>Contacts</SubTitle>
-          <StyledInput placeholder="Name" />
-          <StyledInput placeholder="Phone" />
-          <StyledInput placeholder="Email" />
-          <Date placeholder="Date" />
-          <SubTitle>Delivery method</SubTitle>
-          <StyledDiv>
-            <StyledLabel>
-              <RadioButton name="delivery" type="radio" value="pickup" />
-              Pickup
-            </StyledLabel>
-            <StyledLabel>
-              <RadioButton name="delivery" type="radio" value="courier" />
-              Delivery by courier
-            </StyledLabel>
+      {cartReducer.cart.length === 0 && (<Title>Cart is empty</Title>)}
+      {cartReducer.cart.length > 0 && (<>
+        <Title>Making an order</Title>
+        <ContentContainer>
+          <StyledDiv className="mainContent">
+            <SubTitle>Contacts</SubTitle>
+            <StyledInput name="name" placeholder="Name" onChange={(e) => changeHandler(e)} />
+            <StyledInput name="phone" placeholder="Phone" onChange={(e) => changeHandler(e)} />
+            <StyledInput name="email" placeholder="Email" onChange={(e) => changeHandler(e)} />
+            <Date name="date" type="date" onChange={(e) => changeHandler(e)} />
+            <SubTitle>Delivery method</SubTitle>
+            <StyledDiv>
+              <StyledLabel>
+                <RadioButton name="deliveryMethod" type="radio" value="pickup"
+                  checked={order.deliveryMethod === "pickup"}
+                  onChange={(e) => changeHandler(e)} />
+                Pickup
+              </StyledLabel>
+              <StyledLabel>
+                <RadioButton name="deliveryMethod" type="radio" value="courier"
+                  checked={order.deliveryMethod === "courier"}
+                  onChange={(e) => changeHandler(e)} />
+                Delivery by courier
+              </StyledLabel>
+            </StyledDiv>
+            <AddresContainer className={order.deliveryMethod === "courier" ? "showAddres" : ""}>
+              <StyledInput name="city" className="city" placeholder="City" onChange={(e) => changeHandler(e)} />
+              <StyledInput name="street" placeholder="Street" onChange={(e) => changeHandler(e)} />
+              <StyledInput name="house" placeholder="House" onChange={(e) => changeHandler(e)} />
+              <StyledInput name="entrance" placeholder="Entrance" onChange={(e) => changeHandler(e)} />
+              <StyledInput name="building" placeholder="Building" onChange={(e) => changeHandler(e)} />
+              <StyledInput name="apartment" placeholder="Apartment" onChange={(e) => changeHandler(e)} />
+              <StyledInput name="floor" placeholder="Floor" />
+            </AddresContainer>
+            <SubTitle>Payment method</SubTitle>
+            <StyledDiv>
+              <StyledLabel>
+                <RadioButton name="paymentMethod" type="radio" value="method1"
+                  checked={order.paymentMethod === "method1"}
+                  onChange={(e) => changeHandler(e)} />
+                Payment method 1
+              </StyledLabel>
+              <StyledLabel>
+                <RadioButton name="paymentMethod" type="radio" value="method2"
+                  checked={order.paymentMethod === "method2"}
+                  onChange={(e) => changeHandler(e)} />
+                Payment method 2
+              </StyledLabel>
+            </StyledDiv>
+            <StyledTextarea name="commentary" placeholder="Commentary" onChange={(e) => changeHandler(e)} />
+            <PriceContainer>
+              <SubTitle>Total to be paid:</SubTitle>
+              <Price>{getTotalPrice()}</Price>
+            </PriceContainer>
+            <Button onClick={orderButtonClick}>Сonfirm the order</Button>
           </StyledDiv>
-          <AddresContainer className="showAddres">
-            <StyledInput className="city" placeholder="City" />
-            <StyledInput placeholder="Street" />
-            <StyledInput placeholder="House" />
-            <StyledInput placeholder="Entrance" />
-            <StyledInput placeholder="Building" />
-            <StyledInput placeholder="Apartment" />
-            <StyledInput placeholder="Floor" />
-          </AddresContainer>
-          <SubTitle>Payment method</SubTitle>
-          <StyledDiv>
-            <StyledLabel>
-              <RadioButton name="payment" type="radio" value="method1" />
-              Payment method 1
-            </StyledLabel>
-            <StyledLabel>
-              <RadioButton name="payment" type="radio" value="method2" />
-              Payment method 2
-            </StyledLabel>
-          </StyledDiv>
-          <StyledTextarea placeholder="Commentary" />
-          <PriceContainer>
-            <SubTitle>Total to be paid:</SubTitle>
-            <Price>11$</Price>
-          </PriceContainer>
-          <OrderButton>Сonfirm the order</OrderButton>
-        </StyledDiv>
-        <ControlPanel>
-          <ControlPanelTitle>Your order:</ControlPanelTitle>
-          <ProductItemContainer>
-            <div>Name</div>
-            <div>10$</div>
-            <RemoveItemImg src={RemoveOrderItemImg}></RemoveItemImg>
-          </ProductItemContainer>
-        </ControlPanel>
-      </ContentContainer>
+          <ControlPanel>
+            <ControlPanelTitle>Your order:</ControlPanelTitle>
+            {cartReducer.cart.map(ci => (
+              <ProductItemContainer key={ci.id}>
+                <div>{ci.product.name}</div>
+                <div className="price">{ci.product.price}</div>
+                <div>$</div>
+                <RemoveItemImg onClick={() => removeCartItem(ci.id)} src={RemoveOrderItemImg}></RemoveItemImg>
+              </ProductItemContainer>
+            ))}
+          </ControlPanel>
+        </ContentContainer>
+      </>)}
+      <ThanksPopup className={thanksPopupIsShowed ? "showThanksPopup" : ""}>
+        <ThanksContainer>
+          <Title className="popupTitle">Thanks for your order!</Title>
+          <CakeImgElement src={CakeImg} alt="cake" />
+          <Button onClick={redirectToHome} className="popupBtn">Ok</Button>
+        </ThanksContainer>
+      </ThanksPopup>
     </Container>
   )
 }
+
+

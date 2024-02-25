@@ -149,7 +149,9 @@ export const CartPopup: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     }
 
     const goToOrderPage = ()=>{
+        onClose();
         navigate("/order");
+
     }
 
 
@@ -162,27 +164,27 @@ export const CartPopup: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             {cartIsEmpty && (<CartIsEmptyText>The cart is still empty</CartIsEmptyText>)}
             {!cartIsEmpty && (<ContentContainer>
                 <ProductList>
-                    {cartReducer.cart.map((p, i) => (
+                    {cartReducer.cart.map((ci, i) => (
                         <ProductContainer key={i}>
-                            <ProductImg src={p.product.imgUrl} alt={p.product.name} />
+                            <ProductImg src={ci.product.imgUrl} alt={ci.product.name} />
 
                             <DescriptionContainer>
                                 <ProductName>
-                                    <span>{p.product.name}</span>
-                                    <RemoveImg src={CloseCartImg} alt='close' onClick={() => removeCartItem(p.id)} />
+                                    <span>{ci.product.name}</span>
+                                    <RemoveImg src={CloseCartImg} alt='close' onClick={() => removeCartItem(ci.id)} />
                                 </ProductName>
                                 <DescriptionText>
                                     <span>Subspecies:</span>
-                                    <span>{p.additionSubspecies?.name || "Default subspecies"}</span>
+                                    <span>{ci.additionSubspecies?.name || "Default subspecies"}</span>
                                 </DescriptionText>
                                 <DescriptionText>
                                     <span>Decoration:</span>
-                                    <span>{p.additionDecoration?.name || "Without decoration"}</span>
+                                    <span>{ci.additionDecoration?.name || "Without decoration"}</span>
                                 </DescriptionText>
                                 <DescriptionText>
                                     <span>Weight:</span>
                                     <span>
-                                        {getWeight(p)}
+                                        {getWeight(ci)}
                                     </span>
                                 </DescriptionText>
                             </DescriptionContainer>
