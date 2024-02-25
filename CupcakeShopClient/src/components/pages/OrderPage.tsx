@@ -73,6 +73,7 @@ const Title = styled.div`
   font-family: var(--font-family-black);
   text-align: center;
   margin: 2rem 0 2rem 2rem;
+
   @media (min-width: 767px) {
     font-size: var(--text-size-huge-mobil);
   }
@@ -125,13 +126,22 @@ const StyledInput = styled.input`
   height: 60px;
   padding: 0 1rem; 
   width: 100%;
-  
+
+
   &.incorrect{
     box-shadow: 0px 0px 5px 0.1px red;
   }
-    
   
 `;
+
+const ErrorMessage = styled.div`
+    display: block;
+    height: 8px;
+    color: red;
+    margin: 6px 0 0 1rem;
+    font-size: 14px;
+`;
+
 const Date = styled.input`
   background-color: var(--color-pale-yellow);
   color: var(--color-dark);
@@ -262,13 +272,17 @@ const CakeImgElement = styled.img`
 `;
 
 type Fields = "name" | "phone" | "city" | "street" | "house" | "entrance" | "apartment" | "floor";
+type IncorrectFieldMessage = {
+  fieldName: string;
+  message: string;
+}
 
 
 export const OrderPage = () => {
   const [thanksPopupIsShowed, setThanksPopupIsShowed] = useState<boolean>(false);
   const [order, setOrder] = useState<Order>({ deliveryMethod: "pickup", paymentMethod: "method1" });
-  const [incorrectFields, setIncorrectFields] = useState<string[]>([]);
-  let incorrectList: string[] = [...incorrectFields];
+  const [incorrectFields, setIncorrectFields] = useState<IncorrectFieldMessage[]>([]);
+  let incorrectList: IncorrectFieldMessage[] = [...incorrectFields];
   const requiredFields: Fields[] = ["name", "phone"];
   const requiredAddresFields: Fields[] = ["city", "street", "house", "entrance", "apartment", "floor"];
 
@@ -306,21 +320,55 @@ export const OrderPage = () => {
     const addressIsRequired: boolean = _order.deliveryMethod === "courier";
     const requiredsList: string[] = addressIsRequired ? [...requiredFields, ...requiredAddresFields] : [...requiredFields];
     const isRequired: boolean = !!requiredsList.find(rf => rf === name);
-    const itWasIncorrect: boolean = !!incorrectList.find(ic => ic === name);
+    const itWasIncorrect: boolean = !!incorrectList.find(ic => ic.fieldName === name);
     const isCorrectNow: boolean = !!_order[_name];
+    const requiredMessage = "Required field";
+    const isRequredErrorMessage = requiredMessage === incorrectList.find(ic => ic.fieldName === name)?.message;
 
     if (isRequired && !itWasIncorrect && !isCorrectNow) {
-      incorrectList.push(name);
+      incorrectList.push({ fieldName: name, message: requiredMessage });
 
     }
 
-    if (isRequired && itWasIncorrect && isCorrectNow) {
-      incorrectList = incorrectList.filter(ic => ic !== name)
+    if (isRequired && itWasIncorrect && isCorrectNow && isRequredErrorMessage) {
+      incorrectList = incorrectList.filter(ic => ic.fieldName !== name)
 
     }
 
-    if (!addressIsRequired && itWasIncorrect && isAddress) {
-      incorrectList = incorrectList.filter(ic => ic !== name)
+    if (!addressIsRequired) {
+
+      incorrectList = incorrectList.filter(ic => !requiredAddresFields.find(rafName => rafName === ic.fieldName))
+    }
+
+    if (name === "phone" && _order.phone) {
+      const phoneRegex = new RegExp(/^\+?(\d{1,4})?[-.\s]?(\d{1,3})?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/);
+      const phoneIsCorrect = phoneRegex.test(_order.phone);
+
+      if (!phoneIsCorrect && !itWasIncorrect) {
+        incorrectList.push({ fieldName: name, message: "Incorrect phone" });
+      }
+
+      if (phoneIsCorrect && itWasIncorrect) {
+        incorrectList = incorrectList.filter(ic => ic.fieldName !== name);
+      }
+
+    }
+
+    if (name === "email" && _order.email) {
+      const emailRegex = new RegExp("^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$");
+      const emailIsCorrect = emailRegex.test(_order.email);
+
+      if (!emailIsCorrect && !itWasIncorrect) {
+        incorrectList.push({ fieldName: name, message: "Incorrect email" });
+      }
+
+      if (emailIsCorrect && itWasIncorrect) {
+        incorrectList = incorrectList.filter(ic => ic.fieldName !== name);
+      }
+    }
+
+    if (name === "email" && !_order.email) {
+      incorrectList = incorrectList.filter(ic => ic.fieldName !== name);
     }
 
   }
@@ -332,14 +380,12 @@ export const OrderPage = () => {
 
   const changeHandler = (element: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
 
-
     const name: string = element.target.name;
     const value: string = element.target.value;
     const updatedOrder = { ...order, [name]: value };
-    validateByName(name,updatedOrder);
+    validateByName(name, updatedOrder);
     setOrder(updatedOrder)
     setIncorrectFields(incorrectList);
-
   }
 
   const removeCartItem = (id?: number) => {
@@ -359,7 +405,11 @@ export const OrderPage = () => {
   }
 
   const getClass = (fieldName: string) => {
-    return (incorrectFields.find(f => f === fieldName)) ? "incorrect" : "";
+    return (incorrectFields.find(f => f.fieldName === fieldName)) ? "incorrect" : "";
+  }
+
+  const getErrorMessageByFieldName = (name: string) => {
+    return (incorrectList.find(inc => inc.fieldName === name) && (<ErrorMessage>{incorrectList.find(inc => inc.fieldName === name)?.message}</ErrorMessage>));
   }
 
 
@@ -371,9 +421,18 @@ export const OrderPage = () => {
         <ContentContainer>
           <StyledDiv className="mainContent">
             <SubTitle>Contacts</SubTitle>
-            <StyledInput name="name" className={getClass("name")} placeholder="Name" onChange={(e) => changeHandler(e)} />
-            <StyledInput name="phone" className={getClass("phone")} type="tel" placeholder="Phone" onChange={(e) => changeHandler(e)} />
-            <StyledInput name="email" className={getClass("email")} type="email" placeholder="Email" onChange={(e) => changeHandler(e)} />
+            <div>
+              <StyledInput name="name" className={getClass("name")} placeholder="Name" onChange={(e) => changeHandler(e)} />
+              {getErrorMessageByFieldName("name")}
+            </div>
+            <div>
+              <StyledInput name="phone" className={getClass("phone")} type="text" placeholder="Phone" onChange={(e) => changeHandler(e)} />
+              {getErrorMessageByFieldName("phone")}
+            </div>
+            <div>
+              <StyledInput name="email" className={getClass("email")} type="email" placeholder="Email" onChange={(e) => changeHandler(e)} />
+              {getErrorMessageByFieldName("email")}
+            </div>
             <Date name="date" className={getClass("date")} type="date" onChange={(e) => changeHandler(e)} />
             <SubTitle>Delivery method</SubTitle>
             <StyledDiv>
@@ -391,13 +450,34 @@ export const OrderPage = () => {
               </StyledLabel>
             </StyledDiv>
             <AddresContainer className={order.deliveryMethod === "courier" ? "showAddres" : ""}>
-              <StyledInput name="city" className={"city " + getClass("city")} placeholder="City" onChange={(e) => changeHandler(e)} />
-              <StyledInput name="street" className={getClass("street")} placeholder="Street" onChange={(e) => changeHandler(e)} />
-              <StyledInput name="house" className={getClass("house")} placeholder="House" onChange={(e) => changeHandler(e)} />
-              <StyledInput name="entrance" className={getClass("entrance")} placeholder="Entrance" onChange={(e) => changeHandler(e)} />
-              <StyledInput name="building" placeholder="Building" onChange={(e) => changeHandler(e)} />
-              <StyledInput name="apartment" className={getClass("apartment")} placeholder="Apartment" onChange={(e) => changeHandler(e)} />
-              <StyledInput name="floor" className={getClass("floor")} placeholder="Floor" />
+              <div>
+                <StyledInput name="city" className={"city " + getClass("city")} placeholder="City" onChange={(e) => changeHandler(e)} />
+                {getErrorMessageByFieldName("city")}
+              </div>
+              <div>
+                <StyledInput name="street" className={getClass("street")} placeholder="Street" onChange={(e) => changeHandler(e)} />
+                {getErrorMessageByFieldName("street")}
+              </div>
+              <div>
+                <StyledInput name="house" className={getClass("house")} placeholder="House" onChange={(e) => changeHandler(e)} />
+                {getErrorMessageByFieldName("house")}
+              </div>
+              <div>
+                <StyledInput name="entrance" className={getClass("entrance")} placeholder="Entrance" onChange={(e) => changeHandler(e)} />
+                {getErrorMessageByFieldName("entrance")}
+              </div>
+              <div>
+                <StyledInput name="building" placeholder="Building" onChange={(e) => changeHandler(e)} />
+                {getErrorMessageByFieldName("building")}
+              </div>
+              <div>
+                <StyledInput name="apartment" className={getClass("apartment")} placeholder="Apartment" onChange={(e) => changeHandler(e)} />
+                {getErrorMessageByFieldName("apartment")}
+              </div>
+              <div>
+                <StyledInput name="floor" className={getClass("floor")} placeholder="Floor" />
+                {getErrorMessageByFieldName("floor")}
+              </div>
             </AddresContainer>
             <SubTitle>Payment method</SubTitle>
             <StyledDiv>
@@ -419,6 +499,7 @@ export const OrderPage = () => {
               <SubTitle>Total to be paid:</SubTitle>
               <Price>{getTotalPrice()}</Price>
             </PriceContainer>
+            {(incorrectList.length > 0) && (<ErrorMessage>Some fields are not correct</ErrorMessage>)}
             <Button onClick={orderButtonClick}>Сonfirm the order</Button>
           </StyledDiv>
           <ControlPanel>
