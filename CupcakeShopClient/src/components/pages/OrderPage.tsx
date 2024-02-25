@@ -10,6 +10,7 @@ import { removeProductFromCart } from "../../store/reducers/cartReducer";
 const Container = styled.main`
   margin: 0 5%;
   padding-right: 8%;
+
   
   @media (min-width: 1200px) {
     padding-right: 0;
@@ -124,6 +125,12 @@ const StyledInput = styled.input`
   height: 60px;
   padding: 0 1rem; 
   width: 100%;
+  
+  &.incorrect{
+    box-shadow: 0px 0px 5px 0.1px red;
+  }
+    
+  
 `;
 const Date = styled.input`
   background-color: var(--color-pale-yellow);
@@ -184,6 +191,7 @@ const StyledDiv = styled.div`
   gap: 1rem;
   max-width: 500px;
   width: 100%;
+
   .showAddres{
     display: grid;
   }
@@ -253,10 +261,17 @@ const CakeImgElement = styled.img`
   margin-left: 2rem;
 `;
 
+type Fields = "name" | "phone" | "city" | "street" | "house" | "entrance" | "apartment" | "floor";
+
 
 export const OrderPage = () => {
   const [thanksPopupIsShowed, setThanksPopupIsShowed] = useState<boolean>(false);
   const [order, setOrder] = useState<Order>({ deliveryMethod: "pickup", paymentMethod: "method1" });
+  const [incorrectFields, setIncorrectFields] = useState<string[]>([]);
+  let incorrectList: string[] = [...incorrectFields];
+  const requiredFields: Fields[] = ["name", "phone"];
+  const requiredAddresFields: Fields[] = ["city", "street", "house", "entrance", "apartment", "floor"];
+
   const cartReducer = useAppSelector(state => state.cartReducer);
   const dispatch = useAppDispatch();
 
@@ -267,18 +282,64 @@ export const OrderPage = () => {
   }
 
   const orderButtonClick = () => {
-    setThanksPopupIsShowed(true);
+    validateAll();
+    console.log(incorrectList)
+    //setThanksPopupIsShowed(true);
+  }
+
+
+
+  const validateAll = () => {
+
+    const requiredsList: string[] = [...requiredFields, ...requiredAddresFields];
+    requiredsList.map(r => validateByName(r));
+    setIncorrectFields(incorrectList);
+  }
+
+
+  const validateByName = (name: Fields | string, updatedOrder?: Order) => {
+
+    const _order = updatedOrder || order;
+
+    const _name = name as Fields;
+    const isAddress: boolean = !!requiredAddresFields.find(ra => ra === name);
+    const addressIsRequired: boolean = _order.deliveryMethod === "courier";
+    const requiredsList: string[] = addressIsRequired ? [...requiredFields, ...requiredAddresFields] : [...requiredFields];
+    const isRequired: boolean = !!requiredsList.find(rf => rf === name);
+    const itWasIncorrect: boolean = !!incorrectList.find(ic => ic === name);
+    const isCorrectNow: boolean = !!_order[_name];
+
+    if (isRequired && !itWasIncorrect && !isCorrectNow) {
+      incorrectList.push(name);
+
+    }
+
+    if (isRequired && itWasIncorrect && isCorrectNow) {
+      incorrectList = incorrectList.filter(ic => ic !== name)
+
+    }
+
+    if (!addressIsRequired && itWasIncorrect && isAddress) {
+      incorrectList = incorrectList.filter(ic => ic !== name)
+    }
+
   }
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
+
   const changeHandler = (element: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
 
-    const name: string = element.currentTarget.name;
-    const value: string = element.currentTarget.value;
-    setOrder({ ...order, [name]: value })
+
+    const name: string = element.target.name;
+    const value: string = element.target.value;
+    const updatedOrder = { ...order, [name]: value };
+    validateByName(name,updatedOrder);
+    setOrder(updatedOrder)
+    setIncorrectFields(incorrectList);
+
   }
 
   const removeCartItem = (id?: number) => {
@@ -287,14 +348,18 @@ export const OrderPage = () => {
     }
   }
 
-  const getTotalPrice:() => string = () => {
-    let totalPrice:number =0;
-    cartReducer.cart.map(c=>
-      totalPrice+=c.product.price  
-      +(c.additionDecoration?.price || 0)
-      +(c.additionSubspecies?.price||0)
-      +(c.additionWeight?.price||0)) 
-      return totalPrice+" $"
+  const getTotalPrice: () => string = () => {
+    let totalPrice: number = 0;
+    cartReducer.cart.map(c =>
+      totalPrice += c.product.price
+      + (c.additionDecoration?.price || 0)
+      + (c.additionSubspecies?.price || 0)
+      + (c.additionWeight?.price || 0))
+    return totalPrice + " $"
+  }
+
+  const getClass = (fieldName: string) => {
+    return (incorrectFields.find(f => f === fieldName)) ? "incorrect" : "";
   }
 
 
@@ -306,10 +371,10 @@ export const OrderPage = () => {
         <ContentContainer>
           <StyledDiv className="mainContent">
             <SubTitle>Contacts</SubTitle>
-            <StyledInput name="name" placeholder="Name" onChange={(e) => changeHandler(e)} />
-            <StyledInput name="phone" placeholder="Phone" onChange={(e) => changeHandler(e)} />
-            <StyledInput name="email" placeholder="Email" onChange={(e) => changeHandler(e)} />
-            <Date name="date" type="date" onChange={(e) => changeHandler(e)} />
+            <StyledInput name="name" className={getClass("name")} placeholder="Name" onChange={(e) => changeHandler(e)} />
+            <StyledInput name="phone" className={getClass("phone")} type="tel" placeholder="Phone" onChange={(e) => changeHandler(e)} />
+            <StyledInput name="email" className={getClass("email")} type="email" placeholder="Email" onChange={(e) => changeHandler(e)} />
+            <Date name="date" className={getClass("date")} type="date" onChange={(e) => changeHandler(e)} />
             <SubTitle>Delivery method</SubTitle>
             <StyledDiv>
               <StyledLabel>
@@ -326,13 +391,13 @@ export const OrderPage = () => {
               </StyledLabel>
             </StyledDiv>
             <AddresContainer className={order.deliveryMethod === "courier" ? "showAddres" : ""}>
-              <StyledInput name="city" className="city" placeholder="City" onChange={(e) => changeHandler(e)} />
-              <StyledInput name="street" placeholder="Street" onChange={(e) => changeHandler(e)} />
-              <StyledInput name="house" placeholder="House" onChange={(e) => changeHandler(e)} />
-              <StyledInput name="entrance" placeholder="Entrance" onChange={(e) => changeHandler(e)} />
+              <StyledInput name="city" className={"city " + getClass("city")} placeholder="City" onChange={(e) => changeHandler(e)} />
+              <StyledInput name="street" className={getClass("street")} placeholder="Street" onChange={(e) => changeHandler(e)} />
+              <StyledInput name="house" className={getClass("house")} placeholder="House" onChange={(e) => changeHandler(e)} />
+              <StyledInput name="entrance" className={getClass("entrance")} placeholder="Entrance" onChange={(e) => changeHandler(e)} />
               <StyledInput name="building" placeholder="Building" onChange={(e) => changeHandler(e)} />
-              <StyledInput name="apartment" placeholder="Apartment" onChange={(e) => changeHandler(e)} />
-              <StyledInput name="floor" placeholder="Floor" />
+              <StyledInput name="apartment" className={getClass("apartment")} placeholder="Apartment" onChange={(e) => changeHandler(e)} />
+              <StyledInput name="floor" className={getClass("floor")} placeholder="Floor" />
             </AddresContainer>
             <SubTitle>Payment method</SubTitle>
             <StyledDiv>
