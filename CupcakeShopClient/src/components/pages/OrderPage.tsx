@@ -421,7 +421,7 @@ export const OrderPage = () => {
   }, []);
 
   useEffect(() => {
-    if(!!orderReducer.successMessage){
+    if (!!orderReducer.successMessage) {
       dispatch(clearCart())
     }
 
@@ -521,7 +521,11 @@ export const OrderPage = () => {
             {cartReducer.cart.map(ci => (
               <ProductItemContainer key={ci.id}>
                 <div>{ci.product.name}</div>
-                <div className="price">{ci.product.price}</div>
+                <div className="price">{
+                  ci.product.price
+                  + (ci.additionDecoration?.price || 0)
+                  + (ci.additionSubspecies?.price || 0)
+                  + (ci.additionWeight?.price || 0)}</div>
                 <div>$</div>
                 <RemoveItemImg onClick={() => removeCartItem(ci.id)} src={RemoveOrderItemImg}></RemoveItemImg>
               </ProductItemContainer>
