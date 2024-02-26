@@ -6,6 +6,7 @@ import mockCatalogEndpoint from "./mockCatalogEndpoint";
 import { mockProductDetailsEndpoint } from "./mockProductDetailsEndpoint";
 import mockRecommendedProducts from "./mockRecommendedProducts";
 import { mockAdditionalProductParameterEndpoint } from "./mockAdditionalProductParameterEndpoint";
+import { mockPostEndpoint } from "./mockPostOrder";
 
 const mockApi = (baseApi: AxiosInstance) => {
 
@@ -49,6 +50,7 @@ const mockApi = (baseApi: AxiosInstance) => {
     mockProductDetailsEndpoint(mock, parseQueryString);
     mockAdditionalProductParameterEndpoint(mock);
     mockRecommendedProducts(mock, parseQueryString);
+    mockPostEndpoint(mock);
 
 }
 export default mockApi;

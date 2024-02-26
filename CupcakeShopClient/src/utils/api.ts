@@ -1,9 +1,9 @@
 import axios from "axios";
-import { AdditionalParamsEndpoint, BestsellerEndpoint, CatalogEndpoint, ProductDetailsInfoEndpoint, RecommendedProductsEndpoint } from "../configs";
+import { AdditionalParamsEndpoint, BestsellerEndpoint, CatalogEndpoint, OrderEndpoint, ProductDetailsInfoEndpoint, RecommendedProductsEndpoint } from "../configs";
 import { Product } from "../store/types/product"
 import mockApi from "./MockEndpoints";
 import { ProductTypesEnum } from "../store/enums/productTypesEnum";
-import { AdditionalProdParams, CatalogApiResult, DetailProductInfo } from "../store/types";
+import { AdditionalProdParams, CatalogApiResult, DetailProductInfo, Order } from "../store/types";
 
 
 const baseApi = axios.create({
@@ -43,6 +43,11 @@ const Api = {
   getAdditionalParamsAsync: async (id: number) => {
     let url = `${AdditionalParamsEndpoint}?id=${id}`
     return await baseApi<AdditionalProdParams>(url);
+  },
+
+  postOrderAsync: async (order: Order) => {
+    let url = `${OrderEndpoint}`
+    return await baseApi.post(url, order);
   }
 }
 

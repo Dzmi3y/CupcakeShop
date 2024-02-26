@@ -5,7 +5,8 @@ import CakeImg from "../../assets/images/cupcake.png";
 import { useNavigate } from "react-router-dom";
 import { Order } from "../../store/types";
 import { useAppDispatch, useAppSelector } from "../../hooks";
-import { removeProductFromCart } from "../../store/reducers/cartReducer";
+import { clearCart, removeProductFromCart } from "../../store/reducers/cartReducer";
+import { sendOrder } from "../../store/reducers/orderReducer";
 
 const Container = styled.main`
   margin: 0 5%;
@@ -287,6 +288,7 @@ export const OrderPage = () => {
   const requiredAddresFields: Fields[] = ["city", "street", "house", "entrance", "apartment", "floor"];
 
   const cartReducer = useAppSelector(state => state.cartReducer);
+  const orderReducer = useAppSelector(state => state.orderReducer);
   const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
@@ -297,8 +299,14 @@ export const OrderPage = () => {
 
   const orderButtonClick = () => {
     validateAll();
-    console.log(incorrectList)
-    //setThanksPopupIsShowed(true);
+
+    if (incorrectList.length === 0) {
+
+      const _order: Order = { ...order, cart: cartReducer.cart }
+      dispatch(sendOrder(_order));
+      setThanksPopupIsShowed(true);
+    }
+
   }
 
 
@@ -373,10 +381,6 @@ export const OrderPage = () => {
 
   }
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
 
   const changeHandler = (element: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
 
@@ -412,6 +416,16 @@ export const OrderPage = () => {
     return (incorrectList.find(inc => inc.fieldName === name) && (<ErrorMessage>{incorrectList.find(inc => inc.fieldName === name)?.message}</ErrorMessage>));
   }
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    if(!!orderReducer.successMessage){
+      dispatch(clearCart())
+    }
+
+  }, [orderReducer.successMessage])
 
   return (
     <Container>
@@ -517,9 +531,12 @@ export const OrderPage = () => {
       </>)}
       <ThanksPopup className={thanksPopupIsShowed ? "showThanksPopup" : ""}>
         <ThanksContainer>
-          <Title className="popupTitle">Thanks for your order!</Title>
+          {orderReducer.loading && (<Title className="popupTitle">Loading...</Title>)}
+          {!!orderReducer.error && (<Title className="popupTitle">{orderReducer.error}</Title>)}
+          {!!orderReducer.successMessage && (<Title className="popupTitle">{orderReducer.successMessage}</Title>)}
           <CakeImgElement src={CakeImg} alt="cake" />
-          <Button onClick={redirectToHome} className="popupBtn">Ok</Button>
+          {!!orderReducer.error && (<Button onClick={() => setThanksPopupIsShowed(false)} className="popupBtn">Ok</Button>)}
+          {!!orderReducer.successMessage && (<Button onClick={redirectToHome} className="popupBtn">Ok</Button>)}
         </ThanksContainer>
       </ThanksPopup>
     </Container>
