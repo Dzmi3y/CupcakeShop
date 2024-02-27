@@ -28,14 +28,14 @@ const Cupcake = styled.img`
         height: 629px;
     }
 `;
-const List = styled.ul`
+const List = styled.div`
     margin-top: 3rem;
     text-align: center;
     list-style-type: none;
     order: 1;
     @media (min-width: 958px) {
         text-align: left;
-        margin-left: 1%;
+        margin-left: 5%;
         list-style-type: disc;
         order: 2;
     }
@@ -43,7 +43,7 @@ const List = styled.ul`
         margin-left: 10%;
     }
 `;
-const ListItem = styled.li`
+const ListItem = styled.div`
     font-size: var(--text-size-medium);
     text-transform: uppercase;
     margin-bottom: 1rem;

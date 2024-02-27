@@ -33,8 +33,11 @@ const TitleContainer = styled.div`
     margin-top: 1rem;
     display: flex;
     justify-content: space-between;
-    width: 100%;
+    width: 90%;
     max-width: 393px;
+    @media (min-width: 958px) {
+        width: 100%;
+    }
 `;
 const Title = styled.div`
     font-size: var(--font-size-large);
@@ -42,8 +45,11 @@ const Title = styled.div`
 const Description = styled.div`
     font-size: var(--font-size-medium);
     text-align: left;
-    width: 100%;
+    width: 90%;
     max-width: 393px;
+    @media (min-width: 958px) {
+        width: 100%;
+    }
     `;
 
 
@@ -81,13 +87,12 @@ const Details = styled.div`
    
 `;
 
-type ProductCardProps={ 
-    product: Product, 
-    goToDetail: (id: number) => void 
+type ProductCardProps = {
+    product: Product,
+    goToDetail: (id: number) => void
 };
 
-
-export const ProductCard: React.FC<ProductCardProps> = ({product,goToDetail}) => {
+export const ProductCard: React.FC<ProductCardProps> = ({ product, goToDetail }) => {
     return (
         <Container className='productCard' id={product.id + ""}>
             <ImgContainer onClick={() => { goToDetail(product.id) }}>
@@ -96,11 +101,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({product,goToDetail}) =>
                     <Details>Details</Details>
                 </OverlayElement>
             </ImgContainer>
-            <TitleContainer>
-                <Title>{product.name}</Title>
-                <Cart product={product} />
-            </TitleContainer>
-            <Description>{product.price}$ / {product.weight}{product.unitOfMeasurement}</Description>
+                <TitleContainer>
+                    <Title>{product.name}</Title>
+                    <Cart product={product} />
+                </TitleContainer>
+                <Description>{product.price}$ / {product.weight}{product.unitOfMeasurement}</Description>   
         </Container>
     )
 }

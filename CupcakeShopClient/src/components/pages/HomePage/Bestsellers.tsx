@@ -52,6 +52,8 @@ const DesktopNavigation = styled.div`
 const MobilNavigation = styled.div`
     display: flex;
     justify-content: center;
+    width: 90%;
+    
     margin: 2rem auto 3rem auto;
     .blocked{
         cursor: default;
@@ -72,18 +74,19 @@ const SlideNavigationElement = styled.div`
     text-align: center;
 `;
 const RightArrow = styled.img`
-    transform: rotate(180deg);
-    margin-top: 11px;
+    transform: rotate(180deg) scale(0.8);;
+    margin: 11px 0px 0 0px;
 `;
 const LeftArrow = styled.img`
-    margin-top: 11px;
+     margin: 11px 0px 0 0px;
+     transform: scale(0.8);
 `;
 const DotsContainer = styled.div`
     display: flex;
     justify-content: center;
     gap: 5px;
     min-width: 210px;
-    margin: auto 1rem auto 1rem;
+    margin: auto 0 auto 0;
     .selected{
             background-color: var(--color-dark);
     }

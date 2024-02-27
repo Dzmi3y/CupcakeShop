@@ -8,7 +8,7 @@ const Container = styled.section`
     justify-content: center;
     margin-top: 5rem;
     flex-direction: column;
-    margin-bottom: 15rem;
+    margin-bottom: 5rem;
 
     .midleElement {
             border-left: 0;
@@ -19,6 +19,7 @@ const Container = styled.section`
         }
 
     @media (min-width: 958px) {
+        margin-bottom: 15rem;
         flex-direction: row;
         .midleElement {
             padding: 0 1rem 0 1rem;

@@ -16,7 +16,6 @@ const Container = styled.main`
   margin: 0 5%;
 `;
 
-
 const List = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -37,12 +36,11 @@ const List = styled.div`
 
 `;
 
-
 const Title = styled.div`
   font-family: var(--font-family-title);
-  font-size: var(--text-size-huge-mobil);
+  font-size: var(--text-size-extra-large);
   text-align: center;
-  margin: 1rem 0;
+  margin: 1rem 0 2rem 0;
   @media (min-width: 958px) {
     font-size: var(--text-size-huge);
   }
@@ -54,6 +52,7 @@ const ProductPageNavigationContainer = styled.nav`
   justify-content: center;
   margin: 3rem 0;
   gap: 10px;
+  
 
   .selected{
     cursor: none;
@@ -181,11 +180,18 @@ export const CatalogPage = () => {
         <ProductPageNavigationElement onClick={() => { navToPageByNumber(pageInfo.page - 1) }}>
           <LeftArrow src={ArowImage} alt='lefr arrow' />
         </ProductPageNavigationElement>
-
-        {totalPagesArray.map(n => (
-          <ProductPageNavigationNumber key={n} className={pageInfo.page === n ? "selected" : ""} onClick={() => { navToPageByNumber(n) }}>
-            {totalPagesArray.length === n ? n : n + ","}
-          </ProductPageNavigationNumber>))}
+        {totalPagesArray.map(n => {
+          if (totalPagesArray.length > 6) {
+            if (pageInfo.page - 2 <= n && n <= pageInfo.page + 2) {
+              return (
+                <ProductPageNavigationNumber key={n} className={pageInfo.page === n ? "selected" : ""} onClick={() => { navToPageByNumber(n) }}>
+                  {totalPagesArray.length === n ? n : n + ","}
+                </ProductPageNavigationNumber>)
+            };
+          }
+          return("");
+        }
+        )}
 
         <ProductPageNavigationElement onClick={() => { navToPageByNumber(pageInfo.page + 1) }}>
           <RightArrow src={ArowImage} alt='right arrow' />

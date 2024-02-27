@@ -41,20 +41,20 @@ export const HomePage = () => {
       <Banner />
       <ShortCatalog />
       <Title id="bestsellers">Bestsellers</Title>
-      <Bestsellers/>
+      <Bestsellers />
       <BackgroundWaveContainer>
-        <Title style={{marginTop:"-3rem"}} id="whyWe">Why we?</Title>
-        <WhyWe/>
+        <Title style={{ marginTop: "-3rem" }} id="whyWe">Why we?</Title>
+        <WhyWe />
 
         <Title id="delivery">Delivery and payment</Title>
-        <DeliveryInfo/>
+        <DeliveryInfo />
       </BackgroundWaveContainer>
-      
+
       <Title id="about_us">About us</Title>
-      <AboutUs/>
+      <AboutUs />
 
       <Title id="questions">Popular questions</Title>
-      <Questions/>
+      <Questions />
     </main>
   )
 }

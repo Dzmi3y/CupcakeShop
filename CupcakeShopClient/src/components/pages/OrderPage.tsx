@@ -264,7 +264,7 @@ const ThanksContainer = styled.div`
   };
   .popupTitle{
     font-size: var(--text-size-extra-large);
-    margin-bottom: 0;
+    margin: 1rem 0 0  0;
   }
 `;
 const CakeImgElement = styled.img`
