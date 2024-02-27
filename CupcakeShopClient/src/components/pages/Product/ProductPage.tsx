@@ -29,6 +29,7 @@ const HeadContainer = styled.div`
 
 const ImgSliderContainer = styled.div`
  max-width: 500px;
+ width: 100%;
 `;
 
 const MainContentContainer = styled.div`
@@ -64,9 +65,12 @@ const Title = styled.div`
 `;
 
 const RecommendationsTitle = styled.div`
-  font-size: var(--text-size-extra-large);
+  font-size: var(--text-size-large);
   font-family: var(--font-family-light);
   margin-bottom: 2rem;
+  @media (min-width: 958px) {
+    font-size: var(--text-size-extra-large);
+  }
 `;
 
 const Price = styled.div`

@@ -264,22 +264,11 @@ export const Bestsellers = () => {
         [dispatch]);
 
     useEffect(() => {
-        if (bestsellerStore.list.length > 0) {
-            handleScroll();
-        }
 
-        const handleLoad = () => {
-            handleScroll();
-        };
+        handleScroll();
+       console.log("tedt");
 
-        window.addEventListener("load", handleLoad);
-
-        return () => {
-            window.removeEventListener("load", handleLoad);
-        };
-    },
-        []);
-
+    }, [sliderRef?.current?.scrollWidth]);
 
     return (
 
