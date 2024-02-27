@@ -143,7 +143,7 @@ const ErrorMessage = styled.div`
     font-size: 14px;
 `;
 
-const Date = styled.input`
+const DateInput = styled.input`
   background-color: var(--color-pale-yellow);
   color: var(--color-dark);
   font-size: var(--text-size-medium);
@@ -427,6 +427,11 @@ export const OrderPage = () => {
 
   }, [orderReducer.successMessage])
 
+  const year = new Date().toLocaleString('default', { year: 'numeric' });
+  const month = new Date().toLocaleString('default', { month: '2-digit' });
+  const day = new Date().toLocaleString('default', { day: '2-digit' });
+  const currentDate = `${year}-${month}-${day}`
+
   return (
     <Container>
       {cartReducer.cart.length === 0 && (<Title>Cart is empty</Title>)}
@@ -447,7 +452,7 @@ export const OrderPage = () => {
               <StyledInput name="email" className={getClass("email")} type="email" placeholder="Email" onChange={(e) => changeHandler(e)} />
               {getErrorMessageByFieldName("email")}
             </div>
-            <Date name="date" className={getClass("date")} type="date" onChange={(e) => changeHandler(e)} />
+            <DateInput name="date" className={getClass("date")} type="date" placeholder="Date" defaultValue={currentDate} onChange={(e) => changeHandler(e)} />
             <SubTitle>Delivery method</SubTitle>
             <StyledDiv>
               <StyledLabel>
