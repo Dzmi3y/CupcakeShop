@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CupcakeShop.API", "CupcakeS
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "CupcakeShop.Client", "CupcakeShop.Client\CupcakeShop.Client.esproj", "{60FF5415-25F0-402D-AA76-B0B41D0CD09F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CupcakeShop.Core", "CupcakeShop.Core\CupcakeShop.Core.csproj", "{F6102940-952F-4234-A09B-4C5A5CAFA9C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CupcakeShop.Core", "CupcakeShop.Core\CupcakeShop.Core.csproj", "{F6102940-952F-4234-A09B-4C5A5CAFA9C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CupcakeShop.Infrastructure", "CupcakeShop.Infrastructure\CupcakeShop.Infrastructure.csproj", "{28BE4152-6DE7-4DA0-AC8F-23B33D9ED2AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CupcakeShop.Database", "CupcakeShop.Infrastructure\CupcakeShop.Database.csproj", "{28BE4152-6DE7-4DA0-AC8F-23B33D9ED2AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

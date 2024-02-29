@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CupcakeShop.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c627027cbaa1f5170efaac81c3a2e88b9a70b334")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a79fba1e2c476bf137755f0ddd7a8a0fe72cbaa2")]
 [assembly: System.Reflection.AssemblyProductAttribute("CupcakeShop.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CupcakeShop.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
