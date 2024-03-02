@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CupcakeShop.Database.Migrations
 {
     /// <inheritdoc />
-    public partial class Initialization : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -104,7 +104,6 @@ namespace CupcakeShop.Database.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    TypeName = table.Column<string>(type: "text", nullable: false),
                     IsBestseller = table.Column<bool>(type: "boolean", nullable: false),
                     Weight = table.Column<double>(type: "double precision", nullable: false),
                     UnitOfMeasurement = table.Column<string>(type: "text", nullable: false),
@@ -189,10 +188,10 @@ namespace CupcakeShop.Database.Migrations
                 columns: new[] { "Id", "Name", "Price" },
                 values: new object[,]
                 {
-                    { new Guid("0802a710-43fb-45b1-a283-dd227e683807"), "Without decoration", 0.0 },
-                    { new Guid("3bcbdf36-dd1d-4486-9b9c-d77782b69f6e"), "Decor 2", 2.0 },
-                    { new Guid("67f9e47a-9d2c-44a8-926c-93754540dbcc"), "Decor 3", 3.0 },
-                    { new Guid("c7c21019-0c49-4756-8c32-f76b18654312"), "Decor 1", 1.0 }
+                    { new Guid("6ee29878-b244-4c95-8636-b6bd67efe7fe"), "Decor 3", 3.0 },
+                    { new Guid("73b2ddf7-e893-4459-81be-4840dc3e595b"), "Without decoration", 0.0 },
+                    { new Guid("77372acc-0194-4921-9594-b01787fdbd51"), "Decor 1", 1.0 },
+                    { new Guid("fbf6138a-b184-4929-bd18-dd1542a88261"), "Decor 2", 2.0 }
                 });
 
             migrationBuilder.InsertData(
@@ -200,10 +199,10 @@ namespace CupcakeShop.Database.Migrations
                 columns: new[] { "Id", "Name", "Price" },
                 values: new object[,]
                 {
-                    { new Guid("0f3749f0-8c4a-4607-b688-06e6ed22c4e6"), "Default type", 0.0 },
-                    { new Guid("9e279c29-b170-4655-8e20-1d115010a774"), "Type 3", 3.0 },
-                    { new Guid("a333ac68-d72f-4d1a-b5a9-19aadf582068"), "Type 2", 2.0 },
-                    { new Guid("f8d84b4e-25a9-4199-829b-bd1373d4520f"), "Type 1", 1.0 }
+                    { new Guid("0b808798-06fe-41d0-9162-6a01c612242a"), "Type 2", 2.0 },
+                    { new Guid("1b153fb3-cc43-4c68-9a13-b763fa4dec6d"), "Default type", 0.0 },
+                    { new Guid("6709f6c1-8773-4533-83a8-bd37de4cdd84"), "Type 3", 3.0 },
+                    { new Guid("789aeb12-8932-4cd3-a052-32b23708ef66"), "Type 1", 1.0 }
                 });
 
             migrationBuilder.InsertData(
@@ -211,13 +210,13 @@ namespace CupcakeShop.Database.Migrations
                 columns: new[] { "Id", "Price", "UnitOfMeasurement", "Weight" },
                 values: new object[,]
                 {
-                    { new Guid("1a585ded-a194-436b-90d8-8702650af087"), 1.0, "g", 100.0 },
-                    { new Guid("1cb1e0bd-e6bc-4971-adbf-452c09b28862"), 0.0, "g", 0.0 },
-                    { new Guid("2aa7b1cd-e74e-401f-ab5e-873ec1fe6ee8"), 6.0, "kg", 2.0 },
-                    { new Guid("5325904a-6b10-406c-999a-01acc1f86165"), 2.0, "g", 300.0 },
-                    { new Guid("6abde488-64b9-4297-8941-4bb2f412d276"), 5.0, "kg", 1.5 },
-                    { new Guid("e59ee52d-5dec-4cb0-ad9f-f8398e074c4d"), 4.0, "kg", 1.0 },
-                    { new Guid("e73bcd9f-4598-476d-8777-b48d4be306a4"), 3.0, "g", 500.0 }
+                    { new Guid("94a6db5b-7d50-492c-8cfe-7c185d56af47"), 2.0, "g", 300.0 },
+                    { new Guid("95322093-4a58-4cfe-9024-fc388daaa85a"), 1.0, "g", 100.0 },
+                    { new Guid("9fd997e9-e434-4c21-b5b4-1eb440b35ae7"), 5.0, "kg", 1.5 },
+                    { new Guid("b9fbb819-d8de-443c-b6a6-ba76e0216eee"), 0.0, "g", 0.0 },
+                    { new Guid("c01d3f80-5c5d-4af0-8c70-93754c52eab5"), 4.0, "kg", 1.0 },
+                    { new Guid("c13baddf-6c73-47c2-907b-397c0c9b0267"), 6.0, "kg", 2.0 },
+                    { new Guid("deb339ec-5642-4db6-9aa3-2420288db67d"), 3.0, "g", 500.0 }
                 });
 
             migrationBuilder.InsertData(
@@ -225,25 +224,25 @@ namespace CupcakeShop.Database.Migrations
                 columns: new[] { "Id", "Name", "SequenceNumber" },
                 values: new object[,]
                 {
-                    { new Guid("12563480-964b-4d4d-9bea-66316df7a177"), "cake", 1 },
-                    { new Guid("5a5c231c-5b2a-41c8-a46f-24166d3554e8"), "cookie", 2 },
-                    { new Guid("b5a9f37d-df70-4856-8dd8-5679c2b27a61"), "choux", 3 },
-                    { new Guid("e5dc2ac0-5b2f-49ed-9845-4fd1220545cc"), "pizza", 4 }
+                    { new Guid("377644e5-7b93-4ff9-b0c2-e9bff580ced4"), "choux", 3 },
+                    { new Guid("45408256-b28f-41e2-895a-7b5623360e85"), "cake", 1 },
+                    { new Guid("67c19964-f980-4b79-9f84-ed5981f9203b"), "cookie", 2 },
+                    { new Guid("b0d05d03-e2b6-4b89-8155-68e99e2371ee"), "pizza", 4 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "Delivery", "Description", "ImgUrl", "ImgUrlsJson", "IsBestseller", "Name", "Price", "ProductTypeId", "ShortDetailsJson", "StorageConditions", "TypeName", "UnitOfMeasurement", "Weight" },
+                columns: new[] { "Id", "Delivery", "Description", "ImgUrl", "ImgUrlsJson", "IsBestseller", "Name", "Price", "ProductTypeId", "ShortDetailsJson", "StorageConditions", "UnitOfMeasurement", "Weight" },
                 values: new object[,]
                 {
-                    { new Guid("024cd4bc-6afb-40a8-9d73-672d9027829e"), "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est quos quasi in dolorem reiciendis,", "quibusdam praesentium nemo commodi! Provident dicta pariatur", "/images/choux.png", "[\"/images/choux.png\",\"/images/test1.png\", \"/images/test2.png\", \"/images/test3.png\", \"/images/test4.png\"]", true, "Lemon Choux", 1.0, new Guid("b5a9f37d-df70-4856-8dd8-5679c2b27a61"), "[\"Lorem ipsum dolor sit amet\", \"consectetaur adipisicing elit\", \"sed do eiusmod tempor incididunt\", \"ut labore et dolore magna aliqua\"]", "unde sit modi possimus incidunt ab neque sunt fugit.", "", "g", 100.0 },
-                    { new Guid("7a68473c-6cb7-4419-af3b-b271f6264af6"), "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est quos quasi in dolorem reiciendis,", "quibusdam praesentium nemo commodi! Provident dicta pariatur", "/images/pizza.jpg", "[\"/images/pizza.jpg\",\"/images/test1.png\", \"/images/test2.png\", \"/images/test3.png\", \"/images/test4.png\"]", false, "Veggie", 3.0, new Guid("e5dc2ac0-5b2f-49ed-9845-4fd1220545cc"), "[\"Lorem ipsum dolor sit amet\", \"consectetaur adipisicing elit\", \"sed do eiusmod tempor incididunt\", \"ut labore et dolore magna aliqua\"]", "unde sit modi possimus incidunt ab neque sunt fugit.", "", "g", 300.0 },
-                    { new Guid("8ece835e-cbf3-4f26-923a-9d33da0a1dea"), "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est quos quasi in dolorem reiciendis,", "quibusdam praesentium nemo commodi! Provident dicta pariatur", "/images/pizza.png", "[\"/images/pizza.png\",\"/images/test1.png\", \"/images/test2.png\", \"/images/test3.png\", \"/images/test4.png\"]", true, "Four Cheese", 5.0, new Guid("e5dc2ac0-5b2f-49ed-9845-4fd1220545cc"), "[\"Lorem ipsum dolor sit amet\", \"consectetaur adipisicing elit\", \"sed do eiusmod tempor incididunt\", \"ut labore et dolore magna aliqua\"]", "unde sit modi possimus incidunt ab neque sunt fugit.", "", "g", 500.0 },
-                    { new Guid("d5bddb65-2b7e-461d-bd33-d1681a916eeb"), "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est quos quasi in dolorem reiciendis,", "quibusdam praesentium nemo commodi! Provident dicta pariatur", "/images/cookie.png", "[\"/images/cookie.png\",\"/images/test1.png\", \"/images/test2.png\", \"/images/test3.png\", \"/images/test4.png\"]", false, "Peanut Butter", 5.0, new Guid("5a5c231c-5b2a-41c8-a46f-24166d3554e8"), "[\"Lorem ipsum dolor sit amet\", \"consectetaur adipisicing elit\", \"sed do eiusmod tempor incididunt\", \"ut labore et dolore magna aliqua\"]", "unde sit modi possimus incidunt ab neque sunt fugit.", "", "g", 500.0 },
-                    { new Guid("df39afa4-aa3f-4921-bf70-3e80b7b60a8f"), "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est quos quasi in dolorem reiciendis,", "quibusdam praesentium nemo commodi! Provident dicta pariatur", "/images/cake.png", "[\"/images/cake.png\",\"/images/test1.png\", \"/images/test2.png\", \"/images/test3.png\", \"/images/test4.png\"]", false, "Apple pie", 3.0, new Guid("12563480-964b-4d4d-9bea-66316df7a177"), "[\"Lorem ipsum dolor sit amet\", \"consectetaur adipisicing elit\", \"sed do eiusmod tempor incididunt\", \"ut labore et dolore magna aliqua\"]", "unde sit modi possimus incidunt ab neque sunt fugit.", "", "kg", 2.0 },
-                    { new Guid("e9ec2cb3-057c-433e-8c9e-cf23d0474a8f"), "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est quos quasi in dolorem reiciendis,", "quibusdam praesentium nemo commodi! Provident dicta pariatur", "/images/choux.png", "[\"/images/choux.png\",\"/images/test1.png\", \"/images/test2.png\", \"/images/test3.png\", \"/images/test4.png\"]", false, "Strawberry Choux", 4.0, new Guid("b5a9f37d-df70-4856-8dd8-5679c2b27a61"), "[\"Lorem ipsum dolor sit amet\", \"consectetaur adipisicing elit\", \"sed do eiusmod tempor incididunt\", \"ut labore et dolore magna aliqua\"]", "unde sit modi possimus incidunt ab neque sunt fugit.", "", "g", 400.0 },
-                    { new Guid("f7e0a6d3-fdcc-46ef-8725-ae6e9040f81f"), "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est quos quasi in dolorem reiciendis,", "quibusdam praesentium nemo commodi! Provident dicta pariatur", "/images/cookie.png", "[\"/images/cookie.png\",\"/images/test1.png\", \"/images/test2.png\", \"/images/test3.png\", \"/images/test4.png\"]", true, "Chocolate Chip", 1.0, new Guid("5a5c231c-5b2a-41c8-a46f-24166d3554e8"), "[\"Lorem ipsum dolor sit amet\", \"consectetaur adipisicing elit\", \"sed do eiusmod tempor incididunt\", \"ut labore et dolore magna aliqua\"]", "unde sit modi possimus incidunt ab neque sunt fugit.", "", "g", 100.0 },
-                    { new Guid("f7eba1ac-5846-4f22-8635-0b94fc1594a5"), "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est quos quasi in dolorem reiciendis,", "quibusdam praesentium nemo commodi! Provident dicta pariatur", "/images/cake.png", "[\"/images/cake.png\",\"/images/test1.png\", \"/images/test2.png\", \"/images/test3.png\", \"/images/test4.png\"]", true, "Chocolate cake", 2.0, new Guid("12563480-964b-4d4d-9bea-66316df7a177"), "[\"Lorem ipsum dolor sit amet\", \"consectetaur adipisicing elit\", \"sed do eiusmod tempor incididunt\", \"ut labore et dolore magna aliqua\"]", "unde sit modi possimus incidunt ab neque sunt fugit.", "", "kg", 1.0 }
+                    { new Guid("15ed97c4-460b-48c8-8728-489cc7e1513b"), "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est quos quasi in dolorem reiciendis,", "quibusdam praesentium nemo commodi! Provident dicta pariatur", "/images/pizza.jpg", "[\"/images/pizza.jpg\",\"/images/test1.png\", \"/images/test2.png\", \"/images/test3.png\", \"/images/test4.png\"]", true, "Four Cheese", 5.0, new Guid("b0d05d03-e2b6-4b89-8155-68e99e2371ee"), "[\"Lorem ipsum dolor sit amet\", \"consectetaur adipisicing elit\", \"sed do eiusmod tempor incididunt\", \"ut labore et dolore magna aliqua\"]", "unde sit modi possimus incidunt ab neque sunt fugit.", "g", 500.0 },
+                    { new Guid("3ead1c7f-172f-4479-9f73-be992b963ffd"), "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est quos quasi in dolorem reiciendis,", "quibusdam praesentium nemo commodi! Provident dicta pariatur", "/images/cookie.png", "[\"/images/cookie.png\",\"/images/test1.png\", \"/images/test2.png\", \"/images/test3.png\", \"/images/test4.png\"]", true, "Chocolate Chip", 1.0, new Guid("67c19964-f980-4b79-9f84-ed5981f9203b"), "[\"Lorem ipsum dolor sit amet\", \"consectetaur adipisicing elit\", \"sed do eiusmod tempor incididunt\", \"ut labore et dolore magna aliqua\"]", "unde sit modi possimus incidunt ab neque sunt fugit.", "g", 100.0 },
+                    { new Guid("68077407-5463-4cbb-aed2-b581a73fe27b"), "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est quos quasi in dolorem reiciendis,", "quibusdam praesentium nemo commodi! Provident dicta pariatur", "/images/pizza.jpg", "[\"/images/pizza.jpg\",\"/images/test1.png\", \"/images/test2.png\", \"/images/test3.png\", \"/images/test4.png\"]", false, "Veggie", 3.0, new Guid("b0d05d03-e2b6-4b89-8155-68e99e2371ee"), "[\"Lorem ipsum dolor sit amet\", \"consectetaur adipisicing elit\", \"sed do eiusmod tempor incididunt\", \"ut labore et dolore magna aliqua\"]", "unde sit modi possimus incidunt ab neque sunt fugit.", "g", 300.0 },
+                    { new Guid("89d2f900-3f2c-414b-b89e-37d5a497be8c"), "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est quos quasi in dolorem reiciendis,", "quibusdam praesentium nemo commodi! Provident dicta pariatur", "/images/choux.png", "[\"/images/choux.png\",\"/images/test1.png\", \"/images/test2.png\", \"/images/test3.png\", \"/images/test4.png\"]", true, "Lemon Choux", 1.0, new Guid("377644e5-7b93-4ff9-b0c2-e9bff580ced4"), "[\"Lorem ipsum dolor sit amet\", \"consectetaur adipisicing elit\", \"sed do eiusmod tempor incididunt\", \"ut labore et dolore magna aliqua\"]", "unde sit modi possimus incidunt ab neque sunt fugit.", "g", 100.0 },
+                    { new Guid("b8550731-b514-49a1-a1ec-dd893ddaf605"), "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est quos quasi in dolorem reiciendis,", "quibusdam praesentium nemo commodi! Provident dicta pariatur", "/images/choux.png", "[\"/images/choux.png\",\"/images/test1.png\", \"/images/test2.png\", \"/images/test3.png\", \"/images/test4.png\"]", false, "Strawberry Choux", 4.0, new Guid("377644e5-7b93-4ff9-b0c2-e9bff580ced4"), "[\"Lorem ipsum dolor sit amet\", \"consectetaur adipisicing elit\", \"sed do eiusmod tempor incididunt\", \"ut labore et dolore magna aliqua\"]", "unde sit modi possimus incidunt ab neque sunt fugit.", "g", 400.0 },
+                    { new Guid("bf199811-19f3-425f-977c-52a9cdf472f2"), "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est quos quasi in dolorem reiciendis,", "quibusdam praesentium nemo commodi! Provident dicta pariatur", "/images/cookie.png", "[\"/images/cookie.png\",\"/images/test1.png\", \"/images/test2.png\", \"/images/test3.png\", \"/images/test4.png\"]", false, "Peanut Butter", 5.0, new Guid("67c19964-f980-4b79-9f84-ed5981f9203b"), "[\"Lorem ipsum dolor sit amet\", \"consectetaur adipisicing elit\", \"sed do eiusmod tempor incididunt\", \"ut labore et dolore magna aliqua\"]", "unde sit modi possimus incidunt ab neque sunt fugit.", "g", 500.0 },
+                    { new Guid("f3c3e245-4b49-43d8-aafb-6369980af9fc"), "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est quos quasi in dolorem reiciendis,", "quibusdam praesentium nemo commodi! Provident dicta pariatur", "/images/cake.png", "[\"/images/cake.png\",\"/images/test1.png\", \"/images/test2.png\", \"/images/test3.png\", \"/images/test4.png\"]", true, "Chocolate cake", 2.0, new Guid("45408256-b28f-41e2-895a-7b5623360e85"), "[\"Lorem ipsum dolor sit amet\", \"consectetaur adipisicing elit\", \"sed do eiusmod tempor incididunt\", \"ut labore et dolore magna aliqua\"]", "unde sit modi possimus incidunt ab neque sunt fugit.", "kg", 1.0 },
+                    { new Guid("f5a2422d-7cf5-458d-9b60-f9fbfd06624e"), "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est quos quasi in dolorem reiciendis,", "quibusdam praesentium nemo commodi! Provident dicta pariatur", "/images/cake.png", "[\"/images/cake.png\",\"/images/test1.png\", \"/images/test2.png\", \"/images/test3.png\", \"/images/test4.png\"]", false, "Apple pie", 3.0, new Guid("45408256-b28f-41e2-895a-7b5623360e85"), "[\"Lorem ipsum dolor sit amet\", \"consectetaur adipisicing elit\", \"sed do eiusmod tempor incididunt\", \"ut labore et dolore magna aliqua\"]", "unde sit modi possimus incidunt ab neque sunt fugit.", "kg", 2.0 }
                 });
 
             migrationBuilder.CreateIndex(

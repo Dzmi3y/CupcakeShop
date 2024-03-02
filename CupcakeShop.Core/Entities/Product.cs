@@ -9,7 +9,6 @@ namespace CupcakeShop.Core.Entities
     public class Product : BaseEntity
     {
         public string Name { get; set; } = string.Empty;
-        public string TypeName { get; set; } = string.Empty;
         public bool IsBestseller { get; set; }
         public double Weight { get; set; }
         public string UnitOfMeasurement { get; set; } = string.Empty;

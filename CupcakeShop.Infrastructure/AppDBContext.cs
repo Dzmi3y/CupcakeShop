@@ -1,4 +1,5 @@
 ﻿using CupcakeShop.Core.Entities;
+using CupcakeShop.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -12,11 +13,13 @@ using System.Threading.Tasks;
 
 namespace CupcakeShop.Database
 {
-    public class AppDBContext : DbContext
+    public class AppDbContext :  DbContext, IAppDbContext
     {
-        public AppDBContext()
+        public AppDbContext()
         {
-            Database.EnsureCreated();
+        }
+        public AppDbContext(DbContextOptions options):base(options) 
+        {
         }
 
         public DbSet<AdditionDecoration> AdditionDecorations { get; set; }
@@ -26,6 +29,7 @@ namespace CupcakeShop.Database
         public DbSet<Order> Orders { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductType> ProductTypes { get; set; }
+
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -197,8 +201,8 @@ namespace CupcakeShop.Database
                     IsBestseller = true,
                     Price = 5,
                     ProductTypeId = pizzaProductTypeId,
-                    ImgUrl = "/images/pizza.png",
-                    ImgUrlsJson = "[\"/images/pizza.png\",\"/images/test1.png\", \"/images/test2.png\", \"/images/test3.png\", \"/images/test4.png\"]",
+                    ImgUrl = "/images/pizza.jpg",
+                    ImgUrlsJson = "[\"/images/pizza.jpg\",\"/images/test1.png\", \"/images/test2.png\", \"/images/test3.png\", \"/images/test4.png\"]",
                     Description = "quibusdam praesentium nemo commodi! Provident dicta pariatur",
                     Delivery = "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est quos quasi in dolorem reiciendis,",
                     ShortDetailsJson = "[\"Lorem ipsum dolor sit amet\", \"consectetaur adipisicing elit\", \"sed do eiusmod tempor incididunt\", \"ut labore et dolore magna aliqua\"]",

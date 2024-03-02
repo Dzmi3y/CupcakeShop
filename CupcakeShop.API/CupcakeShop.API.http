@@ -1,6 +1,6 @@
 @CupcakeShop.API_HostAddress = http://localhost:5160
 
-GET {{CupcakeShop.API_HostAddress}}/weatherforecast/
+GET {{CupcakeShop.API_HostAddress}}/product/GetBestsellers
 Accept: application/json
 
 ###
