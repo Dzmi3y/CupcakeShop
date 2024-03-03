@@ -2,23 +2,16 @@
 using CupcakeShop.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 
 namespace CupcakeShop.Database
 {
-    public class AppDbContext :  DbContext, IAppDbContext
+    public class AppDbContext : DbContext, IAppDbContext
     {
         public AppDbContext()
         {
         }
-        public AppDbContext(DbContextOptions options):base(options) 
+        public AppDbContext(DbContextOptions options) : base(options)
         {
         }
 
@@ -65,7 +58,7 @@ namespace CupcakeShop.Database
 
             modelBuilder.Entity<ProductType>().HasData(
                 new ProductType { Id = cakeProductTypeId, Name = "cake" },
-                new ProductType { Id = cookieProductTypeId, Name = "cookie"},
+                new ProductType { Id = cookieProductTypeId, Name = "cookie" },
                 new ProductType { Id = chouxProductTypeId, Name = "choux" },
                 new ProductType { Id = pizzaProductTypeId, Name = "pizza" }
                 );

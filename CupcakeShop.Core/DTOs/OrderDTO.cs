@@ -1,6 +1,6 @@
-﻿namespace CupcakeShop.Core.Entities
+﻿namespace CupcakeShop.Core.DTOs
 {
-    public class Order : BaseEntity
+    public class OrderDTO
     {
         public string Name { get; set; } = string.Empty;
         public string Phone { get; set; } = string.Empty;
@@ -16,9 +16,8 @@
         public string Floor { get; set; } = string.Empty;
         public string PaymentMethod { get; set; } = string.Empty;
         public string Commentary { get; set; } = string.Empty;
-
-        public Guid CartId { get; set; }
-        public virtual Cart? Cart { get; set; }
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        public CartDTO Cart { get; set; }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     }
-
 }

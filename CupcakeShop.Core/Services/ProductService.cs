@@ -2,11 +2,6 @@
 using CupcakeShop.Core.DTOs;
 using CupcakeShop.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CupcakeShop.Core.Services
 {
@@ -46,7 +41,7 @@ namespace CupcakeShop.Core.Services
 
             result.list = await _db.Products
                 .Where(p => typeid == null || p.ProductType == null || p.ProductType.Id == typeid)
-                .Skip((pageNumber-1)* groupBy)
+                .Skip((pageNumber - 1) * groupBy)
                 .Take(groupBy)
                 .Select(p => new ShortProductInfoDTO
                 {
@@ -66,9 +61,19 @@ namespace CupcakeShop.Core.Services
 
         public async Task<FullProductInfoDTO?> GetFullProductAsync(Guid productId)
         {
-            var product = await _db.Products.Include(p=>p.ProductType).FirstOrDefaultAsync(p=>p.Id==productId);
+            var product = await _db.Products.AsNoTracking().Include(p => p.ProductType).FirstOrDefaultAsync(p => p.Id == productId);
 
             return _mapper.Map<FullProductInfoDTO>(product);
+        }
+
+        public async Task<AdditionalParamsDTO> GetAdditionalParamsAsync()
+        {
+            return new AdditionalParamsDTO
+            {
+                Decorations = await _db.AdditionDecorations.AsNoTracking().ToListAsync(),
+                Subspecies = await _db.AdditionSubspecies.AsNoTracking().ToListAsync(),
+                Weights = await _db.AdditionWeights.AsNoTracking().ToListAsync()
+            };
         }
     }
 }

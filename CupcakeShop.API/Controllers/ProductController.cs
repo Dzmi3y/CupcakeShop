@@ -1,9 +1,7 @@
 ﻿using CupcakeShop.Core.DTOs;
 using CupcakeShop.Core.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-using System.Text.RegularExpressions;
 
 namespace CupcakeShop.API.Controllers
 {
@@ -52,6 +50,18 @@ namespace CupcakeShop.API.Controllers
         public async Task<IActionResult> GetFullProductInfo([FromQuery] Guid id)
         {
             var result = await _bestsellersService.GetFullProductAsync(id);
+            return Ok(result);
+
+        }
+
+        [HttpGet]
+        [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(AdditionalParamsDTO))]
+        [SwaggerResponse(StatusCodes.Status404NotFound)]
+        [SwaggerOperation(Summary = "Get additional params")]
+
+        public async Task<IActionResult> GetAdditionalParams()
+        {
+            var result = await _bestsellersService.GetAdditionalParamsAsync();
             return Ok(result);
 
         }
