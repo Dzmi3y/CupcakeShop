@@ -20,7 +20,7 @@ namespace CupcakeShop.Core.Entities
         public string ImgUrlsJson { get; set; } = string.Empty;
         public string ShortDetailsJson { get; set; } = string.Empty;
 
-        public Guid ProductTypeId { get; set; }
+        public int ProductTypeId { get; set; }
         public virtual ProductType? ProductType { get; set; }
 
         public List<Cart>? Carts { get; set; }

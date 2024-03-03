@@ -1,3 +1,4 @@
+using CupcakeShop.API.MappingConfig;
 using CupcakeShop.Core.Interfaces;
 using CupcakeShop.Core.Services;
 using CupcakeShop.Database;
@@ -12,10 +13,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddDbContext<IAppDbContext, AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddScoped<IBestsellersService, BestsellersService>();
+builder.Services.AddScoped<IProductService, ProductService>();
 
 
 var app = builder.Build();

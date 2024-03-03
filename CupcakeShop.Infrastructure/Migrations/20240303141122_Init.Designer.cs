@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CupcakeShop.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240302224419_Init")]
+    [Migration("20240303141122_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -60,25 +60,25 @@ namespace CupcakeShop.Database.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("73b2ddf7-e893-4459-81be-4840dc3e595b"),
+                            Id = new Guid("b7225a3b-4fdc-4631-b269-8ff6a9305857"),
                             Name = "Without decoration",
                             Price = 0.0
                         },
                         new
                         {
-                            Id = new Guid("77372acc-0194-4921-9594-b01787fdbd51"),
+                            Id = new Guid("a7756877-402d-49ad-92c5-11f007ae87a6"),
                             Name = "Decor 1",
                             Price = 1.0
                         },
                         new
                         {
-                            Id = new Guid("fbf6138a-b184-4929-bd18-dd1542a88261"),
+                            Id = new Guid("6e14d01d-2302-497c-a5cd-8f564f8ac2dd"),
                             Name = "Decor 2",
                             Price = 2.0
                         },
                         new
                         {
-                            Id = new Guid("6ee29878-b244-4c95-8636-b6bd67efe7fe"),
+                            Id = new Guid("caf80b89-b775-4fcc-a9c8-0b025a038318"),
                             Name = "Decor 3",
                             Price = 3.0
                         });
@@ -104,25 +104,25 @@ namespace CupcakeShop.Database.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("1b153fb3-cc43-4c68-9a13-b763fa4dec6d"),
+                            Id = new Guid("cc679db7-2d5b-4cf0-a5f1-c2e049a71a07"),
                             Name = "Default type",
                             Price = 0.0
                         },
                         new
                         {
-                            Id = new Guid("789aeb12-8932-4cd3-a052-32b23708ef66"),
+                            Id = new Guid("c2904f79-f217-431e-b5eb-fe3638963b71"),
                             Name = "Type 1",
                             Price = 1.0
                         },
                         new
                         {
-                            Id = new Guid("0b808798-06fe-41d0-9162-6a01c612242a"),
+                            Id = new Guid("77858b5f-7530-44fc-8247-e084572989f7"),
                             Name = "Type 2",
                             Price = 2.0
                         },
                         new
                         {
-                            Id = new Guid("6709f6c1-8773-4533-83a8-bd37de4cdd84"),
+                            Id = new Guid("02444e89-a0d5-4562-8b50-e73a0ba8f519"),
                             Name = "Type 3",
                             Price = 3.0
                         });
@@ -151,49 +151,49 @@ namespace CupcakeShop.Database.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("b9fbb819-d8de-443c-b6a6-ba76e0216eee"),
+                            Id = new Guid("1e8d8f9b-2ad9-4d29-aeec-86d5db6316a9"),
                             Price = 0.0,
                             UnitOfMeasurement = "g",
                             Weight = 0.0
                         },
                         new
                         {
-                            Id = new Guid("95322093-4a58-4cfe-9024-fc388daaa85a"),
+                            Id = new Guid("219fc935-dd1c-4c67-a551-d19ba60bde71"),
                             Price = 1.0,
                             UnitOfMeasurement = "g",
                             Weight = 100.0
                         },
                         new
                         {
-                            Id = new Guid("94a6db5b-7d50-492c-8cfe-7c185d56af47"),
+                            Id = new Guid("cbeed6cc-b212-4138-a8d2-c75300f782b3"),
                             Price = 2.0,
                             UnitOfMeasurement = "g",
                             Weight = 300.0
                         },
                         new
                         {
-                            Id = new Guid("deb339ec-5642-4db6-9aa3-2420288db67d"),
+                            Id = new Guid("004fe7dc-ecac-4a3f-9074-15f6c1755604"),
                             Price = 3.0,
                             UnitOfMeasurement = "g",
                             Weight = 500.0
                         },
                         new
                         {
-                            Id = new Guid("c01d3f80-5c5d-4af0-8c70-93754c52eab5"),
+                            Id = new Guid("1a51258c-90fe-4ebe-bb6f-7007fafaec0f"),
                             Price = 4.0,
                             UnitOfMeasurement = "kg",
                             Weight = 1.0
                         },
                         new
                         {
-                            Id = new Guid("9fd997e9-e434-4c21-b5b4-1eb440b35ae7"),
+                            Id = new Guid("baaf0b6c-8b9e-4045-8caf-2b5f633d2b41"),
                             Price = 5.0,
                             UnitOfMeasurement = "kg",
                             Weight = 1.5
                         },
                         new
                         {
-                            Id = new Guid("c13baddf-6c73-47c2-907b-397c0c9b0267"),
+                            Id = new Guid("c23f492b-dc46-4a3b-9491-386524ae0209"),
                             Price = 6.0,
                             UnitOfMeasurement = "kg",
                             Weight = 2.0
@@ -330,8 +330,8 @@ namespace CupcakeShop.Database.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("double precision");
 
-                    b.Property<Guid>("ProductTypeId")
-                        .HasColumnType("uuid");
+                    b.Property<int>("ProductTypeId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("ShortDetailsJson")
                         .IsRequired()
@@ -357,7 +357,7 @@ namespace CupcakeShop.Database.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("f3c3e245-4b49-43d8-aafb-6369980af9fc"),
+                            Id = new Guid("e3a3e259-f800-44e9-9fd2-8783d89aed41"),
                             Delivery = "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est quos quasi in dolorem reiciendis,",
                             Description = "quibusdam praesentium nemo commodi! Provident dicta pariatur",
                             ImgUrl = "/images/cake.png",
@@ -365,7 +365,7 @@ namespace CupcakeShop.Database.Migrations
                             IsBestseller = true,
                             Name = "Chocolate cake",
                             Price = 2.0,
-                            ProductTypeId = new Guid("45408256-b28f-41e2-895a-7b5623360e85"),
+                            ProductTypeId = 1,
                             ShortDetailsJson = "[\"Lorem ipsum dolor sit amet\", \"consectetaur adipisicing elit\", \"sed do eiusmod tempor incididunt\", \"ut labore et dolore magna aliqua\"]",
                             StorageConditions = "unde sit modi possimus incidunt ab neque sunt fugit.",
                             UnitOfMeasurement = "kg",
@@ -373,7 +373,7 @@ namespace CupcakeShop.Database.Migrations
                         },
                         new
                         {
-                            Id = new Guid("f5a2422d-7cf5-458d-9b60-f9fbfd06624e"),
+                            Id = new Guid("4875f480-4cee-415b-b2c6-3827a97555d3"),
                             Delivery = "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est quos quasi in dolorem reiciendis,",
                             Description = "quibusdam praesentium nemo commodi! Provident dicta pariatur",
                             ImgUrl = "/images/cake.png",
@@ -381,7 +381,7 @@ namespace CupcakeShop.Database.Migrations
                             IsBestseller = false,
                             Name = "Apple pie",
                             Price = 3.0,
-                            ProductTypeId = new Guid("45408256-b28f-41e2-895a-7b5623360e85"),
+                            ProductTypeId = 1,
                             ShortDetailsJson = "[\"Lorem ipsum dolor sit amet\", \"consectetaur adipisicing elit\", \"sed do eiusmod tempor incididunt\", \"ut labore et dolore magna aliqua\"]",
                             StorageConditions = "unde sit modi possimus incidunt ab neque sunt fugit.",
                             UnitOfMeasurement = "kg",
@@ -389,7 +389,7 @@ namespace CupcakeShop.Database.Migrations
                         },
                         new
                         {
-                            Id = new Guid("3ead1c7f-172f-4479-9f73-be992b963ffd"),
+                            Id = new Guid("571ee700-828e-45bc-b9eb-f67211e5c7ff"),
                             Delivery = "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est quos quasi in dolorem reiciendis,",
                             Description = "quibusdam praesentium nemo commodi! Provident dicta pariatur",
                             ImgUrl = "/images/cookie.png",
@@ -397,7 +397,7 @@ namespace CupcakeShop.Database.Migrations
                             IsBestseller = true,
                             Name = "Chocolate Chip",
                             Price = 1.0,
-                            ProductTypeId = new Guid("67c19964-f980-4b79-9f84-ed5981f9203b"),
+                            ProductTypeId = 2,
                             ShortDetailsJson = "[\"Lorem ipsum dolor sit amet\", \"consectetaur adipisicing elit\", \"sed do eiusmod tempor incididunt\", \"ut labore et dolore magna aliqua\"]",
                             StorageConditions = "unde sit modi possimus incidunt ab neque sunt fugit.",
                             UnitOfMeasurement = "g",
@@ -405,7 +405,7 @@ namespace CupcakeShop.Database.Migrations
                         },
                         new
                         {
-                            Id = new Guid("bf199811-19f3-425f-977c-52a9cdf472f2"),
+                            Id = new Guid("5d7b863e-e182-4585-bd5e-f02811bc6cca"),
                             Delivery = "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est quos quasi in dolorem reiciendis,",
                             Description = "quibusdam praesentium nemo commodi! Provident dicta pariatur",
                             ImgUrl = "/images/cookie.png",
@@ -413,7 +413,7 @@ namespace CupcakeShop.Database.Migrations
                             IsBestseller = false,
                             Name = "Peanut Butter",
                             Price = 5.0,
-                            ProductTypeId = new Guid("67c19964-f980-4b79-9f84-ed5981f9203b"),
+                            ProductTypeId = 2,
                             ShortDetailsJson = "[\"Lorem ipsum dolor sit amet\", \"consectetaur adipisicing elit\", \"sed do eiusmod tempor incididunt\", \"ut labore et dolore magna aliqua\"]",
                             StorageConditions = "unde sit modi possimus incidunt ab neque sunt fugit.",
                             UnitOfMeasurement = "g",
@@ -421,7 +421,7 @@ namespace CupcakeShop.Database.Migrations
                         },
                         new
                         {
-                            Id = new Guid("89d2f900-3f2c-414b-b89e-37d5a497be8c"),
+                            Id = new Guid("2a97e352-03cc-41c9-8445-f3331f214c5d"),
                             Delivery = "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est quos quasi in dolorem reiciendis,",
                             Description = "quibusdam praesentium nemo commodi! Provident dicta pariatur",
                             ImgUrl = "/images/choux.png",
@@ -429,7 +429,7 @@ namespace CupcakeShop.Database.Migrations
                             IsBestseller = true,
                             Name = "Lemon Choux",
                             Price = 1.0,
-                            ProductTypeId = new Guid("377644e5-7b93-4ff9-b0c2-e9bff580ced4"),
+                            ProductTypeId = 3,
                             ShortDetailsJson = "[\"Lorem ipsum dolor sit amet\", \"consectetaur adipisicing elit\", \"sed do eiusmod tempor incididunt\", \"ut labore et dolore magna aliqua\"]",
                             StorageConditions = "unde sit modi possimus incidunt ab neque sunt fugit.",
                             UnitOfMeasurement = "g",
@@ -437,7 +437,7 @@ namespace CupcakeShop.Database.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b8550731-b514-49a1-a1ec-dd893ddaf605"),
+                            Id = new Guid("42ccdbf6-b837-4d33-8a2f-794c25b85ed6"),
                             Delivery = "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est quos quasi in dolorem reiciendis,",
                             Description = "quibusdam praesentium nemo commodi! Provident dicta pariatur",
                             ImgUrl = "/images/choux.png",
@@ -445,7 +445,7 @@ namespace CupcakeShop.Database.Migrations
                             IsBestseller = false,
                             Name = "Strawberry Choux",
                             Price = 4.0,
-                            ProductTypeId = new Guid("377644e5-7b93-4ff9-b0c2-e9bff580ced4"),
+                            ProductTypeId = 3,
                             ShortDetailsJson = "[\"Lorem ipsum dolor sit amet\", \"consectetaur adipisicing elit\", \"sed do eiusmod tempor incididunt\", \"ut labore et dolore magna aliqua\"]",
                             StorageConditions = "unde sit modi possimus incidunt ab neque sunt fugit.",
                             UnitOfMeasurement = "g",
@@ -453,7 +453,7 @@ namespace CupcakeShop.Database.Migrations
                         },
                         new
                         {
-                            Id = new Guid("15ed97c4-460b-48c8-8728-489cc7e1513b"),
+                            Id = new Guid("1c2740a8-461a-42dc-8bbb-854fe3d7c5d5"),
                             Delivery = "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est quos quasi in dolorem reiciendis,",
                             Description = "quibusdam praesentium nemo commodi! Provident dicta pariatur",
                             ImgUrl = "/images/pizza.jpg",
@@ -461,7 +461,7 @@ namespace CupcakeShop.Database.Migrations
                             IsBestseller = true,
                             Name = "Four Cheese",
                             Price = 5.0,
-                            ProductTypeId = new Guid("b0d05d03-e2b6-4b89-8155-68e99e2371ee"),
+                            ProductTypeId = 4,
                             ShortDetailsJson = "[\"Lorem ipsum dolor sit amet\", \"consectetaur adipisicing elit\", \"sed do eiusmod tempor incididunt\", \"ut labore et dolore magna aliqua\"]",
                             StorageConditions = "unde sit modi possimus incidunt ab neque sunt fugit.",
                             UnitOfMeasurement = "g",
@@ -469,7 +469,7 @@ namespace CupcakeShop.Database.Migrations
                         },
                         new
                         {
-                            Id = new Guid("68077407-5463-4cbb-aed2-b581a73fe27b"),
+                            Id = new Guid("0a8fb0ee-a3fa-4c3b-93a5-6bf05978df3d"),
                             Delivery = "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est quos quasi in dolorem reiciendis,",
                             Description = "quibusdam praesentium nemo commodi! Provident dicta pariatur",
                             ImgUrl = "/images/pizza.jpg",
@@ -477,7 +477,7 @@ namespace CupcakeShop.Database.Migrations
                             IsBestseller = false,
                             Name = "Veggie",
                             Price = 3.0,
-                            ProductTypeId = new Guid("b0d05d03-e2b6-4b89-8155-68e99e2371ee"),
+                            ProductTypeId = 4,
                             ShortDetailsJson = "[\"Lorem ipsum dolor sit amet\", \"consectetaur adipisicing elit\", \"sed do eiusmod tempor incididunt\", \"ut labore et dolore magna aliqua\"]",
                             StorageConditions = "unde sit modi possimus incidunt ab neque sunt fugit.",
                             UnitOfMeasurement = "g",
@@ -487,16 +487,15 @@ namespace CupcakeShop.Database.Migrations
 
             modelBuilder.Entity("CupcakeShop.Core.Entities.ProductType", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<int>("SequenceNumber")
-                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -505,27 +504,23 @@ namespace CupcakeShop.Database.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("45408256-b28f-41e2-895a-7b5623360e85"),
-                            Name = "cake",
-                            SequenceNumber = 1
+                            Id = 1,
+                            Name = "cake"
                         },
                         new
                         {
-                            Id = new Guid("67c19964-f980-4b79-9f84-ed5981f9203b"),
-                            Name = "cookie",
-                            SequenceNumber = 2
+                            Id = 2,
+                            Name = "cookie"
                         },
                         new
                         {
-                            Id = new Guid("377644e5-7b93-4ff9-b0c2-e9bff580ced4"),
-                            Name = "choux",
-                            SequenceNumber = 3
+                            Id = 3,
+                            Name = "choux"
                         },
                         new
                         {
-                            Id = new Guid("b0d05d03-e2b6-4b89-8155-68e99e2371ee"),
-                            Name = "pizza",
-                            SequenceNumber = 4
+                            Id = 4,
+                            Name = "pizza"
                         });
                 });
 

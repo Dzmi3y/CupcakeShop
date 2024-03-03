@@ -58,16 +58,16 @@ namespace CupcakeShop.Database
 
         private void DataInitialization(ModelBuilder modelBuilder)
         {
-            Guid cakeProductTypeId = Guid.NewGuid();
-            Guid cookieProductTypeId = Guid.NewGuid();
-            Guid chouxProductTypeId = Guid.NewGuid();
-            Guid pizzaProductTypeId = Guid.NewGuid();
+            int cakeProductTypeId = 1;
+            int cookieProductTypeId = 2;
+            int chouxProductTypeId = 3;
+            int pizzaProductTypeId = 4;
 
             modelBuilder.Entity<ProductType>().HasData(
-                new ProductType { Id = cakeProductTypeId, Name = "cake", SequenceNumber = 1 },
-                new ProductType { Id = cookieProductTypeId, Name = "cookie", SequenceNumber = 2 },
-                new ProductType { Id = chouxProductTypeId, Name = "choux", SequenceNumber = 3 },
-                new ProductType { Id = pizzaProductTypeId, Name = "pizza", SequenceNumber = 4 }
+                new ProductType { Id = cakeProductTypeId, Name = "cake" },
+                new ProductType { Id = cookieProductTypeId, Name = "cookie"},
+                new ProductType { Id = chouxProductTypeId, Name = "choux" },
+                new ProductType { Id = pizzaProductTypeId, Name = "pizza" }
                 );
 
             modelBuilder.Entity<AdditionDecoration>().HasData(
