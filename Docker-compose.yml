@@ -1,0 +1,24 @@
+services:
+  postgres:
+    container_name: postgresql-container
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: lolkek
+      POSTGRES_DB: cupcakeshop
+
+    ports:
+      - "5432:5432"
+    restart: always
+  cupcake_shop_api:
+    build:
+      context: ./
+      dockerfile: ./CupcakeShop.API/Dockerfile
+    ports:
+      - "80:8080"
+      - "81:8081"
+  cupcake_shop_client:
+    build:
+      dockerfile: ./CupcakeShop.Client/Dockerfile
+    ports:
+      - "83:80"
