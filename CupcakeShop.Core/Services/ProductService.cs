@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using CupcakeShop.Core.DTOs;
+using CupcakeShop.Core.Extensions;
 using CupcakeShop.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace CupcakeShop.Core.Services
 {
@@ -9,32 +11,43 @@ namespace CupcakeShop.Core.Services
     {
         private readonly IAppDbContext _db;
         private readonly IMapper _mapper;
+        private readonly ILogger<ProductService> _logger;
 
-        public ProductService(IAppDbContext db, IMapper mapper)
+        public ProductService(IAppDbContext db, IMapper mapper, ILogger<ProductService> logger)
         {
             _db = db;
             _mapper = mapper;
+            _logger = logger;
         }
 
-        public async Task<IEnumerable<ShortProductInfoDTO>> GetBestsellrsAsync()
+        public async Task<IEnumerable<ShortProductInfoDTO>?> GetBestsellrsAsync()
         {
-            return await _db.Products
-                .Where(p => p.IsBestseller)
-                .Select(p => new ShortProductInfoDTO
-                {
-                    Id = p.Id,
-                    ImgUrl = p.ImgUrl,
-                    Name = p.Name,
-                    Price = p.Price,
-                    ProductTypeId = p.ProductTypeId,
-                    TypeName = (p.ProductType != null) ? p.ProductType.Name : string.Empty,
-                    UnitOfMeasurement = p.UnitOfMeasurement,
-                    Weight = p.Weight
-                }).AsNoTracking().ToListAsync();
+            try
+            {
+                return await _db.Products
+                    .Where(p => p.IsBestseller)
+                    .Select(p => new ShortProductInfoDTO
+                    {
+                        Id = p.Id,
+                        ImgUrl = p.ImgUrl,
+                        Name = p.Name,
+                        Price = p.Price,
+                        ProductTypeId = p.ProductTypeId,
+                        TypeName = (p.ProductType != null) ? p.ProductType.Name : string.Empty,
+                        UnitOfMeasurement = p.UnitOfMeasurement,
+                        Weight = p.Weight
+                    }).AsNoTracking().ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.GetFormatedExceptionString());
+                return null;
+            }
         }
 
-        public async Task<CatalogPageDTO> GetCatalogPageAsync(int? typeid, int pageNumber = 1, int groupBy = 15)
+        public async Task<CatalogPageDTO?> GetCatalogPageAsync(int? typeid, int pageNumber = 1, int groupBy = 15)
         {
+            try { 
             var result = new CatalogPageDTO();
 
             result.totalPagesNumber = await _db.Products.CountAsync();
@@ -57,23 +70,43 @@ namespace CupcakeShop.Core.Services
 
 
             return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.GetFormatedExceptionString());
+                return null;
+            }
         }
 
         public async Task<FullProductInfoDTO?> GetFullProductAsync(Guid productId)
         {
+            try { 
             var product = await _db.Products.AsNoTracking().Include(p => p.ProductType).FirstOrDefaultAsync(p => p.Id == productId);
 
             return _mapper.Map<FullProductInfoDTO>(product);
         }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.GetFormatedExceptionString());
+                return null;
+            }
+}
 
-        public async Task<AdditionalParamsDTO> GetAdditionalParamsAsync()
+        public async Task<AdditionalParamsDTO?> GetAdditionalParamsAsync()
         {
+            try { 
             return new AdditionalParamsDTO
             {
                 Decorations = await _db.AdditionDecorations.AsNoTracking().ToListAsync(),
                 Subspecies = await _db.AdditionSubspecies.AsNoTracking().ToListAsync(),
                 Weights = await _db.AdditionWeights.AsNoTracking().ToListAsync()
             };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.GetFormatedExceptionString());
+                return null;
+            }
         }
     }
 }

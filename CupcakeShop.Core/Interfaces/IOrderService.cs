@@ -4,6 +4,6 @@ namespace CupcakeShop.Core.Interfaces
 {
     public interface IOrderService
     {
-        public Task<Guid> SaveOrderAsync(OrderDTO orderDTO);
+        public Task<Guid?> SaveOrderAsync(OrderDTO orderDTO);
     }
 }

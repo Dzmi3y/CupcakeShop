@@ -22,9 +22,7 @@ margin-top: 2rem;
 }
 `;
 
-
-export const HomePage = () => {
-  const BackgroundWaveContainer = styled.div`
+const BackgroundWaveContainer = styled.div`
     background-image: url(${BackgroundWaveImg});
     background-repeat: no-repeat;
     background-size: cover;
@@ -35,6 +33,9 @@ export const HomePage = () => {
       background-size: 100% 100%;
     }
   `;
+
+
+export const HomePage = () => {
 
   return (
     <main>

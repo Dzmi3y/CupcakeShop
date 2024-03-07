@@ -2,6 +2,7 @@
 using CupcakeShop.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 
 namespace CupcakeShop.Database
@@ -10,9 +11,7 @@ namespace CupcakeShop.Database
     {
         public AppDbContext()
         {
-        }
-        public AppDbContext(DbContextOptions options) : base(options)
-        {
+
         }
 
         public DbSet<AdditionDecoration> AdditionDecorations { get; set; }
@@ -32,7 +31,11 @@ namespace CupcakeShop.Database
             .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
             .AddJsonFile("appsettings.json")
             .Build();
-            optionsBuilder.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
+
+            var isDockerProd = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "DockerProd";
+            string connectionStringName = isDockerProd ? "ProdConnection" : "DevConnection";
+            optionsBuilder.UseNpgsql(configuration.GetConnectionString(connectionStringName));
+
         }
 
 

@@ -266,7 +266,6 @@ export const Bestsellers = () => {
     useEffect(() => {
 
         handleScroll();
-       console.log("tedt");
 
     }, [sliderRef?.current?.scrollWidth]);
 

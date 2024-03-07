@@ -18,15 +18,12 @@ namespace CupcakeShop.API.Controllers
 
         [HttpPost]
         [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(Guid))]
-        [SwaggerResponse(StatusCodes.Status404NotFound)]
         [SwaggerOperation(Summary = "Get bestsellers")]
 
         public async Task<IActionResult> SaveOrder(OrderDTO orderDTO)
         {
-
             var orderid = await _orderService.SaveOrderAsync(orderDTO);
-            return Ok(orderid);
-
+            return orderid != null ? Ok(orderid) : StatusCode(500);
         }
     }
 }

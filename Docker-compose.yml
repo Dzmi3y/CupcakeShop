@@ -6,7 +6,6 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: lolkek
       POSTGRES_DB: cupcakeshop
-
     ports:
       - "5432:5432"
     restart: always
