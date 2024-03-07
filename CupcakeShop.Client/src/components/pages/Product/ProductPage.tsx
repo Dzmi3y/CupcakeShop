@@ -134,6 +134,10 @@ export const ProductPage = () => {
   const weightsDropdownList: DropdownItem[] =
     weights.map<DropdownItem>((d) => ({ id: d.id, text: (d.weight === 0) ? "Default weight" : "+ " + d.weight.toString() + d.unitOfMeasurement }));
 
+    const listOfshortDetails: Array<string> = JSON.parse(detailProductStore.productInfo?.listOfshortDetails || "[]");
+    const imgUrls: Array<string> = JSON.parse(detailProductStore.productInfo?.imgUrlsJson || "[]");
+
+
   let breadCrumbsList: BreadCrumbsItem[] = [];
   if (detailProductStore.productInfo) {
     breadCrumbsList = [
@@ -143,25 +147,25 @@ export const ProductPage = () => {
     ];
   }
 
-  const goToRecomendationProductDetail = (id: number) => {
+  const goToRecomendationProductDetail = (id: string) => {
     navigate(`/catalog/product?id=${id}`);
   }
 
-  const dropdownDecorationsSelected = (id: number) => {
+  const dropdownDecorationsSelected = (id: string) => {
     const decoration = decorations.find(d => d.id === id);
     if (decoration) {
       setCurrentDecoration(decoration);
     }
   }
 
-  const dropdownSubspeciesSelected = (id: number) => {
+  const dropdownSubspeciesSelected = (id: string) => {
     const selectedSubspecies = subspecies.find(s => s.id === id);
     if (selectedSubspecies) {
       setCurrentSubspecies(selectedSubspecies);
     }
   }
 
-  const dropdownWeightsSelected = (id: number) => {
+  const dropdownWeightsSelected = (id: string) => {
     const weight = weights.find(d => d.id === id);
     if (weight) {
       setCurrentAdditionalWeight(weight);
@@ -178,10 +182,10 @@ export const ProductPage = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     const isMobil = window.screen.width < 767;
-    dispatch(getDetailProductInfo(Number(id)));
-    dispatch(getAdditionalParams(Number(id)));
+      dispatch(getDetailProductInfo(id || ""));
+      dispatch(getAdditionalParams(id || ""));
     dispatch(getRecommendedProducts({
-      id: Number(id),
+      id: id || "",
       count: isMobil ? 4 : 3
     }));
   }, [dispatch]);
@@ -195,15 +199,15 @@ export const ProductPage = () => {
       </BreadCrumbsContainer>
       <HeadContainer>
         <ImgSliderContainer>
-          <ProductImgSlider urls={detailProductStore.productInfo?.allImgUrls} />
+                  <ProductImgSlider urls={imgUrls} />
         </ImgSliderContainer>
         <MainContentContainer>
 
           <Title>{detailProductStore.productInfo?.name}</Title>
 
           <ShortDescriptionList>
-            {detailProductStore.productInfo?.listOfshortDetails.map((d, i) => (
-              <ShotrDescriptionItem key={i}>{d}</ShotrDescriptionItem>
+                {listOfshortDetails.map((d, i) => (
+                    <ShotrDescriptionItem key={i}>{d}</ShotrDescriptionItem>
             ))}
 
           </ShortDescriptionList>

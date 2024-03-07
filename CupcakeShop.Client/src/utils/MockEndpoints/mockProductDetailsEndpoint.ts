@@ -8,7 +8,7 @@ export const mockProductDetailsEndpoint = (mock: MockAdapter, parseQueryString: 
 
         let params = parseQueryString(config.url as string);
 
-        let id: number | undefined = params.id as number;
+        let id: string | undefined = params.id as string;
         
 
         let product = (productsList as Product[]).find(p => p.id == id)
@@ -19,8 +19,8 @@ export const mockProductDetailsEndpoint = (mock: MockAdapter, parseQueryString: 
 
             detailProductInfo = {
                 ...product,
-                allImgUrls: [product.imgUrl, "/images/test1.png", "/images/test2.png", "/images/test3.png", "/images/test4.png"],
-                listOfshortDetails: ["Lorem ipsum dolor sit amet", "consectetaur adipisicing elit", "sed do eiusmod tempor incididunt", "ut labore et dolore magna aliqua"],
+                imgUrlsJson: `["${product.imgUrl}", "/images/test1.png", "/images/test2.png", "/images/test3.png", "/images/test4.png"]`,
+                listOfshortDetails: '["Lorem ipsum dolor sit amet", "consectetaur adipisicing elit", "sed do eiusmod tempor incididunt", "ut labore et dolore magna aliqua"]',
                 delivery: " Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est quos quasi in dolorem reiciendis,",
                 description: "quibusdam praesentium nemo commodi! Provident dicta pariatur ",
                 storageConditions: "unde sit modi possimus incidunt ab neque sunt fugit."

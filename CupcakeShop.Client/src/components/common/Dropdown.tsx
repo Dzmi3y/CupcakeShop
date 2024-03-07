@@ -4,7 +4,7 @@ import ArrowImg from '../../assets/images/DropDownArrow.png'
 
 
 export type DropdownItem = {
-    id: number,
+    id: string,
     text: string
 }
 
@@ -65,7 +65,7 @@ const StyledImg = styled.img`
 `;
 
 
-export const Dropdown: React.FC<{ list: DropdownItem[], onSelected: (id: number) => void }> = ({ list, onSelected }) => {
+export const Dropdown: React.FC<{ list: DropdownItem[], onSelected: (id: string) => void }> = ({ list, onSelected }) => {
     const [listIsVisible, setListIsVisible] = useState<boolean>(false);
     const [selectedItem, setSelectedItem] = useState<DropdownItem>();
     const containerElementRef = useRef<HTMLDivElement>(null);

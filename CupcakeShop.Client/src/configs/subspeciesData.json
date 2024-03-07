@@ -1,8 +1,8 @@
 [
-    {"id":0,"name":"Default type","price":0},
-    {"id":1,"name":"Type 1","price":1},
-    {"id":2,"name":"Type 2","price":2},
-    {"id":3,"name":"Tupe 3","price":3}
+    {"id":"0","name":"Default type","price":0},
+    {"id":"1","name":"Type 1","price":1},
+    {"id":"2","name":"Type 2","price":2},
+    {"id":"3","name":"Tupe 3","price":3}
 ]
 
 

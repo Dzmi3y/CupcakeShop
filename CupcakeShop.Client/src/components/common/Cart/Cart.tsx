@@ -62,9 +62,9 @@ export const Cart: React.FC<{ product?: Product | null, isOrderButton?: boolean,
             if (product) {
                 const cartIten: CartItem = { 
                     product: product,      
-                    additionDecoration: additionalParams?.currentDecoration?.id !== 0 ? additionalParams?.currentDecoration : undefined,
-                    additionSubspecies: additionalParams?.currentSubspecies?.id !== 0 ? additionalParams?.currentSubspecies : undefined,
-                    additionWeight: additionalParams?.currentAdditionalWeight?.id !== 0 ? additionalParams?.currentAdditionalWeight : undefined,
+                    additionDecoration: additionalParams?.currentDecoration?.id ? additionalParams?.currentDecoration : undefined,
+                    additionSubspecies: additionalParams?.currentSubspecies?.id ? additionalParams?.currentSubspecies : undefined,
+                    additionWeight: additionalParams?.currentAdditionalWeight?.id ? additionalParams?.currentAdditionalWeight : undefined,
                 }
                 dispatch(addProductToCart(cartIten));
             }

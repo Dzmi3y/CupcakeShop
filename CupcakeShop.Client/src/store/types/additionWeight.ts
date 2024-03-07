@@ -1,5 +1,5 @@
 export type AdditionWeight={
-    id:number,
+    id:string,
     weight: number,
     unitOfMeasurement:string,
     price:number

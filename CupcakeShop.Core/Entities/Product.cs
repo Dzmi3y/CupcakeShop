@@ -16,7 +16,5 @@
 
         public int ProductTypeId { get; set; }
         public virtual ProductType? ProductType { get; set; }
-
-        public List<Cart>? Carts { get; set; }
     }
 }

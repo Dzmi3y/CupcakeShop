@@ -16,8 +16,7 @@
         public string Floor { get; set; } = string.Empty;
         public string PaymentMethod { get; set; } = string.Empty;
         public string Commentary { get; set; } = string.Empty;
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public CartDTO Cart { get; set; }
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        public List<CartItemDTO>? Cart { get; set; }
+
     }
 }

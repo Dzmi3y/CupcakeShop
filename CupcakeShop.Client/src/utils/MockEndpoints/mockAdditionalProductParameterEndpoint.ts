@@ -8,7 +8,7 @@ import { AdditionalProdParams } from "../../store/types";
 
 export const mockAdditionalProductParameterEndpoint = (mock: MockAdapter) => {
 
-    mock.onGet(/\/additional_params\/?(.*)/).reply((config) => {
+    mock.onGet(/\/Product\/GetAdditionalParams\/?(.*)/).reply((config) => {
 
       const additionalProdParamApiResult: AdditionalProdParams={
         decorations:decorData,

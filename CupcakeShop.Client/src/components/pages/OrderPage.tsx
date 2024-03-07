@@ -3,7 +3,7 @@ import RemoveOrderItemImg from "../../assets/images/removeOrderItem.png";
 import { useEffect, useState } from "react";
 import CakeImg from "../../assets/images/cupcake.png";
 import { useNavigate } from "react-router-dom";
-import { Order } from "../../store/types";
+import { Order, ShortCartItem } from "../../store/types";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { clearCart, removeProductFromCart } from "../../store/reducers/cartReducer";
 import { sendOrder } from "../../store/reducers/orderReducer";
@@ -302,7 +302,13 @@ export const OrderPage = () => {
 
     if (incorrectList.length === 0) {
 
-      const _order: Order = { ...order, cart: cartReducer.cart }
+        const shortCartItems: ShortCartItem[] = cartReducer.cart.map<ShortCartItem>(c => ({
+            productId: c.product.id,
+            additionDecorationId: c.additionDecoration?.id,
+            additionSubspeciesId: c.additionSubspecies?.id,
+            additionWeightId: c.additionWeight?.id
+        }))
+        const _order: Order = { ...order, cart: shortCartItems}
       dispatch(sendOrder(_order));
       setThanksPopupIsShowed(true);
     }

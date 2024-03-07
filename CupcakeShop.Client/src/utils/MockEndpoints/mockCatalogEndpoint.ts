@@ -16,10 +16,10 @@ const mockCatalogEndpoint = (mock: MockAdapter, parseQueryString:(url: string) =
         return { list, totalPagesNumber }
     };
 
-    mock.onGet(/\/catalog\/?(.*)/).reply((config) => {
+    mock.onGet(/\/Product\/GetCatalogPage\/?(.*)/).reply((config) => {
         let params = parseQueryString(config.url as string);
 
-        let page: number | undefined = params.page as number;
+        let page: number | undefined = params.pageNumber as number;
         let typeid: number | undefined = params.typeid as number;
         let groupBy: number | undefined = params.groupBy as number;
 

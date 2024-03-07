@@ -1,5 +1,5 @@
 export type AdditionalProductParameter={
-    id:number,
+    id:string,
     name:string,
     price:number
 };

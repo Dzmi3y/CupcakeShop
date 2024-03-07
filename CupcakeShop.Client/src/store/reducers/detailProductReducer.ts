@@ -13,7 +13,7 @@ const initialState: DetailProductInfoState = {
     error: null
 }
 
-export const getDetailProductInfo = createAsyncThunk<DetailProductInfo, number, { rejectValue: string }>(
+export const getDetailProductInfo = createAsyncThunk<DetailProductInfo, string, { rejectValue: string }>(
     'detailProduct/getDetailProductInfo',
 
     async function (id, { rejectWithValue }) {
@@ -31,7 +31,7 @@ export const getDetailProductInfo = createAsyncThunk<DetailProductInfo, number, 
     }
 );
 
-export const getAdditionalParams = createAsyncThunk<AdditionalProdParams, number, { rejectValue: string }>(
+export const getAdditionalParams = createAsyncThunk<AdditionalProdParams, string, { rejectValue: string }>(
     'detailProduct/getAdditionalParams',
 
     async function (id, { rejectWithValue }) {
@@ -49,7 +49,7 @@ export const getAdditionalParams = createAsyncThunk<AdditionalProdParams, number
     }
 );
 
-export const getRecommendedProducts = createAsyncThunk<Product[], {id:number,count:number}, { rejectValue: string }>(
+export const getRecommendedProducts = createAsyncThunk<Product[], {id:string,count:number}, { rejectValue: string }>(
     'detailProduct/getRecommendedProducts',
 
     async function ({id,count}, { rejectWithValue }) {

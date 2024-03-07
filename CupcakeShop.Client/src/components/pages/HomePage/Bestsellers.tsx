@@ -153,7 +153,7 @@ export const Bestsellers = () => {
         }
     }
 
-    const goToDetail = (id: number) => {
+    const goToDetail = (id: string) => {
         navigate(`/catalog/product?id=${id}`);
     }
 

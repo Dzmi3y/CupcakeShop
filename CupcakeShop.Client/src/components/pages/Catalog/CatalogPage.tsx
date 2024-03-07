@@ -132,7 +132,7 @@ export const CatalogPage = () => {
     dispatch(addProductToCart(cartIten));
   }
 
-  const goToDetail = (id: number) => {
+  const goToDetail = (id: string) => {
     navigate(`/catalog/product?id=${id}`);
   }
 

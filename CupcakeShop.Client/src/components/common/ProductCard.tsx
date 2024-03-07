@@ -89,7 +89,7 @@ const Details = styled.div`
 
 type ProductCardProps = {
     product: Product,
-    goToDetail: (id: number) => void
+    goToDetail: (id: string) => void
 };
 
 export const ProductCard: React.FC<ProductCardProps> = ({ product, goToDetail }) => {

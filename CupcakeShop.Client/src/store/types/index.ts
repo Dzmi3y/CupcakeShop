@@ -11,3 +11,4 @@ export * from "./additionalProdParams";
 export * from "./cartItem";
 export * from "./states/cartState";
 export * from "./order";
+export * from "./shortCartItem";

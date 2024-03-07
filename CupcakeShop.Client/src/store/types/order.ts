@@ -1,4 +1,4 @@
-import { CartItem } from "./cartItem";
+import { ShortCartItem } from "./shortCartItem";
 
 export type Order = {
     name?: string;
@@ -15,5 +15,5 @@ export type Order = {
     floor?: string;
     paymentMethod?: string;
     commentary?: string;
-    cart?: CartItem[];
+    cart?: ShortCartItem[];
 }

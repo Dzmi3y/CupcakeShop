@@ -2,6 +2,10 @@
 {
     public class Order : BaseEntity
     {
+        public Order()
+        {
+            OrderedProducts = new List<OrderedProduct>();
+        }
         public string Name { get; set; } = string.Empty;
         public string Phone { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
@@ -17,8 +21,7 @@
         public string PaymentMethod { get; set; } = string.Empty;
         public string Commentary { get; set; } = string.Empty;
 
-        public Guid CartId { get; set; }
-        public virtual Cart? Cart { get; set; }
+        public List<OrderedProduct> OrderedProducts { get; set; }
     }
 
 }

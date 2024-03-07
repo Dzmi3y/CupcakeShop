@@ -10,47 +10,48 @@ const apiUrl = (!process.env.NODE_ENV || process.env.NODE_ENV === 'development')
 
 const baseApi = axios.create({
     baseURL: apiUrl,
-  timeout: 10000,
-  headers: {
-    "Content-Type": "application/json",
-  },
+    timeout: 10000,
+    headers: {
+        "Content-Type": "application/json",
+    },
 });
 
 if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
     //mockApi(baseApi);
-} 
+}
 
 const Api = {
-  getBestsellersAsync: async () => {
-    return await baseApi<Product[]>(BestsellerEndpoint);
-  },
+    getBestsellersAsync: async () => {
+        return await baseApi<Product[]>(BestsellerEndpoint);
+    },
 
-  getCatalogAsync: async (page: number = 1, typeid?: ProductTypesEnum, groupBy: number = 15) => {
-    let url = (typeid)
-      ? `${CatalogEndpoint}?page=${page}&groupBy=${groupBy}&typeid=${typeid}`
-      : `${CatalogEndpoint}?page=${page}&groupBy=${groupBy}`;
-    return await baseApi<CatalogApiResult>(url);
-  },
+    getCatalogAsync: async (page: number = 1, typeid?: ProductTypesEnum, groupBy: number = 15) => {
+        let url = (typeid)
+            ? `${CatalogEndpoint}?pageNumber=${page}&groupBy=${groupBy}&typeid=${typeid}`
+            : `${CatalogEndpoint}?pageNumber=${page}&groupBy=${groupBy}`;
+        return await baseApi<CatalogApiResult>(url);
+    },
 
-  getProductDetailInfoAsync: async (id: number) => {
-    let url = `${ProductDetailsInfoEndpoint}?id=${id}`
-    return await baseApi<DetailProductInfo>(url);
-  },
+    getProductDetailInfoAsync: async (id: string) => {
+        let url = `${ProductDetailsInfoEndpoint}?id=${id}`
+        return await baseApi<DetailProductInfo>(url);
+    },
 
-  getRecommendedProductsAsync: async (id: number, count: number) => {
-    let url = `${RecommendedProductsEndpoint}?id=${id}&count=${count}`
-    return await baseApi<Product[]>(url);
-  },
+    getRecommendedProductsAsync: async (id: string, count: number) => {
+        //let url = `${RecommendedProductsEndpoint}?id=${id}&count=${count}`
+        //return await baseApi<Product[]>(url);
+        return await baseApi<Product[]>(BestsellerEndpoint);
+    },
 
-  getAdditionalParamsAsync: async (id: number) => {
-    let url = `${AdditionalParamsEndpoint}?id=${id}`
-    return await baseApi<AdditionalProdParams>(url);
-  },
+    getAdditionalParamsAsync: async (id: string) => {
+        let url = `${AdditionalParamsEndpoint}?id=${id}`
+        return await baseApi<AdditionalProdParams>(url);
+    },
 
-  postOrderAsync: async (order: Order) => {
-    let url = `${OrderEndpoint}`
-    return await baseApi.post(url, order);
-  }
+    postOrderAsync: async (order: Order) => {
+        let url = `${OrderEndpoint}`
+        return await baseApi.post(url, order);
+    }
 }
 
 export default Api;

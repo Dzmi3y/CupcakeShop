@@ -1,13 +1,8 @@
 ﻿namespace CupcakeShop.Core.DTOs
 {
-    public class CartDTO
+    public class CartItemDTO
     {
-        public CartDTO()
-        {
-            ProductIdList = new List<Guid>();
-        }
-
-        public List<Guid> ProductIdList { get; set; }
+        public Guid? ProductId { get; set; }
         public Guid? AdditionWeightId { get; set; }
         public Guid? AdditionDecorationId { get; set; }
         public Guid? AdditionSubspeciesId { get; set; }

@@ -17,7 +17,7 @@ namespace CupcakeShop.Database
         public DbSet<AdditionDecoration> AdditionDecorations { get; set; }
         public DbSet<AdditionSubspecies> AdditionSubspecies { get; set; }
         public DbSet<AdditionWeight> AdditionWeights { get; set; }
-        public DbSet<Cart> Carts { get; set; }
+        public DbSet<OrderedProduct> OrderedProducts { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductType> ProductTypes { get; set; }
@@ -41,14 +41,6 @@ namespace CupcakeShop.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Order>().HasOne(o => o.Cart);
-            modelBuilder.Entity<Cart>().HasMany(c => c.Products);
-            modelBuilder.Entity<Product>().HasMany(p => p.Carts);
-            modelBuilder.Entity<Cart>().HasOne(c => c.AdditionSubspecies);
-            modelBuilder.Entity<Cart>().HasOne(c => c.AdditionDecoration);
-            modelBuilder.Entity<Cart>().HasOne(c => c.AdditionWeight);
-            modelBuilder.Entity<Product>().HasOne(p => p.ProductType);
-
             DataInitialization(modelBuilder);
         }
 

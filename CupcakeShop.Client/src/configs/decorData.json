@@ -1,6 +1,6 @@
 [
-    {"id":0,"name":"Without decoration","price":0},
-    {"id":1,"name":"Decor 1","price":1},
-    {"id":2,"name":"Decor 2","price":2},
-    {"id":3,"name":"Decor 3","price":3}
+    {"id":"0","name":"Without decoration","price":0},
+    {"id":"1","name":"Decor 1","price":1},
+    {"id":"2","name":"Decor 2","price":2},
+    {"id":"3","name":"Decor 3","price":3}
 ]
