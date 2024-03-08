@@ -6,8 +6,7 @@ import { ProductTypesEnum } from "../store/enums/productTypesEnum";
 import { AdditionalProdParams, CatalogApiResult, DetailProductInfo, Order } from "../store/types";
 
 
-const apiUrl = (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') ? "https://localhost:7172/" : "cupcakeshop-cupcake_shop_api-1";
-
+const apiUrl = (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') ? "https://localhost:7172/" : "http://localhost/";
 const baseApi = axios.create({
     baseURL: apiUrl,
     timeout: 10000,

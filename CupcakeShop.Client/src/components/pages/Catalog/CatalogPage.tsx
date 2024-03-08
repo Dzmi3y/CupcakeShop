@@ -189,7 +189,10 @@ export const CatalogPage = () => {
                 </ProductPageNavigationNumber>)
             };
           }
-          return("");
+            return (
+                <ProductPageNavigationNumber key={n} className={pageInfo.page === n ? "selected" : ""} onClick={() => { navToPageByNumber(n) }}>
+                    {totalPagesArray.length === n ? n : n + ","}
+                </ProductPageNavigationNumber>);
         }
         )}
 

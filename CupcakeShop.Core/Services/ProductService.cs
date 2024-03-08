@@ -50,9 +50,8 @@ namespace CupcakeShop.Core.Services
             try
             {
                 var result = new CatalogPageDTO();
-                var productsCount = await _db.Products.CountAsync();
-                double totalPagesNumber = productsCount / groupBy;
-                result.totalPagesNumber = (int)Math.Ceiling(totalPagesNumber);
+                double productsCount = await _db.Products.CountAsync();
+                result.totalPagesNumber = (int)Math.Ceiling(productsCount / groupBy);
 
                 result.list = await _db.Products
                     .Where(p => typeid == null || p.ProductType == null || p.ProductType.Id == typeid)
